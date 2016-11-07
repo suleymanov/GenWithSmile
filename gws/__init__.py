@@ -1,1 +1,0 @@
-from datatypes import Molecule, molecule_from_star_smiles
