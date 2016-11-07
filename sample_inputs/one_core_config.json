@@ -1,0 +1,23 @@
+{
+    "core": "O1C=C[C@H]([C@H]1O2)c3c2cc(OC)c4c3OC(=O)C5=C4CCC(=O)5", 
+    "core_settings": {
+        "allowed_atoms": ["C"]
+    }, 
+    "output_options": {
+        "max_entries_per_file": 1000, 
+        "path": "sample_inputs", 
+        "file_name_alias": "one_core"
+    }, 
+    "iterations": [
+        {
+            "attach": {"addons": ["N"]}, 
+            "max": 2, 
+            "merge": {"addons": ["S", "O"]}
+        },
+        {
+            "attach": {"addons": ["CC(N)C"]},
+            "merge": {},
+            "max": 1
+        }
+    ]
+}

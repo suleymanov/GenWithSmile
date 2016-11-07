@@ -1,0 +1,19 @@
+{
+    "core": "C1CCCCC1", 
+    "core_settings": {
+        "allowed_atoms": ["C"]
+    }, 
+    "output_options": {
+        "max_entries_per_file": 1000, 
+        "path": "tests/results", 
+        "file_name_alias": "one_core_test_7"
+    }, 
+    "iterations": [
+        {
+            "attach": {}, 
+            "max": 3, 
+            "insert": {"addons": ["N", "S"]}
+        }
+    ], 
+    "format_type": "SMILES"
+}

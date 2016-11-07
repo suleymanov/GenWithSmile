@@ -1,0 +1,19 @@
+{
+    "core": "O=SSNSO", 
+    "core_settings": {
+        "allowed_atoms": ["S"]
+    }, 
+    "output_options": {
+        "max_entries_per_file": 1000, 
+        "path": "tests/results", 
+        "file_name_alias": "one_core_test_20"
+    }, 
+    "iterations": [
+        {
+            "attach": {}, 
+            "max": 1, 
+            "insert": {"addons": ["C1CCCCC1"]}
+        }
+    ], 
+    "format_type": "SMILES"
+}

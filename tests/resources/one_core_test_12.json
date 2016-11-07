@@ -1,0 +1,32 @@
+{
+    "core": "C1CCCCC1", 
+    "core_settings": {
+        "allowed_atoms": ["C"]
+    }, 
+    "output_options": {
+        "max_entries_per_file": 1000, 
+        "path": "tests/results", 
+        "file_name_alias": "one_core_test_12"
+    }, 
+    "iterations": [
+        {
+            "attach": {
+                "addons": ["C1CCCCC1"], 
+                "one_point": false,
+                "two_point": true
+            }, 
+            "max": 2, 
+            "insert": {}
+        },
+        {
+            "attach": {
+                "addons": ["C1CCCCC1"], 
+                "one_point": false,
+                "two_point": true
+            }, 
+            "max": 1, 
+            "insert": {}
+        }
+    ], 
+    "format_type": "SMILES"
+}

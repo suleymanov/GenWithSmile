@@ -1,0 +1,16 @@
+{
+    "core": "C1{CC<#>CC}*C1C2C***C*C^CC2",   
+    "output_options": {
+        "max_entries_per_file": 1000, 
+        "path": "tests/results", 
+        "file_name_alias": "one_core_test_19"
+    }, 
+    "iterations": [
+        {
+            "attach": {"addons": ["N"]}, 
+            "max": 3, 
+            "insert": {"addons": ["O"]}
+        }
+    ], 
+    "format_type": "STARSMILES"
+}
