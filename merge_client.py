@@ -1,7 +1,8 @@
 import os
 import sys
 
-from comb_lib_functions import get_unique_inds, get_unique_mols, get_combinations
+from merge_bonds_functions import get_unique_inds, get_combinations
+from comb_lib_functions import get_unique_mols
 
 
 def _unique_inds(args):

@@ -23,7 +23,7 @@ def is_isomorph(graph1, graph2):
     """
     if nx.faster_could_be_isomorphic(graph1, graph2):
         node_match = iso.categorical_node_match('label', 'C')
-        edge_match = iso.categorical_node_match(['weight', 'label'], [1, '-'])
+        edge_match = iso.categorical_edge_match(['weight', 'label'], [1, '-'])
         return iso.is_isomorphic(graph1, graph2, node_match=node_match, edge_match=edge_match)
     return False
 
@@ -105,6 +105,30 @@ def get_nonisomorphic_positions(graph, positions):
     return list(np.where(~is_isomorph_flag)[0])
 
 
+def get_nonisomorphic_positions_2(graph, positions):
+    """
+    :param graph: nx.Graph
+    :param positions: list of list of int (the broader case than "get_nonisomorphic_positions")
+    :return: 
+    """
+    def _get_graph_combinations():
+        graph1, graph2 = graph, graph.copy()
+
+        for i in xrange(len(positions) - 1):
+            if not is_isomorph_flag[i]:
+                with mark_nodes_and_edges(graph1, positions[i]):
+                    for j in xrange(i + 1, len(positions)):
+                        if not is_isomorph_flag[j]:
+                            with mark_nodes_and_edges(graph2, positions[j]):
+                                yield(i, graph1), (j, graph2)
+
+    is_isomorph_flag = np.zeros(len(positions), dtype=bool)
+
+    for (_, graph1), (j, graph2) in _get_graph_combinations():
+        is_isomorph_flag[j] = is_isomorph(graph1, graph2)
+    return list(np.where(~is_isomorph_flag)[0])
+
+
 @contextmanager
 def modify_vertex(graph, node_index):
     """
@@ -117,3 +141,25 @@ def modify_vertex(graph, node_index):
     graph.node[node_index]['label'] = new_label
     yield
     graph.node[node_index]['label'] = old_label
+
+
+@contextmanager
+# def mark_nodes(graph, nodes_indices):
+def mark_nodes_and_edges(graph, nodes_indices):
+    """
+    :param graph: nx.Graph
+    :param nodes_indices: list of int
+    :return: nx.Graph
+    """
+    # marked_labels = ['label_{}'.format(i) for i in xrange(len(nodes_indices))]
+    marked_labels = ['new_label'] * len(nodes_indices)
+    old_labels = [graph.node[ind]['label'] for ind in nodes_indices]
+    # edge_label = 'new_label'
+    # old_edge_label = graph.edge[nodes_indices[0]][nodes_indices[1]]['label']
+    for i, ind in enumerate(nodes_indices):
+        graph.node[ind]['label'] = marked_labels[i]
+    # graph.edge[nodes_indices[0]][nodes_indices[1]]['label'] = edge_label
+    yield
+    for i, ind in enumerate(nodes_indices):
+        graph.node[ind]['label'] = old_labels[i]
+    # graph.edge[nodes_indices[0]][nodes_indices[1]]['label'] = old_edge_label
