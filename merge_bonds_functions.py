@@ -41,5 +41,5 @@ def get_combinations(mol_smiles_1, mol_smiles_2):
 		for bond_pos_2 in unique_inds_2:
 			combinations = merge_bond(mol_smiles_1, mol_smiles_2, bond_pos_1, bond_pos_2)
 			results.extend(combinations)
-			results = get_unique_mols(results)
+			results = get_unique_mols(results, use_gk=True)
 	return results

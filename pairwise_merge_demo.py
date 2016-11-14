@@ -44,7 +44,7 @@ def _generate(mol_smiles_list, num_iter):
 			for mol_smiles_2 in hosts:
 				_combinations = get_combinations(mol_smiles_1, mol_smiles_2)
 				results.extend(_combinations)
-				results = get_unique_mols(results)
+				results = get_unique_mols(results, use_gk=True)
 		hosts.extend(results)
 		hosts = list(set(hosts))
 	return results

@@ -22,26 +22,6 @@ def get_unique_inds(mol_smiles):
 	return get_nonisomorphic_positions(mol_graph, positions)
 
 
-# def get_unique_mols(mol_smiles_list, use_gk=False):
-# 	"""
-# 	Filter non-unique molecules.
-# 	:param mol_smiles_list: list of str
-# 	:return: list of str
-# 	"""
-# 	if not mol_smiles_list:
-# 		return []
-# 	unique_inds = [0]
-# 	mol_objects = map(rdkitmol2graph, map(Chem.MolFromSmiles, mol_smiles_list))
-# 	if use_gk:
-# 		mol_objects = vectorize_mol_graphs(mol_objects)
-# 	is_isomorph_func = is_isomorph_gk if use_gk else is_isomorph
-# 	for i, mol_object in enumerate(mol_objects):
-# 		if any(is_isomorph_func(mol_object, mol_objects[ind]) for ind in unique_inds):
-# 			continue
-# 		unique_inds.append(i + 1)
-# 	return [mol_smiles_list[ind] for ind in unique_inds]
-
-
 def get_unique_mols(mol_smiles_list, use_gk=False):
 	"""
 	Filter non-unique molecules.
@@ -66,11 +46,13 @@ def get_unique_mols(mol_smiles_list, use_gk=False):
 	return [mol_smiles_list[ind] for ind in unique_inds]
 
 
-def get_combinations(mol_smiles_1, mol_smiles_2):
+def get_combinations(mol_smiles_1, mol_smiles_2, src_atom, trg_atom):
 	"""
 	Generate unique and chemically valid combiinations of two molecules.
 	:param mol_smiles_1: str
 	:param mol_smiles_2: str
+	:param src_atom: str
+	:param trg_atom: str
 	:return: list of str
 	"""
 	unique_inds_1 = get_unique_inds(mol_smiles_1)
@@ -78,7 +60,8 @@ def get_combinations(mol_smiles_1, mol_smiles_2):
 	results = []
 	for ind_1 in unique_inds_1:
 		for ind_2 in unique_inds_2:
-			combinations = combine_mols(mol_smiles_1, mol_smiles_2, ind_1, ind_2)
+			combinations = combine_mols(
+				mol_smiles_1, mol_smiles_2, ind_1, ind_2, src_atom, trg_atom)
 			results.extend(combinations)
 			results = get_unique_mols(results)
 	return results

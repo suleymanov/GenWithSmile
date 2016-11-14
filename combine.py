@@ -7,7 +7,6 @@ from utils import rdkitmol2graph
 
 bonds_def = {
 	1.0: Chem.rdchem.BondType.SINGLE,
-	1.5: Chem.rdchem.BondType.AROMATIC,
 	2.0: Chem.rdchem.BondType.DOUBLE,
 	3.0: Chem.rdchem.BondType.TRIPLE,
 	4.0: Chem.rdchem.BondType.QUADRUPLE,
@@ -15,21 +14,25 @@ bonds_def = {
 }
 
 
-def combine_mols(mol_smiles_1, mol_smiles_2, pos_1, pos_2):
+def combine_mols(mol_smiles_1, mol_smiles_2, pos_1, pos_2, src_atom, trg_atom):
 	"""
 	Combine two molecules provided modification positions.
 	:param mol_smiles_1: str
 	:param mol_smiles_2: str
 	:param pos_1: int
 	:param pos_2: int
+	:param src_atom: str
+	:param trg_atom: str
 	:return: list of str
 	"""
 	combination_results = []
 	mol_1 = Chem.MolFromSmiles(mol_smiles_1)
 	mol_2 = Chem.MolFromSmiles(mol_smiles_2)
-	combination_results.extend(_perform_insertion(mol_1, mol_2, pos_1, pos_2))
-	combination_results.extend(_perform_insertion(mol_2, mol_1, pos_2, pos_1))
-	combination_results.extend(_perform_attach(mol_1, mol_2, pos_1, pos_2))
+	if (mol_1.GetAtomWithIdx(pos_1).GetSymbol() == src_atom 
+		and mol_2.GetAtomWithIdx(pos_2).GetSymbol() == trg_atom):
+		Chem.Kekulize(mol_1)
+		Chem.Kekulize(mol_2)
+		combination_results.extend(_perform_attach(mol_1, mol_2, pos_1, pos_2))
 	return combination_results
 
 

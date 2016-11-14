@@ -39,6 +39,7 @@ def is_isomorph_gk(graph1_kernel_vect, graph2_kernel_vect, gk_params=gk_def):
 
 
 def vectorize_mol_graphs(mol_graphs_list, gk_params=gk_def):
+    # print(gk_params)
     vectorizer = Vectorizer(
         complexity=gk_params['complexity'],
         r=gk_params['r'],
@@ -125,7 +126,9 @@ def get_nonisomorphic_positions_2(graph, positions):
     is_isomorph_flag = np.zeros(len(positions), dtype=bool)
 
     for (_, graph1), (j, graph2) in _get_graph_combinations():
-        is_isomorph_flag[j] = is_isomorph(graph1, graph2)
+        # is_isomorph_flag[j] = is_isomorph(graph1, graph2)
+        # is_isomorph_flag[j] = is_isomorph_gk(*vectorize_mol_graphs(graph1, graph2))
+        is_isomorph_flag[j] = is_isomorph_gk(*vectorize_mol_graphs([graph1, graph2]))
     return list(np.where(~is_isomorph_flag)[0])
 
 
