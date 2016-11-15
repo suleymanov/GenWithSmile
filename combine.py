@@ -2,7 +2,7 @@ from itertools import izip
 
 from rdkit import Chem
 
-from utils import rdkitmol2graph
+# from utils import rdkitmol2graph
 
 
 bonds_def = {

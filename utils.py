@@ -4,8 +4,7 @@ import networkx.algorithms.isomorphism as iso
 import numpy as np
 from contextlib import contextmanager
 
-from eden.graph import Vectorizer
-from sklearn import metrics
+# from sklearn import metrics
 from scipy.sparse import vstack
 
 
@@ -26,29 +25,6 @@ def is_isomorph(graph1, graph2):
         edge_match = iso.categorical_edge_match(['weight', 'label'], [1, '-'])
         return iso.is_isomorphic(graph1, graph2, node_match=node_match, edge_match=edge_match)
     return False
-
-
-def is_isomorph_gk(graph1_kernel_vect, graph2_kernel_vect, gk_params=gk_def):
-    """
-    :param graph1_kernel_vect: np.ndarray
-    :param graph2_kernel_vect: np.ndarray
-    :return: bool
-    """
-    k = metrics.pairwise.pairwise_kernels(graph1_kernel_vect, graph2_kernel_vect, metric='cosine')
-    return len(np.where(k[:, 0] > gk_params['p'])[0]) >= 1
-
-
-def vectorize_mol_graphs(mol_graphs_list, gk_params=gk_def):
-    # print(gk_params)
-    vectorizer = Vectorizer(
-        complexity=gk_params['complexity'],
-        r=gk_params['r'],
-        d=gk_params['d'],
-        min_r=gk_params['min_r'],
-        min_d=gk_params['min_d'],
-        nbits=gk_params['nbits']
-    )
-    return vectorizer.transform(mol_graphs_list)
 
 
 def rdkitmol2graph(mol):
@@ -103,32 +79,6 @@ def get_nonisomorphic_positions(graph, positions):
 
     for (_, graph1), (j, graph2) in _get_graph_combinations():
         is_isomorph_flag[j] = is_isomorph(graph1, graph2)
-    return list(np.where(~is_isomorph_flag)[0])
-
-
-def get_nonisomorphic_positions_2(graph, positions):
-    """
-    :param graph: nx.Graph
-    :param positions: list of list of int (the broader case than "get_nonisomorphic_positions")
-    :return: 
-    """
-    def _get_graph_combinations():
-        graph1, graph2 = graph, graph.copy()
-
-        for i in xrange(len(positions) - 1):
-            if not is_isomorph_flag[i]:
-                with mark_nodes_and_edges(graph1, positions[i]):
-                    for j in xrange(i + 1, len(positions)):
-                        if not is_isomorph_flag[j]:
-                            with mark_nodes_and_edges(graph2, positions[j]):
-                                yield(i, graph1), (j, graph2)
-
-    is_isomorph_flag = np.zeros(len(positions), dtype=bool)
-
-    for (_, graph1), (j, graph2) in _get_graph_combinations():
-        # is_isomorph_flag[j] = is_isomorph(graph1, graph2)
-        # is_isomorph_flag[j] = is_isomorph_gk(*vectorize_mol_graphs(graph1, graph2))
-        is_isomorph_flag[j] = is_isomorph_gk(*vectorize_mol_graphs([graph1, graph2]))
     return list(np.where(~is_isomorph_flag)[0])
 
 

@@ -2,9 +2,9 @@ from itertools import izip
 
 from rdkit import Chem
 
-from utils import (
-	rdkitmol2graph, get_nonisomorphic_positions, is_isomorph, is_isomorph_gk, vectorize_mol_graphs
-)
+from utils import rdkitmol2graph
+from utils import get_nonisomorphic_positions
+from utils import is_isomorph
 from combine import combine_mols
 
 
@@ -32,18 +32,15 @@ def get_unique_mols(mol_smiles_list, use_gk=False):
 		return []
 	unique_inds = [0]
 	mol_graphs = map(rdkitmol2graph, map(Chem.MolFromSmiles, mol_smiles_list))
-	if use_gk:
-		vectorized_graphs = vectorize_mol_graphs(mol_graphs)
-		for i, vectorized_mol in enumerate(vectorized_graphs[1:]):
-			if any(is_isomorph_gk(vectorized_mol, vectorized_graphs[ind]) for ind in unique_inds):
-				continue
-			unique_inds.append(i + 1)
-	else:
-		for i, mol_graph in enumerate(mol_graphs[1:]):
-			if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
-				continue
-			unique_inds.append(i + 1)
+	for i, mol_graph in enumerate(mol_graphs[1:]):
+		if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
+			continue
+		unique_inds.append(i + 1)
 	return [mol_smiles_list[ind] for ind in unique_inds]
+
+
+def get_combinations2(args):
+	return args
 
 
 def get_combinations(mol_smiles_1, mol_smiles_2, src_atom, trg_atom):
