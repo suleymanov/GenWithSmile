@@ -15,7 +15,9 @@ def main(args):
 	result_fn = settings['result_file_name']
 	with open(smiles_fn) as f:
 		mol_smiles_list = f.read().splitlines()
-	for i in xrange(len(mol_smiles_list)):
+	# for i in xrange(len(mol_smiles_list)):
+        # for i in xrange(500, len(mol_smiles_list)):
+	for i in xrange(125, 150):
 		for j in xrange(i, len(mol_smiles_list)):
 			print('i = {},\tj = {}'.format(i, j))
 			_combinations = get_combinations(

@@ -4,7 +4,7 @@ import networkx.algorithms.isomorphism as iso
 import numpy as np
 from contextlib import contextmanager
 
-from eden.graph import Vectorizer
+# from eden.graph import Vectorizer
 from sklearn import metrics
 from scipy.sparse import vstack
 
@@ -40,6 +40,8 @@ def is_isomorph_gk(graph1_kernel_vect, graph2_kernel_vect, gk_params=gk_def):
 
 def vectorize_mol_graphs(mol_graphs_list, gk_params=gk_def):
     # print(gk_params)
+    raise NotImplementedError()
+
     vectorizer = Vectorizer(
         complexity=gk_params['complexity'],
         r=gk_params['r'],
