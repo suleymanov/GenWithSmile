@@ -1,0 +1,14 @@
+{
+ 	"output_options": {
+ 		"max_entries_per_file": 1000,
+ 		"path": "tests/results",
+ 		"file_name_alias": "comb_6"
+ 	},
+ 	"settings": {},
+ 	"molecules": {
+ 		"file_name": "tests/resources/aux_data/rings1.json",
+ 		"format": "json"
+ 	},
+ 	"attach": {},
+ 	"merge": {"one_point": false}
+}

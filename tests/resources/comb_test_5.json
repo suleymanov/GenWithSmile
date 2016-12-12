@@ -1,0 +1,15 @@
+{
+ 	"output_options": {
+ 		"max_entries_per_file": 1000,
+ 		"path": "tests/results",
+ 		"file_name_alias": "comb_5"
+ 	},
+ 	"settings": {},
+ 	"molecules": {
+ 		"file_name": "tests/resources/aux_data/rings1.smi",
+ 		"format": "smiles"
+ 	},
+ 	"linkers": "tests/resources/aux_data/linkers.json",
+ 	"attach": {"one_point": false},
+ 	"merge": {}
+}

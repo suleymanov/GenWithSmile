@@ -1,4 +1,5 @@
 *.py[cod]
 *.txt
+*.png
 .idea/
 tests/results

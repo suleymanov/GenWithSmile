@@ -1,5 +1,5 @@
 {
-    "core": "C1CCCCC1", 
+    "core": "C1CC1", 
     "core_settings": {
         "allowed_atoms": ["C"]
     }, 
@@ -15,9 +15,8 @@
                 "one_point": false,
                 "two_point": true
             }, 
-            "max": 1, 
-            "insert": {}
+            "merge": {},
+            "max": 1
         }
-    ], 
-    "format_type": "SMILES"
+    ]
 }

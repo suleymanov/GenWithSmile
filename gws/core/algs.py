@@ -104,7 +104,6 @@ def get_unique_coords(molecule, num_points=1):
 	if num_points == 1:
 		positions = map(lambda pos: [pos], list(xrange(len(mol_rdkit.GetAtoms()))))
 	elif num_points == 2:
-		# positions = map(lambda b: (b.GetBeginAtomIdx(), b.GetEndAtomIdx()), mol_rdkit.GetBonds())
 		positions = map(
             lambda b: (b.GetBeginAtomIdx(), b.GetEndAtomIdx()),
             filter(lambda b: b.IsInRing(), mol_rdkit.GetBonds()))

@@ -17,18 +17,30 @@ class Molecule(object):
 		:param positions: list of int
 		:return: None
 		"""
+		# TODO: proper initialization and validation
 		self.mol_smiles = mol_smiles
-		self.mol_rdkit = mol_rdkit
-		self.mol_graph = mol_graph
-		self.positions = positions
-		self._next_positions = []
+		self.mol_rdkit = mol_rdkit if mol_rdkit is not None else Chem.MolFromSmiles(mol_smiles)
+		self.mol_graph = mol_graph if mol_graph is not None else rdkitmol2graph(self.mol_rdkit)
+		self.positions = positions if positions is not None else Molecule._define_positions(self.mol_rdkit)
+		self.next_positions = []
+		self._atoms_inds_map = {}  # old index : new index
 
 	def add_next_positions(self, positions):
-		self._next_positions = list(set(self._next_positions + positions))
+		self.next_positions = list(set(self.next_positions + positions))
+
+	def add_atoms_inds_map(self, atoms_inds_map):
+		self._atoms_inds_map = atoms_inds_map
+
+	def get_new_index(self, old_index):
+		assert old_index in self._atoms_inds_map
+		return self._atoms_inds_map[old_index]
+
+	def reset_next_positions(self):
+		self.next_positions = []
 
 	def update_positions(self):
-		self.positions = self._next_positions[::]
-		self._next_positions = []
+		self.positions = self.next_positions[::]
+		self.next_positions = []
 
 	def get_smiles(self):
 		return self.mol_smiles if self.mol_smiles else Chem.MolToSmiles(self.mol_rdkit)
@@ -72,7 +84,7 @@ class Molecule(object):
 		raise NotImplementedError()
 
 	@staticmethod
-	def _define_positions(mol, allowed_symbols):
+	def _define_positions(mol, allowed_symbols=None):
 		return (
 			map(
 				lambda at: at.GetIdx(),

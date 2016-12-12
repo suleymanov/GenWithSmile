@@ -6,7 +6,7 @@
     "output_options": {
         "max_entries_per_file": 1000, 
         "path": "sample_inputs", 
-        "file_name_alias": "one_core"
+        "file_name_alias": "one_core_mp"
     }, 
     "iterations": [
         {
@@ -17,6 +17,11 @@
         {
             "attach": {"addons": ["CC(N)C"]},
             "merge": {},
+            "max": 1
+        },
+        {
+            "attach": {"addons": ["CC(N)C", "CNC"]},
+            "merge": {"addons": ["NCC", "NC", "S"]},
             "max": 1
         }
     ]

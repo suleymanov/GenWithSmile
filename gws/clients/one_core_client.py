@@ -5,12 +5,13 @@ Module for one core molecule modification.
 import os
 from collections import namedtuple
 from json import dumps, loads
+from multiprocessing import Pool
 
 from gws.core import get_unique_mols
 from gws.core import Molecule
 from gws.core import Modifier
 
-Config = namedtuple('Config', ['host', 'iterations', 'output'])
+Config = namedtuple('Config', ['host', 'iterations', 'output', 'numproc'])
 Iteration = namedtuple('Iteration', ['attach', 'merge', 'max'])
 Modification = namedtuple('Modification', ['addons', 'one_point', 'two_point'])
 
@@ -26,6 +27,7 @@ class OneCoreClient(object):
 		self._hosts = [config.host]
 		self._iterations = config.iterations
 		self._output = config.output
+		self._numproc = config.numproc
 		self._iter_results = []
 		if not os.path.exists(self._output['path']):
 			os.mkdir(self._output['path'])
@@ -43,6 +45,7 @@ class OneCoreClient(object):
 		iter_hosts = self._hosts[::]
 		for _ in xrange(it.max):
 			hosts = iter_hosts[::]
+			
 			iter_hosts = []
 			while len(hosts) > 0:
 				modifier = Modifier(hosts.pop())
@@ -52,6 +55,15 @@ class OneCoreClient(object):
 				for add in it.merge.addons:
 					mod_results = modifier.merge(add, it.merge.one_point, it.merge.two_point)
 					iter_hosts.extend(mod_results)
+
+			# iter_hosts = []
+			# pack_i = lambda i: (i, hosts, it, iter_hosts)
+			# for i_start in xrange(0, len(hosts), self._numproc):
+			# 	pool = Pool(processes=self._numproc)
+			# 	pool.map(_process_iter, map(pack_i, xrange(i_start, i_start + self._numproc)))
+			# 	pool.close()
+			# 	pool.join()
+
 			iter_hosts = get_unique_mols(iter_hosts)
 			self._iter_results.extend(iter_hosts)
 		
@@ -60,16 +72,10 @@ class OneCoreClient(object):
 			host.update_positions()
 
 	def _update_results(self, it_num):
-		print('Iteration: {}'.format(it_num))
-		print('Number of molecules: {}\n'.format(len(self._iter_results)))
 		max_entries = self._output['max_entries_per_file']
 		for i in xrange(0, len(self._iter_results) / max_entries + 1):
 			fn = '{}{}{}_iter_{}_pack_{}.smi'.format(
-				self._output['path'],
-				os.sep,
-				self._output['file_name_alias'],
-				it_num + 1,
-				i + 1)
+				self._output['path'], os.sep, self._output['file_name_alias'], it_num + 1, i + 1)
 			with open(fn, 'w') as f:
 				f.write('\n'.join(map(
 					lambda mol: mol.get_smiles(), 
@@ -92,6 +98,7 @@ class OneCoreClient(object):
 		assert config.host is not None
 		assert config.iterations is not None
 		assert config.output is not None
+		assert config.numproc > 0
 
 		for it in config.iterations:
 			assert len(it.attach.addons) + len(it.merge.addons) > 0
@@ -104,6 +111,23 @@ class OneCoreClient(object):
 		assert 'max_entries_per_file' in config.output
 
 
+def _process_iter(params):
+	# raise NotImplementedError()
+
+	i = params[0]
+	hosts = params[1]
+	iteration = params[2]
+	iter_hosts = params[3]
+
+	modifier = Modifier(hosts[i])
+	for add in iteration.attach.addons:
+		mod_results = modifier.attach(add, iteration.attach.one_point, iteration.attach.two_point)
+		iter_hosts.extend(mod_results)
+	for add in iteration.merge.addons:
+		mod_results = modifier.merge(add, iteration.merge.one_point, iteration.merge.two_point)
+		iter_hosts.extend(mod_results)
+
+
 def _read_config(fn):
 	with open(fn) as f:
 		config_data = loads(f.read())
@@ -112,9 +136,7 @@ def _read_config(fn):
 
 def _read_addons(modification, mol_init_func):
 	return Modification(
-		addons=map(
-			lambda s: mol_init_func(s),
-			modification.get('addons', [])),
+		addons=map(lambda s: mol_init_func(s), modification.get('addons', [])),
 		one_point=modification.get('one_point', True),
 		two_point=modification.get('two_point', False))
 
@@ -132,4 +154,5 @@ def _init_config(config_data):
 	return Config(
 		host=Molecule.from_smiles(mol_smiles, mol_settings.get('allowed_atoms', [])),
 		iterations=iterations,
-		output=output)
+		output=output,
+		numproc=config_data.get('numproc', 1))
