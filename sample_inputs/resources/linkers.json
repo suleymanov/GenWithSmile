@@ -1,0 +1,6 @@
+[
+	{"linker": "CCC", "indexes": [0, 2]},
+	{"linker": "CCOC", "indexes": [0, 3]},
+	{"linker": "CCCC", "indexes": [0, 2]},
+	{"linker": "C1CCCCC1", "indexes": [0, 3]}
+]

@@ -1,5 +1,5 @@
 {
-    "core": "C1CCCCC1", 
+    "core": "C1CC1", 
     "core_settings": {
         "allowed_atoms": ["C"]
     }, 
@@ -11,9 +11,8 @@
     "iterations": [
         {
             "attach": {"addons": ["N"]}, 
-            "max": 3, 
-            "insert": {"addons": ["O"]}
+            "merge": {"addons": ["O"]},
+            "max": 3
         }
-    ], 
-    "format_type": "SMILES"
+    ]
 }

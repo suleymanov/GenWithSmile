@@ -14,12 +14,10 @@ class Modifier(object):
 		self.mol = molecule
 		self._one_point_coords = Modifier._define_coords_set(
 			self.mol.positions,
-			get_unique_coords(self.mol, num_points=1)
-		)
+			get_unique_coords(self.mol, num_points=1))
 		self._two_point_coords = Modifier._define_coords_set(
 			self.mol.positions,
-			get_unique_coords(self.mol, num_points=2)
-		)
+			get_unique_coords(self.mol, num_points=2))
 
 	def attach(self, addon_mol, one_point, two_point):
 		"""
@@ -51,6 +49,22 @@ class Modifier(object):
 			results.extend(self._combine(addon_mol, ModifierFactory.merge, 2))
 		return results
 
+	def attach_explicit(self, addon_mol, addon_coord):
+		if not 1 <= len(addon_coord) <= 2:
+			raise ValueError('Three and more point modifications await their implementation.')
+		results = []
+		for coord in self._get_coords_set(num_points=len(addon_coord)):
+			results.extend(ModifierFactory.attach(self.mol, addon_mol, coord, addon_coord))
+		return results
+
+	def merge_explicit(self, addon_mol, addon_coord):
+		if not 1 <= len(addon_coord) <= 2:
+			raise ValueError('Three and more point modifications await their implementation.')
+		results = []
+		for coord in self._get_coords_set(num_points=len(addon_coord)):
+			results.extend(ModifierFactory.merge(self.mol, addon_mol, coord, addon_coord))
+		return results
+
 	def _combine(self, addon_mol, mod_func, num_points):
 		results = []
 		for coord in self._get_coords_set(num_points):
@@ -77,5 +91,4 @@ class Modifier(object):
 		return (
 			filter(lambda coord: coord[0] in atom_ids, unique_coords)
 			if num_points == 1 else
-			filter(lambda coord: coord[0] in atom_ids and coord[1] in atom_ids, unique_coords)
-		)
+			filter(lambda coord: coord[0] in atom_ids and coord[1] in atom_ids, unique_coords))

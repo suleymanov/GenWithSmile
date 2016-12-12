@@ -60,16 +60,10 @@ class OneCoreClient(object):
 			host.update_positions()
 
 	def _update_results(self, it_num):
-		print('Iteration: {}'.format(it_num))
-		print('Number of molecules: {}\n'.format(len(self._iter_results)))
 		max_entries = self._output['max_entries_per_file']
 		for i in xrange(0, len(self._iter_results) / max_entries + 1):
 			fn = '{}{}{}_iter_{}_pack_{}.smi'.format(
-				self._output['path'],
-				os.sep,
-				self._output['file_name_alias'],
-				it_num + 1,
-				i + 1)
+				self._output['path'], os.sep, self._output['file_name_alias'], it_num + 1, i + 1)
 			with open(fn, 'w') as f:
 				f.write('\n'.join(map(
 					lambda mol: mol.get_smiles(), 
@@ -112,9 +106,7 @@ def _read_config(fn):
 
 def _read_addons(modification, mol_init_func):
 	return Modification(
-		addons=map(
-			lambda s: mol_init_func(s),
-			modification.get('addons', [])),
+		addons=map(lambda s: mol_init_func(s), modification.get('addons', [])),
 		one_point=modification.get('one_point', True),
 		two_point=modification.get('two_point', False))
 

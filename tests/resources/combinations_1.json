@@ -1,0 +1,14 @@
+{
+ 	"output_options": {
+ 		"max_entries_per_file": 1000,
+ 		"path": "tests/results",
+ 		"file_name_alias": "combinations_1"
+ 	},
+ 	"settings": {
+ 		"allowed_atoms": ["C", "O", "N"]
+ 	},
+ 	"molecules": "tests/resources/aux_data/combinations_1.smi",
+ 	"linkers": "tests/resources/aux_data/linkers.json",
+ 	"attach": {},
+ 	"merge": {}
+}

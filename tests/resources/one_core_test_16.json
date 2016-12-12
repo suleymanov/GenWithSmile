@@ -1,5 +1,5 @@
 {
-    "core": "C1CCCCC1", 
+    "core": "C1CC1", 
     "core_settings": {
         "allowed_atoms": ["C"]
     }, 
@@ -10,23 +10,22 @@
     }, 
     "iterations": [
         {
-            "attach": {}, 
-            "max": 3, 
-            "insert": {
-                "addons": ["C1CCCCC1", "C1CCCC1"],
+            "attach": {},
+            "merge": {
+                "addons": ["C1CC1", "C1SC1"],
                 "one_point": false,
                 "two_point": true
-            }
+            },
+            "max": 2
         },
         {
-            "attach": {}, 
-            "max": 2, 
-            "insert": {
-                "addons": ["C1CCCCC1", "C1CCCC1"],
+            "attach": {},
+            "merge": {
+                "addons": ["C1CC1", "C1SC1"],
                 "one_point": false,
                 "two_point": true
-            }
+            },
+            "max": 2
         }
-    ], 
-    "format_type": "SMILES"
+    ]
 }

@@ -76,7 +76,8 @@ class ModifierFactory(object):
 				results.append(ModifierFactory._create_mol(
 					result_mol,
 					filter(lambda pos: pos not in host_coord, host_mol.positions),
-					host_mol._next_positions + atoms_inds_map.values()))
+					host_mol.next_positions + atoms_inds_map.values()))
+				results[-1].add_atoms_inds_map(atoms_inds_map)
 		return results
 
 	@staticmethod
@@ -108,7 +109,8 @@ class ModifierFactory(object):
 						results.append(ModifierFactory._create_mol(
 							result_mol,
 							filter(lambda pos: pos not in host_coord, host_mol.positions),
-							host_mol._next_positions + atoms_inds_map.values()))
+							host_mol.next_positions + atoms_inds_map.values()))
+						results[-1].add_atoms_inds_map(atoms_inds_map)
 		return results
 
 	@staticmethod
@@ -135,7 +137,8 @@ class ModifierFactory(object):
 			results.append(ModifierFactory._create_mol(
 				result_mol,
 				filter(lambda pos: pos not in host_coord, host_mol.positions),
-				host_mol._next_positions + atoms_inds_map.values()))
+				host_mol.next_positions + atoms_inds_map.values()))
+			results[-1].add_atoms_inds_map(atoms_inds_map)
 		return results
 
 	@staticmethod
@@ -181,7 +184,8 @@ class ModifierFactory(object):
 				results.append(ModifierFactory._create_mol(
 					result_mol,
 					filter(lambda pos: pos not in host_coord, host_mol.positions),
-					host_mol._next_positions + atoms_inds_map.values()))
+					host_mol.next_positions + atoms_inds_map.values()))
+				results.add_atoms_inds_map(atoms_inds_map)
 		return results
 
 	@staticmethod

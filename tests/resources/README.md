@@ -16,9 +16,3 @@
 16. one_core_test_16: two iterations of two-point insert of two addon molecules
 17. one_core_test_17: one iteration of adding single atom and inserting single atom
 18. one_core_test_18: two iterations of adding single atom and inserting single atom
-
-19. one_core_test_19: *-SMILES (TODO)
-
-one_core_test_20: one iteration of inserting fragment
-
-one_core_test_21: one iteration of replacing atom
