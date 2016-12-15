@@ -11,15 +11,17 @@ from multiprocessing import Pool
 from gws.core import Molecule
 from gws.core import Modifier
 
-Config = namedtuple('Config', ['molecules', 'linkers', 'attach', 'merge', 'output', 'numproc'])
+Config = namedtuple('Config', ['X', 'Y', 'L', 'attach', 'merge', 'output', 'numproc'])
 Modification = namedtuple('Modification', ['one_point', 'two_point'])
 
 
 class CombinationsClient(object):
 	def __init__(self, config):
 		CombinationsClient._validate(config)
-		self._molecules = config.molecules
-		self._linkers_list = config.linkers
+		self._first_list = config.X
+		self._second_list = config.Y
+		self._linkers_list = config.L
+
 		self._attach = config.attach
 		self._merge = config.merge
 		self._output = config.output
@@ -28,8 +30,11 @@ class CombinationsClient(object):
 			os.mkdir(self._output['path'])
 
 	def process(self):
-		pack_i = lambda i: (i, self._molecules, self._linkers_list, self._attach, self._merge, self._output)
-		for i_start in xrange(0, len(self._molecules), self._numproc):
+		pack_i = lambda i: (
+			i, self._first_list, self._second_list, self._linkers_list,
+			self._attach, self._merge, self._output)
+
+		for i_start in xrange(0, len(self._first_list), self._numproc):
 			pool = Pool(processes=self._numproc)
 			pool.map(_process, map(pack_i, xrange(i_start, i_start + self._numproc)))
 			pool.close()
@@ -48,18 +53,19 @@ class CombinationsClient(object):
 	def _validate(config):
 		# TODO: implement smarter exceptions handling
 		# TODO: implement incompatible cases handling
-		assert config.molecules is not None
-		assert config.linkers is not None
-		assert all(len(item['indexes']) == 2 for item in config.linkers)
+		assert config.X is not None
+		assert config.Y is not None
+		assert config.L is not None
+		assert all(len(item['indexes']) == 2 for item in config.L)
 		assert config.attach is not None
 		assert config.merge is not None
 		assert config.output is not None
 		assert config.numproc > 0
-		assert len(config.molecules) > 0
+		assert len(config.X) > 0 and len(config.Y) > 0
 		assert (
 			config.attach.one_point or config.attach.two_point or
 			config.merge.one_point or config.merge.two_point)
-		if config.linkers:
+		if config.L:
 			assert config.attach.one_point or config.merge.one_point
 		assert 'path' in config.output
 		assert 'file_name_alias' in config.output
@@ -79,13 +85,16 @@ def _update_results(results, i, j, output):
 
 def _process(params):
 	i = params[0]
-	molecules = params[1]
-	linkers_list = params[2]
-	attach_settings = params[3]
-	merge_settings = params[4]
-	output = params[5]
+	first_list = params[1]
+	second_list = params[2]
+	linkers_list = params[3]
+	attach_settings = params[4]
+	merge_settings = params[5]
+	output = params[6]
+	if i >= len(first_list):
+		return
 
-	hosts = [molecules[i]]
+	hosts = [first_list[i]]
 	if linkers_list:
 		new_hosts = []
 		while len(hosts) > 0:
@@ -106,8 +115,8 @@ def _process(params):
 		hosts = new_hosts[::]
 		for host in hosts:
 			host.update_positions()
-	for j in xrange(i, len(molecules)):
-		mol_2 = molecules[j]
+	for j in xrange(len(second_list)):
+		mol_2 = second_list[j]
 		results = []
 		for host in hosts:
 			modifier = Modifier(host)
@@ -138,13 +147,28 @@ def _read_json(fn):
 		return loads(f.read())
 
 
+def _read_molecules(entry, allowed_atoms):
+	fmt = entry['format']
+	file_name = entry['file_name']
+	if fmt == 'smiles':
+		return map(
+			lambda x: Molecule.from_smiles(x, allowed_symbols=allowed_atoms),
+			_read_smiles(file_name))
+	elif fmt == 'json':
+		return map(
+			lambda x: Molecule(mol_smiles=x['smiles'], positions=x.get('positions', None)),
+			_read_json(file_name))
+	else:
+		raise ValueError('Unknown format.')
+
+
 def _init_config(config_data):
-	molecules = _read_smiles(config_data.get('molecules', ''))
 	linkers_file_name = config_data.get('linkers', None)
 	allowed_atoms = config_data.get('allowed_atoms', [])
 	return Config(
-		molecules=[Molecule.from_smiles(s, allowed_symbols=allowed_atoms) for s in molecules],
-		linkers=_read_json(linkers_file_name) if linkers_file_name else [],
+		X=_read_molecules(config_data.get('first_list', ''), allowed_atoms),
+		Y=_read_molecules(config_data.get('second_list', ''), allowed_atoms),
+		L=_read_json(linkers_file_name) if linkers_file_name else [],
 		attach=Modification(
 			one_point=config_data['attach'].get('one_point', True),
 			two_point=config_data['attach'].get('two_point', False)),

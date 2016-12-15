@@ -21,7 +21,7 @@ class Molecule(object):
 		self.mol_smiles = mol_smiles
 		self.mol_rdkit = mol_rdkit if mol_rdkit is not None else Chem.MolFromSmiles(mol_smiles)
 		self.mol_graph = mol_graph if mol_graph is not None else rdkitmol2graph(self.mol_rdkit)
-		self.positions = positions
+		self.positions = positions if positions is not None else Molecule._define_positions(self.mol_rdkit)
 		self.next_positions = []
 		self._atoms_inds_map = {}  # old index : new index
 
@@ -84,7 +84,7 @@ class Molecule(object):
 		raise NotImplementedError()
 
 	@staticmethod
-	def _define_positions(mol, allowed_symbols):
+	def _define_positions(mol, allowed_symbols=None):
 		return (
 			map(
 				lambda at: at.GetIdx(),
