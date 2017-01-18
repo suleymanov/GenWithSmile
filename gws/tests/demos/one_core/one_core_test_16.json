@@ -1,0 +1,22 @@
+{
+    "core": {"smiles": "C1CC1"},
+    "iterations": [
+        {
+            "merge": {
+                "addons": [{"smiles": "C1CC1"}, {"smiles": "C1SC1"}],
+                "one_point": false,
+                "two_point": true
+            },
+            "max": 2
+        },
+        {
+            "merge": {
+                "addons": [{"smiles": "C1CC1"}, {"smiles": "C1SC1"}],
+                "one_point": false,
+                "two_point": true
+            },
+            "max": 2
+        }
+    ],
+    "output": {"path": "gws/tests/demos/one_core/results", "alias": "one_core_test_16"}
+}

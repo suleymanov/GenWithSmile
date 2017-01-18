@@ -1,0 +1,6 @@
+{
+	"molecules": "sample_inputs/resources/molecules.json",
+	"linkers": "sample_inputs/resources/linkers.json",
+	"merge": {"one_point": false},
+	"output": {"alias": "combinations"}
+}

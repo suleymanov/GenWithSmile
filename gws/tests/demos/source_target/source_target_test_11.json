@@ -1,0 +1,10 @@
+{
+	"source": {"smiles": "C1CC1"},
+	"target": {"smiles": "C1CC1"},
+	"iterations": [
+		{
+			"merge": {"one_point": false, "two_point": true, "addons": [{"smiles": "c1ccccc1"}]}
+		}
+	],
+	"output": {"path": "gws/tests/demos/source_target/results", "alias": "source_target_test_11"}
+}

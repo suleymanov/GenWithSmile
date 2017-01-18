@@ -1,0 +1,6 @@
+{
+ 	"molecules": "gws/tests/resources/rings.json",
+ 	"linkers": "gws/tests/resources/groups.json",
+ 	"attach": {"one_point": false},
+ 	"output": {"path": "gws/tests/demos/combinations/results_5"}
+}

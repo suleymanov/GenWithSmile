@@ -1,0 +1,5 @@
+[
+	{"smiles": "CCC", "attach_pos": [0, 2]},
+	{"smiles": "C=CC", "attach_pos": [0, 2]},
+	{"smiles": "CCCC", "attach_pos": [0, 3]}
+]

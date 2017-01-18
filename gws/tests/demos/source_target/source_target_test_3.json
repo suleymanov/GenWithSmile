@@ -1,0 +1,10 @@
+{
+	"source": {"smiles": "C1CC1"},
+	"target": {"smiles": "C1CC1"},
+	"iterations": [
+		{
+			"attach": {"addons": [{"smiles": "C"}, {"smiles": "F"}]}
+		}
+	],
+	"output": {"path": "gws/tests/demos/source_target/results", "alias": "source_target_test_3"}
+}

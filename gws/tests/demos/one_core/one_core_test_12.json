@@ -1,0 +1,21 @@
+{
+    "core": {"smiles": "C1CC1"},
+    "iterations": [
+        {
+            "attach": {
+                "addons": [{"smiles": "C1CC1"}], 
+                "one_point": false,
+                "two_point": true
+            }, 
+            "max": 2
+        },
+        {
+            "attach": {
+                "addons": [{"smiles": "C1CC1"}], 
+                "one_point": false,
+                "two_point": true
+            }
+        }
+    ],
+    "output": {"path": "gws/tests/demos/one_core/results", "alias": "one_core_test_12"}
+}

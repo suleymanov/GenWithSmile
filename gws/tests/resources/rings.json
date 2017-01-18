@@ -1,0 +1,7 @@
+[
+	{"smiles": "c1ccccc1"},
+	{"smiles": "O=C1CCCN1"},
+	{"smiles": "c1ccc2ccccc2c1"},
+	{"smiles": "c1ccc2c(c1)CCCC2"},
+	{"smiles": "c1cnccn1"}
+]

@@ -1,0 +1,15 @@
+{
+	"source": {"smiles": "C1CCCCC1"},
+	"target": {"smiles": "C1CCCCC1"},
+	"iterations": [
+		{
+			"attach": {"addons": [{"smiles": "C1CC1"}, {"smiles": "CC(C)C"}]},
+			"merge": {"one_point": false}
+		},
+		{
+			"attach": {"one_point": false},
+			"merge": {"addons": [{"smiles": "C1CC1"}, {"smiles": "CC(C)C"}]}
+		}
+	],
+	"output": {"alias": "source_target"}
+}
