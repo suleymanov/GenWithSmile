@@ -1,5 +1,5 @@
 import unittest
-from collections import namedtuple
+from json import dumps, loads
 
 from rdkit import Chem
 
@@ -7,12 +7,8 @@ from gws.src.core.algs import (
 	is_isomorph,
 	get_unique_coords,
 	get_unique_mols,
-	rdkitmol2graph,
-	get_nonisomorphic_positions
+	rdkitmol2graph
 )
-
-FakeMolecule = namedtuple('FakeMolecule', ['rdkit', 'graph'])
-FakeModifier = namedtuple('FakeModifier', ['mol'])
 
 
 class CoreAlgsTests(unittest.TestCase):
@@ -47,59 +43,54 @@ class CoreAlgsTests(unittest.TestCase):
 		# one trivial ring
 		mol_rdkit = Chem.MolFromSmiles('C1CCCCC1')
 		mol_graph = rdkitmol2graph(mol_rdkit)
-		fake_mol = FakeMolecule(mol_rdkit, mol_graph)
-		self.assertTrue(len(get_unique_coords(fake_mol)) == 1)
-		self.assertTrue(len(get_unique_coords(fake_mol, num_points=2)) == 1)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=range(0, 5))) == 1)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=range(1, 6))) == 1)
-		self.assertTrue(get_unique_coords(fake_mol, positions_to_check=range(0, 5))[0][0] == 0)
-		self.assertTrue(get_unique_coords(fake_mol, positions_to_check=range(1, 6))[0][0] == 1)
-		with self.assertRaises(StandardError):
-			get_unique_coords(fake_mol, num_points=3)
+		self.assertTrue(len(get_unique_coords(
+			mol_graph, 1, map(lambda x: [x], xrange(mol_graph.number_of_nodes())))) == 1)
+		self.assertTrue(len(get_unique_coords(
+			mol_graph, 2, map(lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()), mol_rdkit.GetBonds()))) == 1)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(0, 5)))) == 1)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(1, 6)))) == 1)
+		self.assertTrue(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(0, 5)))[0][0] == 0)
+		self.assertTrue(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(1, 6)))[0][0] == 1)
 
 		# one ring
 		mol_rdkit = Chem.MolFromSmiles('C1CNCCC1')
 		mol_graph = rdkitmol2graph(mol_rdkit)
-		fake_mol = FakeMolecule(mol_rdkit, mol_graph)
-		self.assertTrue(len(get_unique_coords(fake_mol)) == 4)
-		self.assertTrue(len(get_unique_coords(fake_mol, num_points=2)) == 3)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=range(0, 5))) == 3)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=range(1, 6))) == 4)
-		for val, ind in zip(range(3), get_unique_coords(fake_mol, positions_to_check=range(0, 5))):
+		self.assertTrue(len(get_unique_coords(
+			mol_graph, 1, map(lambda x: [x], xrange(mol_graph.number_of_nodes())))) == 4)
+		self.assertTrue(len(get_unique_coords(
+			mol_graph, 2, map(lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()), mol_rdkit.GetBonds()))) == 3)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(0, 5)))) == 3)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(1, 6)))) == 4)
+		for val, ind in zip(range(3), get_unique_coords(mol_graph, 1, map(lambda x: [x], range(0, 5)))):
 			self.assertEqual(val, ind[0])
-		for val, ind in zip([1, 2, 4, 5], get_unique_coords(fake_mol, positions_to_check=range(1, 6))):
+		for val, ind in zip([1, 2, 4, 5], get_unique_coords(mol_graph, 1, map(lambda x: [x], range(1, 6)))):
 			self.assertEqual(val, ind[0])
 
-		# non-ring
+		# # non-ring
 		mol_rdkit = Chem.MolFromSmiles('CC(N)C')
 		mol_graph = rdkitmol2graph(mol_rdkit)
-		fake_mol = FakeMolecule(mol_rdkit, mol_graph)
-		self.assertTrue(len(get_unique_coords(fake_mol)) == 3)
-		self.assertTrue(len(get_unique_coords(fake_mol, num_points=2)) == 0)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=range(0, 3))) == 3)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=range(1, 4))) == 3)
-		self.assertTrue(len(get_unique_coords(fake_mol, positions_to_check=[0, 1, 4])) == 2)
-		for val, ind in zip(range(3), get_unique_coords(fake_mol, positions_to_check=range(3))):
+		self.assertTrue(len(get_unique_coords(
+			mol_graph, 1, map(lambda x: [x], xrange(mol_graph.number_of_nodes())))) == 3)
+		self.assertTrue(len(get_unique_coords(
+			mol_graph, 2, map(
+				lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()), 
+				filter(lambda x: x.IsInRing(), mol_rdkit.GetBonds())))) == 0)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(0, 3)))) == 3)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], range(1, 4)))) == 3)
+		self.assertTrue(len(get_unique_coords(mol_graph, 1, map(lambda x: [x], [0, 1, 3]))) == 2)
+		for val, ind in zip(range(3), get_unique_coords(mol_graph, 1, map(lambda x: [x], range(3)))):
 			self.assertEqual(val, ind[0])
-		for val, ind in zip(range(1, 4), get_unique_coords(fake_mol, positions_to_check=range(1, 4))):
+		for val, ind in zip(range(1, 4), get_unique_coords(mol_graph, 1, map(lambda x: [x], range(1, 4)))):
 			self.assertEqual(val, ind[0])
-		for val, ind in zip([0, 1], get_unique_coords(fake_mol, positions_to_check=[0, 1, 4])):
+		for val, ind in zip([0, 1], get_unique_coords(mol_graph, 1, map(lambda x: [x], [0, 1, 3]))):
 			self.assertEqual(val, ind[0])
 
 	def test_3_unique_mols(self):
 		mols_smiles = ['c1ccccc1', 'C1=CC=CC=C1', 'C1CCNCC1', 'C1NCCCC1', 'CC(N)C', 'NC(C)C']
-		mols = []
-		for s in mols_smiles:
-			mol_rdkit = Chem.MolFromSmiles(s)
-			mol_graph = rdkitmol2graph(mol_rdkit)
-			mols.append(FakeModifier(mol=FakeMolecule(mol_rdkit, mol_graph)))
+		mols = map(rdkitmol2graph, map(Chem.MolFromSmiles, mols_smiles))
 		self.assertTrue(len(get_unique_mols(mols)) == 3)
 		mols_smiles = ['N1CCCCC1', 'C1NCCCC1', 'C1CNCCC1', 'C1CCNCC1', 'C1CCCNC1', 'C1CCCCN1']
-		mols = []
-		for s in mols_smiles:
-			mol_rdkit = Chem.MolFromSmiles(s)
-			mol_graph = rdkitmol2graph(mol_rdkit)
-			mols.append(FakeModifier(mol=FakeMolecule(mol_rdkit, mol_graph)))
+		mols = map(rdkitmol2graph, map(Chem.MolFromSmiles, mols_smiles))
 		self.assertTrue(len(get_unique_mols(mols)) == 1)
 
 

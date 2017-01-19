@@ -4,7 +4,7 @@ import tempfile
 from random import sample
 
 from gws.src import CombinationsClient
-from gws.src.core import get_unique_mols, Modifier
+from gws.src.core import get_unique_mols, MoleculeHandler
 from gws.src.io import IOUtils
 
 from utils import ClientBaseTestCase
@@ -66,31 +66,15 @@ class ClientsCombinationsTests(ClientBaseTestCase):
 		if linkers_fn:
 			self.files_to_remove.append(linkers_fn)
 		client.process()
-		# return self._all_unique(client._config)
-
-		status = self._all_unique(client._config)
-		if not status:
-			print('\n')
-			print('molecules')
-			print(_molecules)
-			if _addons:
-				print('addons')
-				print(_addons)
-			if _linkers:
-				print('linkers')
-				print(_linkers)
-			print(one_point)
-			print(two_point)
-			print('\n')
-		return status
+		return self._all_unique(client._config)
 
 	def _all_unique(self, run_config):
 		status = True
 		path = run_config.output.path
 
 		for fn in map(lambda x: path + os.sep + x, filter(lambda x: x.endswith('smi'), os.listdir(path))):
-			modifiers = [Modifier(s) for s in IOUtils.read_smi(fn)]
-			status = status and len(modifiers) == len(get_unique_mols(modifiers))
+			handlers = map(MoleculeHandler, IOUtils.read_smi(fn))
+			status = status and len(handlers) == len(get_unique_mols(map(lambda x: x.mol.graph, handlers)))
 
 		return status
 

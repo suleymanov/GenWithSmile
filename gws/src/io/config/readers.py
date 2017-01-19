@@ -10,13 +10,15 @@ from reader_tools import ReaderTools
 
 OneCoreSettings = namedtuple(
 	'OneCoreSettings', 
-	['core', 'iterations', 'output', 'numthreads'])
+	['core', 'iterations', 'output', 'filters', 'numthreads'])
 SourceTargetSettings = namedtuple(
 	'SourceTargetSettings', 
-	['source', 'target', 'iterations', 'output', 'numthreads'])
+	['source', 'target', 'iterations', 'output', 'filters', 'numthreads'])
 CombinationsSettings = namedtuple(
 	'CombinationsSettings',
-	['molecules', 'addons', 'linkers', 'attach', 'merge', 'output', 'numthreads', 'samelist', 'config_dict'])
+	[
+		'molecules', 'addons', 'linkers', 'attach', 'merge', 'output', 'filters', 'numthreads', 
+		'samelist', 'config_dict'])
 
 
 class OneCoreConfigReader(object):
@@ -43,6 +45,7 @@ class OneCoreConfigReader(object):
 			core=ReaderTools.read_molecule(config_dict['core']),
 			iterations=map(ReaderTools.read_iteration, config_dict['iterations']),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
+			filters=ReaderTools.read_smarts_settings(config_dict.get('smarts', {})),
 			numthreads=config_dict.get('numthreads', 1)
 		)
 
@@ -80,6 +83,7 @@ class SourceTargetConfigReader(object):
 			target=ReaderTools.read_molecule(config_dict['target']),
 			iterations=map(ReaderTools.read_iteration, config_dict['iterations']),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
+			filters=ReaderTools.read_smarts_settings(config_dict.get('smarts', {})),
 			numthreads=config_dict.get('numthreads', 1)
 		)
 
@@ -126,6 +130,7 @@ class CombinationsConfigReader(object):
 			attach=ReaderTools.read_modification(config_dict.get('attach', {})),
 			merge=ReaderTools.read_modification(config_dict.get('merge', {})),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
+			filters=ReaderTools.read_smarts_settings(config_dict.get('smarts', {})),
 			numthreads=config_dict.get('numthreads', 1),
 			samelist=mols_file_name==adds_file_name,
 			config_dict=config_dict

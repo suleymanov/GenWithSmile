@@ -1,0 +1,14 @@
+{
+	"source": {"smiles": "C1CC1"},
+	"target": {"smiles": "C1CC1"},
+	"iterations": [
+		{
+			"merge": {"one_point": false, "two_point": true, "addons": [{"smiles": "C1CCCC1"}]}
+		}
+	],
+	"smarts": {
+		"include": ["CC"],
+		"exclude": ["C1CC1"]
+	},
+	"output": {"path": "gws/tests/demos/source_target/results", "alias": "source_target_test_12"}
+}

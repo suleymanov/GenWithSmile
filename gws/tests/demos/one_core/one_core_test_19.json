@@ -1,0 +1,15 @@
+{
+    "core": {"smiles": "C1CC1"}, 
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "N"}]}, 
+            "merge": {"addons": [{"smiles": "O"}]},
+            "max": 2
+        }
+    ],
+    "smarts": {
+        "exclude": ["CN", "C=N"],
+        "include": ["CC"]
+    },
+    "output": {"path": "gws/tests/demos/one_core/results", "alias": "one_core_test_19"}
+}

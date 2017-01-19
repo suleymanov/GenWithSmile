@@ -1,0 +1,10 @@
+{
+ 	"molecules": "gws/tests/resources/rings.json",
+ 	"addons": "gws/tests/resources/groups.json",
+ 	"attach": {"two_point": true},
+ 	"merge": {"two_point": true},
+ 	"smarts": {
+ 		"include": ["CC"]
+ 	},
+ 	"output": {"path": "gws/tests/demos/combinations/results_7"}
+}

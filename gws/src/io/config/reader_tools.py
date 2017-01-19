@@ -5,6 +5,7 @@ from collections import namedtuple
 MoleculeSettings = namedtuple('MoleculeSettings', ['smiles', 'atoms', 'attach_pos', 'merge_pos'])
 ModificationSettings = namedtuple('ModificationSettings', ['addons', 'one_point', 'two_point'])
 IterationSettings = namedtuple('IterationSettings', ['attach', 'merge', 'max'])
+SmartsSettings = namedtuple('SmartsSettings', ['include', 'exclude'])
 OutputSettings = namedtuple('OutputSettings', ['path', 'alias', 'max'])
 
 
@@ -32,6 +33,13 @@ class ReaderTools(object):
 			attach=ReaderTools.read_modification(iter_dict.get('attach', {})),
 			merge=ReaderTools.read_modification(iter_dict.get('merge', {})),
 			max=iter_dict.get('max', 1)
+		)
+
+	@staticmethod
+	def read_smarts_settings(iter_dict):
+		return SmartsSettings(
+			include=iter_dict.get('include', []),
+			exclude=iter_dict.get('exclude', [])
 		)
 
 	@staticmethod
