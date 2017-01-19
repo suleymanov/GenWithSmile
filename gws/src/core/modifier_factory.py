@@ -78,6 +78,7 @@ class ModifierFactory(object):
 				except StandardError as e:
 					print(e.message)
 				else:
+					atoms_inds_map.pop(att_pos)
 					results.append(host_modifier.create_new_modifier(
 						result_mol, addon_modifier, atoms_inds_map, rm_attach_pos=host_coord))
 		return results
@@ -147,6 +148,7 @@ class ModifierFactory(object):
 			except StandardError as e:
 				print(e.message)
 			else:
+				atoms_inds_map.pop(ins_pos)
 				results.append(host_modifier.create_new_modifier(
 					result_mol, addon_modifier, atoms_inds_map, rm_merge_pos=host_coord))
 		return results

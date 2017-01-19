@@ -2,14 +2,15 @@
 Module with algorithmic utilities.
 """
 
-import timeit
-
 import numpy as np
 
 import networkx as nx
 import networkx.algorithms.isomorphism as iso
 
 from contextlib import contextmanager
+
+# from sklearn import metrics
+# from eden.graph import Vectorizer
 
 
 def is_isomorph(graph1, graph2):
@@ -26,6 +27,29 @@ def is_isomorph(graph1, graph2):
     return False
 
 
+# def is_isomorph_gk(graph1_kernel_vect, graph2_kernel_vect, gk_params=gk_def):
+#     """
+#     Check if graphs are isomorphic using graph kernels.
+#     :param graph1_kernel_vect: np.ndarray
+#     :param graph2_kernel_vect: np.ndarray
+#     :return: bool
+#     """
+#     k = metrics.pairwise.pairwise_kernels(graph1_kernel_vect, graph2_kernel_vect, metric='cosine')
+#     return len(np.where(k[:, 0] > gk_params['p'])[0]) >= 1
+
+
+# def vectorize_mol_graphs(mol_graphs_list, gk_params=gk_def):
+#     vectorizer = Vectorizer(
+#         complexity=gk_params['complexity'],
+#         r=gk_params['r'],
+#         d=gk_params['d'],
+#         min_r=gk_params['min_r'],
+#         min_d=gk_params['min_d'],
+#         nbits=gk_params['nbits']
+#     )
+#     return vectorizer.transform(mol_graphs_list)
+
+
 def rdkitmol2graph(mol):
     """
     Converts molecule to graph.
@@ -35,9 +59,8 @@ def rdkitmol2graph(mol):
     mol_atoms = mol.GetAtoms()
     rings = mol.GetRingInfo()
     num_rings = len(rings.BondRings())
-    # charges = np.array([atom.GetFormalCharge() for atom in mol_atoms] + [0] * num_rings)
-    # atoms = np.array([atom.GetSymbol() for atom in mol_atoms] + ['R'] * num_rings)
-    atoms = np.array([atom.GetSymbol() for atom in mol_atoms])
+    charges = np.array([atom.GetFormalCharge() for atom in mol_atoms] + [0] * num_rings)
+    atoms = np.array([atom.GetSymbol() for atom in mol_atoms] + ['R'] * num_rings)
     bonds = np.array([[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx(), int(bond.GetBondType())]
         for bond in mol.GetBonds()])
     num_vertex = mol.GetNumAtoms()
@@ -47,10 +70,8 @@ def rdkitmol2graph(mol):
         gr[bonds[i, 1], bonds[i, 0]] = bonds[i, 2]
     graph = nx.Graph()
     for i, symbol in enumerate(atoms):
-        # graph.add_node(i, label=symbol, entity=charges[i])
-        graph.add_node(i, label=symbol)
-    # edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||', 13: 'RING'}
-    edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||'}
+        graph.add_node(i, label=symbol, entity=charges[i])
+    edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||', 13: 'RING'}
     for i in xrange(len(atoms)):
         for j in xrange(i + 1, len(atoms)):
             edge_type = gr[i, j]
@@ -90,6 +111,7 @@ def get_unique_coords(molecule, num_points=1, positions_to_check=None):
     return map(lambda ind: input_positions[ind], non_iso_inds)
 
 
+# def get_unique_mols(mol_list, use_gk=True):
 def get_unique_mols(mol_list):
     """
     Get all unique (non-isomorphic) molecules from list.
@@ -100,13 +122,25 @@ def get_unique_mols(mol_list):
         return []
     unique_inds = [0]
     mol_graphs = map(lambda x: x.mol.graph, mol_list)
-    start_time = timeit.default_timer()
+    
     for i, mol_graph in enumerate(mol_graphs[1:]):
         if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
             continue
         unique_inds.append(i + 1)
-    print('\t\tget_unique_mols time: {}'.format(timeit.default_timer() - start_time))
     return map(lambda ind: mol_list[ind], unique_inds)
+
+    # if use_gk:
+    #     vectorized_graphs = vectorize_mol_graphs(mol_graphs)
+    #     for i, vectorized_mol in enumerate(vectorized_graphs[1:]):
+    #         if any(is_isomorph_gk(vectorized_mol, vectorized_graphs[ind]) for ind in unique_inds):
+    #             continue
+    #         unique_inds.append(i + 1)
+    # else:
+    #     for i, mol_graph in enumerate(mol_graphs[1:]):
+    #         if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
+    #             continue
+    #         unique_inds.append(i + 1)
+    # return map(lambda ind: mol_list[ind], unique_inds)
 
 
 def get_nonisomorphic_positions(graph, positions):

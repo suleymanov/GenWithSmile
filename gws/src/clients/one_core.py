@@ -5,6 +5,7 @@ Module for one core molecule modification.
 import os
 from multiprocessing import Pool
 from datetime import datetime
+import timeit
 
 from gws.src.io import read_one_core_config as read_config
 from gws.src.io import write_config
@@ -26,16 +27,24 @@ class OneCoreClient(object):
 
 	def process(self):
 		for it_num, it in enumerate(self._config.iterations):
+			print('Start iteration #{}'.format(it_num + 1))
+			start_time = timeit.default_timer()
 			self._perform_iteration(it)
+			print('Iteration #{} time: {}'.format(it_num + 1, timeit.default_timer() - start_time))
 			self._update_results(it_num)
 
 	def _perform_iteration(self, iteration):
 		iter_modifiers = self._modifiers[::]
-		for _ in xrange(iteration.max):
+		print('\tStart repeats')
+		# for _ in xrange(iteration.max):
+		for i in xrange(iteration.max):
+			print('\tStart repeat #{}'.format(i + 1))
 			modifiers = iter_modifiers[::]
 			results = []
 			pack_i = lambda i: (i, modifiers, iteration)
 
+			print('\tStart generation: {} initial modifiers.'.format(len(modifiers)))
+			start_time = timeit.default_timer()
 			for i_start in xrange(0, len(modifiers), self._config.numthreads):
 				pool = Pool(processes=self._config.numthreads)
 				pool_results = pool.map(
@@ -44,12 +53,18 @@ class OneCoreClient(object):
 				pool.join()
 				results.extend(reduce(
 					lambda res, item: res + item, filter(lambda x: x, pool_results), []))
+			print('\tGeneration time: {}.'.format(timeit.default_timer() - start_time))
+			print('\t{} structures generated.'.format(len(results)))
 
+			print('\tStarted filtering results.')
+			start_time = timeit.default_timer()
 			results = get_unique_mols(results)
+			print('\tFiltering time: {}.'.format(timeit.default_timer() - start_time))
+			print('\t{} unique structures.'.format(len(results)))
 			iter_modifiers = results[::]
 			self._iter_results.extend(results)
 
-		self._iter_results = get_unique_mols(self._iter_results)
+		# self._iter_results = get_unique_mols(self._iter_results)
 		self._modifiers = self._iter_results[::]
 		for host in self._modifiers:
 			host.update_positions()
