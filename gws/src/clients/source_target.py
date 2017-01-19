@@ -8,16 +8,17 @@ from datetime import datetime
 
 from gws.src.io import read_source_target_config as read_config
 from gws.src.io import write_config
-from gws.src.core import Modifier, get_unique_mols
+from gws.src.core import MoleculeHandler
+from gws.src.core import get_unique_mols
 
 
 class SourceTargetClient(object):
 	def __init__(self, config):
 		self._config = config
-		self._modifiers = [Modifier(
+		self._handlers = [MoleculeHandler(
 			mol_smiles=self._config.source.smiles, atoms=self._config.source.atoms,
 			attach_pos=self._config.source.attach_pos, merge_pos=self._config.source.merge_pos)]
-		self._target_modifier = Modifier(
+		self._target_handler = MoleculeHandler(
 			mol_smiles=self._config.target.smiles, atoms=self._config.target.atoms,
 			attach_pos=self._config.target.attach_pos, merge_pos=self._config.target.merge_pos)
 		self._iter_results = []
@@ -33,11 +34,11 @@ class SourceTargetClient(object):
 			self._update_results(it_num)
 
 	def _perform_iteration(self, iteration):
-		iter_modifiers = self._modifiers[::]
+		iter_handlers = self._handlers[::]
 		src_w_linkers = []
-		pack_i = lambda i: (i, iter_modifiers, iteration)
+		pack_i = lambda i: (i, iter_handlers, iteration)
 
-		for i_start in xrange(0, len(iter_modifiers), self._config.numthreads):
+		for i_start in xrange(0, len(iter_handlers), self._config.numthreads):
 			pool = Pool(processes=self._config.numthreads)
 			pool_results = pool.map(
 				_add_linkers, map(pack_i, xrange(i_start, i_start + self._config.numthreads)))
@@ -46,11 +47,11 @@ class SourceTargetClient(object):
 			src_w_linkers.extend(reduce(
 				lambda res, item: res + item, filter(lambda x: x, pool_results), []))
 
-		for modifier in src_w_linkers:
-			modifier.update_positions()
+		for handler in src_w_linkers:
+			handler.update_modifiers_positions()
 
-		pack_i = lambda i: (i, src_w_linkers, iteration, self._target_modifier)
-		self._modifiers = []
+		pack_i = lambda i: (i, src_w_linkers, iteration, self._target_handler)
+		self._handlers = []
 
 		for i_start in xrange(0, len(src_w_linkers), self._config.numthreads):
 			pool = Pool(processes=self._config.numthreads)
@@ -62,10 +63,10 @@ class SourceTargetClient(object):
 				lambda res, item: res + item, filter(lambda x: x, pool_results), []))
 			for i in xrange(i_start, i_start + self._config.numthreads):
 				if pool_results[i - i_start]:
-					self._modifiers.append(src_w_linkers[i])
+					self._handlers.append(src_w_linkers[i])
 
-		self._iter_results = get_unique_mols(self._iter_results)
-		self._modifiers = get_unique_mols(self._modifiers)
+		self._iter_results = SourceTargetClient._filter_non_unique(self._iter_results)
+		self._handlers = SourceTargetClient._filter_non_unique(self._handlers)
 
 	def _update_results(self, it_num):
 		max_entries = self._config.output.max
@@ -75,7 +76,7 @@ class SourceTargetClient(object):
 				self._dt_str, it_num + 1, i + 1)
 			with open(fn, 'w') as f:
 				f.write('\n'.join(map(
-					lambda modifier: modifier.get_smiles(),
+					lambda handler: handler.mol.smiles,
 					self._iter_results[i*max_entries:(i+1)*max_entries])) + '\n')
 		self._iter_results = []
 
@@ -83,42 +84,45 @@ class SourceTargetClient(object):
 	def from_file(fn):
 		return SourceTargetClient(read_config(fn))
 
+	@staticmethod
+	def _filter_non_unique(handlers):
+		return map(lambda ind: handlers[ind], get_unique_mols(map(lambda x: x.mol.graph, handlers)))
+
 
 def _add_linkers(params):
 	i = params[0]
-	modifiers = params[1]
+	handlers = params[1]
 	iteration = params[2]
 
-	if i >= len(modifiers):
+	if i >= len(handlers):
 		return
 
-	modifier = modifiers[i]
-	results = []
-	for addon in iteration.attach.addons:
-		addon_modifier = Modifier(
-			mol_smiles=addon.smiles, atoms=addon.atoms,
-			attach_pos=addon.attach_pos, merge_pos=addon.merge_pos)
-		results.extend(modifier.attach(
-			addon_modifier, iteration.attach.one_point, iteration.attach.two_point))
-	for addon in iteration.merge.addons:
-		addon_modifier = Modifier(
-			mol_smiles=addon.smiles, atoms=addon.atoms,
-			attach_pos=addon.attach_pos, merge_pos=addon.merge_pos)
-		results.extend(modifier.merge(
-			addon_modifier, iteration.merge.one_point, iteration.merge.two_point))
-	return results
+	handler = handlers[i]
+	return (
+		reduce(
+			lambda res, x: res + handler.attach(
+				MoleculeHandler(
+					mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
+				iteration.attach.one_point, iteration.attach.two_point),
+			iteration.attach.addons, []) +
+		reduce(
+			lambda res, x: res + handler.merge(
+				MoleculeHandler(
+					mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
+				iteration.attach.one_point, iteration.attach.two_point),
+			iteration.merge.addons, []))
 
 
 def _extend(params):
 	i = params[0]
-	modifiers = params[1]
+	handlers = params[1]
 	iteration = params[2]
-	target_modifier = params[3]
+	target_handler = params[3]
 
-	if i >= len(modifiers):
+	if i >= len(handlers):
 		return
 
-	modifier = modifiers[i]
+	handler = handlers[i]
 	return (
-		modifier.attach(target_modifier, iteration.attach.one_point, iteration.attach.two_point) +
-		modifier.merge(target_modifier, iteration.merge.one_point, iteration.merge.two_point))
+		handler.attach(target_handler, iteration.attach.one_point, iteration.attach.two_point) +
+		handler.merge(target_handler, iteration.merge.one_point, iteration.merge.two_point))

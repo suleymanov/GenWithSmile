@@ -2,17 +2,16 @@
 Module with algorithmic utilities.
 """
 
-import numpy as np
+from contextlib import contextmanager
 
+import numpy as np
 import networkx as nx
 import networkx.algorithms.isomorphism as iso
-
-from contextlib import contextmanager
 
 
 def is_isomorph(graph1, graph2):
     """
-    Check if graphs are isomorphic.
+    Check if molecular graphs are isomorphic.
     :param graph1: nx.Graph
     :param graph2: nx.Graph
     return: bool
@@ -26,26 +25,22 @@ def is_isomorph(graph1, graph2):
 
 def rdkitmol2graph(mol):
     """
-    Converts molecule to graph.
+    Converts rdkit molecule to graph.
     :param mol: rdkit.Chem.rdchem.Mol
     :return: nx.Graph
     """
-    mol_atoms = mol.GetAtoms()
-    rings = mol.GetRingInfo()
-    num_rings = len(rings.BondRings())
-    charges = np.array([atom.GetFormalCharge() for atom in mol_atoms] + [0] * num_rings)
-    atoms = np.array([atom.GetSymbol() for atom in mol_atoms] + ['R'] * num_rings)
-    bonds = np.array([[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx(), int(bond.GetBondType())]
-        for bond in mol.GetBonds()])
-    num_vertex = mol.GetNumAtoms()
-    gr = np.zeros((num_vertex + num_rings, num_vertex + num_rings), dtype=int)
+    atoms = np.array(map(lambda x: x.GetSymbol(), mol.GetAtoms()))
+    bonds = np.array(map(lambda x: [x.GetBeginAtomIdx(), x.GetEndAtomIdx(), int(x.GetBondType())], 
+        mol.GetBonds()))
+    num_vertex = len(atoms)
+    gr = np.zeros((num_vertex, num_vertex), dtype=int)
     for i in xrange(len(bonds)):
         gr[bonds[i, 0], bonds[i, 1]] = bonds[i, 2]
         gr[bonds[i, 1], bonds[i, 0]] = bonds[i, 2]
     graph = nx.Graph()
     for i, symbol in enumerate(atoms):
-        graph.add_node(i, label=symbol, entity=charges[i])
-    edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||', 13: 'RING'}
+        graph.add_node(i, label=symbol)
+    edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||'}
     for i in xrange(len(atoms)):
         for j in xrange(i + 1, len(atoms)):
             edge_type = gr[i, j]
@@ -55,59 +50,44 @@ def rdkitmol2graph(mol):
     return graph
 
 
-def get_unique_coords(molecule, num_points=1, positions_to_check=None):
+def get_unique_coords(mol_graph, num_points, positions):
     """
     Get positions which would provide unique modification result.
-    :param molecule: modifier.Molecule
-    :param num_point: int
-    :param use_positions: list of int
+    (TODO: don't forget that coordinates should be provided explicitly.)
+    :param mol_graph: nx.Graph
+    :param num_points: int
+    :param positions: list of list of int
     :return: list of list of int
     """
-    mol_rdkit = molecule.rdkit
-    mol_graph = molecule.graph
-    if mol_graph is None or mol_rdkit is None:
+    assert num_points == 1 or num_points == 2, \
+        'Three and more point modifications await their implementation.'
+    assert all(map(lambda x: len(x) == num_points, positions))
+
+    if mol_graph is None:
         raise ValueError('Cannot get unique indices of None.')
-    if mol_rdkit.GetNumAtoms() == 1:
-        if num_points == 1:
-            return [[0]]
-    if num_points == 1:
-        positions = map(lambda pos: [pos], list(xrange(mol_rdkit.GetNumAtoms())))
-    elif num_points == 2:
-        positions = map(
-            lambda b: (b.GetBeginAtomIdx(), b.GetEndAtomIdx()),
-            filter(lambda b: b.IsInRing(), mol_rdkit.GetBonds()))
-    else:
-        raise ValueError('Three and more point modifications await their implementation.')
-    input_positions = (
-        filter(lambda coord: all(x in positions_to_check for x in coord), positions)
-        if positions_to_check else positions)
-    non_iso_inds = get_nonisomorphic_positions(mol_graph, input_positions)
-    return map(lambda ind: input_positions[ind], non_iso_inds)
+    non_iso_inds = _get_nonisomorphic_positions(mol_graph, positions)
+    return map(lambda ind: positions[ind], non_iso_inds)
 
 
-def get_unique_mols(mol_list):
+def get_unique_mols(mol_graphs):
     """
-    Get all unique (non-isomorphic) molecules from list.
-    :param mol_list: list of modifier.Molecule
-    :return: list of modifier.Molecule
+    Get indices of unique (non-isomorphic) molecular graphs from list.
+    :param mol_graphs: list of nx.Graph
+    :return: list of int
     """
-    if not mol_list:
+    if len(mol_graphs) == 0:
         return []
     unique_inds = [0]
-    mol_graphs = map(lambda x: x.mol.graph, mol_list)
+    if len(mol_graphs) == 1:
+        return unique_inds
     for i, mol_graph in enumerate(mol_graphs[1:]):
         if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
             continue
         unique_inds.append(i + 1)
-    return map(lambda ind: mol_list[ind], unique_inds)
+    return unique_inds
 
 
-def get_nonisomorphic_positions(graph, positions):
-    """
-    :param graph: nx.Graph
-    :param positions: list of list of int
-    :return: list of int
-    """
+def _get_nonisomorphic_positions(graph, positions):
     def _get_graph_combinations():
     	graph1, graph2 = graph, graph.copy()
     	for i in xrange(len(positions) - 1):

@@ -9,22 +9,23 @@ from datetime import datetime
 
 from gws.src.io import read_combinations_config as read_config
 from gws.src.io import write_config
-from gws.src.core import Modifier, get_unique_mols
+from gws.src.core import MoleculeHandler
+from gws.src.core import get_unique_mols
 
 
 class CombinationsClient(object):
 	def __init__(self, config):
 		self._config = config
-		self._mol_modifiers = map(
-			lambda x: Modifier(
+		self._mol_handlers = map(
+			lambda x: MoleculeHandler(
 				mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
 			self._config.molecules)
-		self._addon_modifiers = map(
-			lambda x: Modifier(
+		self._addon_handlers = map(
+			lambda x: MoleculeHandler(
 				mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
 			self._config.addons)
-		self._linker_modifiers = map(
-			lambda x: Modifier(
+		self._linker_handlers = map(
+			lambda x: MoleculeHandler(
 				mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
 			self._config.linkers)
 		dt = datetime.now()
@@ -35,10 +36,10 @@ class CombinationsClient(object):
 
 	def process(self):
 		pack_i = lambda i: (
-			i, self._mol_modifiers, self._addon_modifiers, self._linker_modifiers, self._config,
+			i, self._mol_handlers, self._addon_handlers, self._linker_handlers, self._config,
 			self._dt_str)
 
-		for i_start in xrange(0, len(self._mol_modifiers), self._config.numthreads):
+		for i_start in xrange(0, len(self._mol_handlers), self._config.numthreads):
 			pool = Pool(processes=self._config.numthreads)
 			pool.map(_process, map(pack_i, xrange(i_start, i_start + self._config.numthreads)))
 			pool.close()
@@ -67,35 +68,39 @@ class CombinationsClient(object):
 
 def _process(params):
 	i = params[0]
-	mol_modifiers = params[1]
-	addon_modifiers = params[2]
-	linker_modifiers = params[3]
+	mol_handlers = params[1]
+	addon_handlers = params[2]
+	linker_handlers = params[3]
 	config = params[4]
 	dt_str = params[5]
 	shift = i if config.samelist else 0
-	addon_modifiers = addon_modifiers[shift:]
+	addon_handlers = addon_handlers[shift:]
 
-	if i >= len(mol_modifiers):
+	if i >= len(mol_handlers):
 		return
 
-	modifiers = [mol_modifiers[i]]
-	if linker_modifiers:
-		modifier = modifiers.pop()
-		for linker_modifier in linker_modifiers:
-			modifiers.extend(
-				modifier.attach(linker_modifier, config.attach.one_point, config.attach.two_point) +
-				modifier.merge(linker_modifier, config.merge.one_point, config.merge.two_point))
-		for modifier in modifiers:
-			modifier.update_positions()
-	for j in xrange(len(addon_modifiers)):
-		addon_modifier = addon_modifiers[j]
+	handlers = [mol_handlers[i]]
+	if linker_handlers:
+		modifier = handlers.pop()
+		for linker_handler in linker_handlers:
+			handlers.extend(
+				modifier.attach(linker_handler, config.attach.one_point, config.attach.two_point) +
+				modifier.merge(linker_handler, config.merge.one_point, config.merge.two_point))
+		for handler in handlers:
+			modifier.update_modifiers_positions()
+	for j in xrange(len(addon_handlers)):
+		addon_handler = addon_handlers[j]
 		results = []
-		for modifier in modifiers:
+		for modifier in handlers:
 			results.extend(
-				modifier.attach(addon_modifier, config.attach.one_point, config.attach.two_point) +
-				modifier.merge(addon_modifier, config.merge.one_point, config.merge.two_point))
+				modifier.attach(addon_handler, config.attach.one_point, config.attach.two_point) +
+				modifier.merge(addon_handler, config.merge.one_point, config.merge.two_point))
 			if len(results) > 0:
-				_update_results(get_unique_mols(results), i, j + shift, config.output, dt_str)
+				_update_results(_filter_non_unique(results), i, j + shift, config.output, dt_str)
+
+
+def _filter_non_unique(handlers):
+	return map(lambda ind: handlers[ind], get_unique_mols(map(lambda x: x.mol.graph, handlers)))
 
 
 def _update_results(results, i, j, output, dt_str):
@@ -105,5 +110,5 @@ def _update_results(results, i, j, output, dt_str):
 			output.path, os.sep, output.alias, dt_str, i, j, ind + 1)
 		with open(fn, 'w') as f:
 			f.write('\n'.join(map(
-				lambda mol: mol.get_smiles(),
+				lambda x: x.mol.smiles,
 				results[ind*max_entries:(ind+1)*max_entries])) + '\n')

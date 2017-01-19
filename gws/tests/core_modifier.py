@@ -1,83 +1,482 @@
+# Tests for gws.src.core.modifier module
+
 import unittest
-from collections import namedtuple
 
 from rdkit import Chem
 
-from gws.src.core.algs import (
-	is_isomorph,
-	get_unique_coords,
-	get_unique_mols,
-	rdkitmol2graph,
-	get_nonisomorphic_positions
-)
-from gws.src.core.modifier import Modifier
-
-FakeMolecule = namedtuple('FakeMolecule', ['rdkit', 'graph'])
-FakeModifier = namedtuple('FakeModifier', ['mol'])
+from gws.src.core.algs import rdkitmol2graph
+from gws.src.core.modifier import Attacher, Merger
 
 
-class CoreModifierTests(unittest.TestCase):
-	def test_1_modifier_ctor(self):
+class CoreModifierAttacherTests(unittest.TestCase):
+	def setUp(self):
+		self.modifier = Attacher
+
+	def test_ctor_1(self):
+		"""
+		Check that class ctor succeeds/fails when appropriate (benzene as input).
+		Case 1: should fail if there are no inputs to the ctor.
+		Case 2-5: should not fail; check that:
+			- available positions were initialized appropriately
+			- no 1/2-point orbits were initialized yet.
+		"""
 		with self.assertRaises(StandardError):
-			Modifier()
+			self.modifier()
+
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		self.assertTrue(len(modifier.pos) == 6)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['C'])
+		self.assertTrue(len(modifier.pos) == 6)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['N'])
+		self.assertTrue(len(modifier.pos) == 0)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, positions=[0, 2, 4])
+		self.assertTrue(len(modifier.pos) == 3)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+	def test_ctor_2(self):
+		"""
+		Check that class ctor succeeds/fails when appropriate (piperazine as input).
+		Case 1-4: should not fail; check that:
+			- available positions were initialized appropriately
+			- no 1/2-point orbits were initialized yet.
+		"""
+		mol_smiles = 'N1CCNCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		self.assertTrue(len(modifier.pos) == 6)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['C'])
+		self.assertTrue(len(modifier.pos) == 4)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['N'])
+		self.assertTrue(len(modifier.pos) == 2)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, positions=[0, 2, 4])
+		self.assertTrue(len(modifier.pos) == 3)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+	def test_ctor_3(self):
+		"""
+		Check that class ctor succeeds/fails when appropriate (chloromethanediamine as input).
+		Case 1-4: should not fail; check that: 
+			- available positions were initialized appropriately
+			- no 1/2-point orbits were initialized yet.
+		"""
+		mol_smiles = 'NC(N)Cl'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
 		
-		Modifier(mol_smiles='c1ccccc1')
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		self.assertTrue(len(modifier.pos) == 4)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['C'])
+		self.assertTrue(len(modifier.pos) == 1)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['N'])
+		self.assertTrue(len(modifier.pos) == 2)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, positions=[0, 1, 2])
+		self.assertTrue(len(modifier.pos) == 3)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+	def test_correct_buddy_1(self):
+		"""
+		Check that modification succeeds when applied to the modification of the same type.
+		Case 1: attach cyclohexane to the attacher of another cyclohexane.
+		Case 2: attach cyclohexane to the attacher of benzene.
+		"""
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		modifier.combine(modifier)
+
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		other_modifier = self.modifier(mol_rdkit, mol_graph)
+		modifier.combine(other_modifier)
+
+	def test_incorrect_buddy_1(self):
+		"""
+		Check that modification fails when applied to the modification of another type.
+		Case 1: attach cyclohexane to the merger of another cyclohexane.
+		Case 2: attach benzene to the merger of another benzene.
+		"""
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+
+		wrong_modifier = Merger(mol_rdkit, mol_graph)
+		with self.assertRaises(StandardError):
+			modifier.combine(wrong_modifier)
+
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		wrong_modifier = Merger(mol_rdkit, mol_graph)
+		with self.assertRaises(StandardError):
+			modifier.combine(wrong_modifier)
+
+	def test_combine_1(self):
+		"""
+		Perform cyclohexane attach to another cyclohexane. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(modifier)
+		self.assertTrue(len(one_p_res) == 2)
+		self.assertTrue(len(modifier.one_point_coords) == 1)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 4)
+		self.assertTrue(len(modifier.two_point_coords) == 1)
+
+	def test_combine_2(self):
+		"""
+		Perform benzene attach to another benzene. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(modifier)
+		self.assertTrue(len(one_p_res) == 1)
+		self.assertTrue(len(modifier.one_point_coords) == 1)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 1)
+		self.assertTrue(len(modifier.two_point_coords) == 1)
+
+	def test_combine_3(self):
+		"""
+		Perform piperazine attach to another piperazine. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'N1CCNCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(modifier)
+		self.assertTrue(len(one_p_res) == 5)
+		self.assertTrue(len(modifier.one_point_coords) == 2)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 10)
+		self.assertTrue(len(modifier.two_point_coords) == 2)
+
+	def test_combine_4(self):
+		"""
+		Perform piperazine attach to cyclohexane. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'N1CCNCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		other_modifier = self.modifier(mol_rdkit, mol_graph)
+		other_modifier._init_coords(one_point=True)
+		one_p_res = modifier.combine(other_modifier)
+		self.assertTrue(len(one_p_res) == 3)
+		self.assertTrue(len(modifier.one_point_coords) == 2)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+		self.assertTrue(len(other_modifier.one_point_coords) == 1)
+		self.assertTrue(len(other_modifier.two_point_coords) == 0)
+
+		other_modifier._init_coords(two_point=True)
+		two_p_res = modifier.combine(other_modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 6)
+		self.assertTrue(len(modifier.two_point_coords) == 2)
+		self.assertTrue(len(other_modifier.two_point_coords) == 1)
+
+
+class CoreModifierMergerTests(unittest.TestCase):
+	def setUp(self):
+		self.modifier = Merger
+
+	def test_ctor_1(self):
+		"""
+		Check that class ctor succeeds/fails when appropriate (benzene as input).
+		Case 1: should fail if there are no inputs to the ctor.
+		Case 2-5: should not fail; check that:
+			- available positions were initialized appropriately
+			- no 1/2-point orbits were initialized yet.
+		"""
+		with self.assertRaises(StandardError):
+			self.modifier()
+
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		self.assertTrue(len(modifier.pos) == 6)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['C'])
+		self.assertTrue(len(modifier.pos) == 6)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['N'])
+		self.assertTrue(len(modifier.pos) == 0)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, positions=[0, 2, 4])
+		self.assertTrue(len(modifier.pos) == 3)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+	def test_ctor_2(self):
+		"""
+		Check that class ctor succeeds/fails when appropriate (piperazine as input).
+		Case 1-4: should not fail; check that:
+			- available positions were initialized appropriately
+			- no 1/2-point orbits were initialized yet.
+		"""
+		mol_smiles = 'N1CCNCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		self.assertTrue(len(modifier.pos) == 6)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['C'])
+		self.assertTrue(len(modifier.pos) == 4)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['N'])
+		self.assertTrue(len(modifier.pos) == 2)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
 		
-		modifier = Modifier(mol_rdkit=Chem.MolFromSmiles('c1ccccc1'))
-		self.assertTrue(len(modifier._attach_pos) == 6)
-		self.assertTrue(len(modifier._merge_pos) == 6)
-		self.assertTrue(len(modifier._next_attach_pos) == 0)
-		self.assertTrue(len(modifier._next_merge_pos) == 0)
+		modifier = self.modifier(mol_rdkit, mol_graph, positions=[0, 2, 4])
+		self.assertTrue(len(modifier.pos) == 3)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
 		
-		modifier = Modifier(mol_rdkit=Chem.MolFromSmiles('c1ccccc1'), atoms=['N'])
-		self.assertTrue(len(modifier._attach_pos) == 0)
-		self.assertTrue(len(modifier._merge_pos) == 0)
+	def test_ctor_3(self):
+		"""
+		Check that class ctor succeeds/fails when appropriate (chloromethanediamine as input).
+		Case 1-4: should not fail; check that:
+			- available positions were initialized appropriately
+			- no 1/2-point orbits were initialized yet.
+		"""
+		mol_smiles = 'NC(N)Cl'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		self.assertTrue(len(modifier.pos) == 4)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+		
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['C'])
+		self.assertTrue(len(modifier.pos) == 1)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+		
+		modifier = self.modifier(mol_rdkit, mol_graph, atoms=['N'])
+		self.assertTrue(len(modifier.pos) == 2)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+		
+		modifier = self.modifier(mol_rdkit, mol_graph, positions=[0, 1, 2])
+		self.assertTrue(len(modifier.pos) == 3)
+		self.assertTrue(len(modifier.next_pos) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 0)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
 
-		modifier = Modifier(mol_smiles='c1ccccc1', attach_pos=[0, 2, 4], merge_pos=[1, 3, 5])
-		self.assertTrue(len(modifier._attach_pos) == 3)
-		self.assertTrue(len(modifier._merge_pos) == 3)
-		self.assertTrue(all(x not in modifier._merge_pos for x in modifier._attach_pos))
+	def test_correct_buddy_1(self):
+		"""
+		Check that modification succeeds when applied to the modification of the same type.
+		Case 1: merge cyclohexane to the merger of another cyclohexane.
+		Case 2: merge cyclohexane to the merger of benzene.
+		"""
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		modifier.combine(modifier)
 
-	def test_2_modifier_create_coords(self):
-		modifier = Modifier(mol_smiles='c1ccccc1')
-		modifier.create_attach_coords(True, True)
-		modifier.create_merge_coords(True, True)
-		self.assertTrue(len(modifier.get_attach_coords(1)) == 1)
-		self.assertTrue(len(modifier.get_attach_coords(2)) == 1)
-		self.assertTrue(len(modifier.get_merge_coords(1)) == 1)
-		self.assertTrue(len(modifier.get_merge_coords(2)) == 1)
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		other_modifier = self.modifier(mol_rdkit, mol_graph)
+		modifier.combine(other_modifier)
 
-		modifier = Modifier(mol_smiles='c1ccncc1')
-		modifier.create_attach_coords(True, True)
-		modifier.create_merge_coords(True, True)
-		self.assertTrue(len(modifier.get_attach_coords(1)) == 4)
-		self.assertTrue(len(modifier.get_attach_coords(2)) == 3)
-		self.assertTrue(len(modifier.get_merge_coords(1)) == 4)
-		self.assertTrue(len(modifier.get_merge_coords(2)) == 3)
+	def test_incorrect_buddy_1(self):
+		"""
+		Check that modification fails when applied to the modification of another type.
+		Case 1: merge cyclohexane to the attacher of another cyclohexane.
+		Case 2: merge benzene to the attacher of another benzene.
+		"""
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
 
-		modifier = Modifier(mol_smiles='c1ccncc1', atoms=['C'])
-		modifier.create_attach_coords(True, True)
-		modifier.create_merge_coords(True, True)
-		self.assertTrue(len(modifier.get_attach_coords(1)) == 3)
-		self.assertTrue(len(modifier.get_attach_coords(2)) == 2)
-		self.assertTrue(len(modifier.get_merge_coords(1)) == 3)
-		self.assertTrue(len(modifier.get_merge_coords(2)) == 2)
+		wrong_modifier = Attacher(mol_rdkit, mol_graph)
+		with self.assertRaises(StandardError):
+			modifier.combine(wrong_modifier)
 
-	def test_3_attach(self):
-		host_modifier = Modifier(mol_smiles='c1ccccc1')
-		host_modifier.create_attach_coords(True, True)
-		self.assertTrue(len(host_modifier.attach(host_modifier, one_point=False, two_point=False)) == 0)
-		self.assertTrue(len(host_modifier.attach(host_modifier, one_point=True, two_point=False)) == 1)
-		self.assertTrue(len(host_modifier.attach(host_modifier, one_point=False, two_point=True)) == 1)
-		self.assertTrue(len(host_modifier.attach(host_modifier, one_point=True, two_point=True)) == 2)
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		wrong_modifier = Attacher(mol_rdkit, mol_graph)
+		with self.assertRaises(StandardError):
+			modifier.combine(wrong_modifier)
 
-	def test_4_merge(self):
-		host_modifier = Modifier(mol_smiles='C1CCCCC1')
-		host_modifier.create_merge_coords(True, True)
-		self.assertTrue(len(host_modifier.merge(host_modifier, one_point=False, two_point=False)) == 0)
-		self.assertTrue(len(host_modifier.merge(host_modifier, one_point=True, two_point=False)) == 1)
-		self.assertTrue(len(host_modifier.merge(host_modifier, one_point=False, two_point=True)) == 2)
-		self.assertTrue(len(host_modifier.merge(host_modifier, one_point=True, two_point=True)) == 3)
+	def test_combine_1(self):
+		"""
+		Perform cyclohexane merge to another cyclohexane. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(modifier)
+		self.assertTrue(len(one_p_res) == 1)
+		self.assertTrue(len(modifier.one_point_coords) == 1)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 2)
+		self.assertTrue(len(modifier.two_point_coords) == 1)
+
+	def test_combine_2(self):
+		"""
+		Perform benzene merge to another benzene. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'c1ccccc1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(modifier)
+		self.assertTrue(len(one_p_res) == 0)
+		self.assertTrue(len(modifier.one_point_coords) == 1)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 3)
+		self.assertTrue(len(modifier.two_point_coords) == 1)
+
+	def test_combine_3(self):
+		"""
+		Perform piperazine merge to another piperazine. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'N1CCNCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(modifier)
+		self.assertTrue(len(one_p_res) == 2)
+		self.assertTrue(len(modifier.one_point_coords) == 2)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 6)
+		self.assertTrue(len(modifier.two_point_coords) == 2)
+
+	def test_combine_4(self):
+		"""
+		Perform piperazine merge to cyclohexane. Check that:
+			- overall number of results is correct
+			- 1/2-point orbits are initialized correctly.
+		"""
+		mol_smiles = 'N1CCNCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		modifier = self.modifier(mol_rdkit, mol_graph)
+		mol_smiles = 'C1CCCCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		other_modifier = self.modifier(mol_rdkit, mol_graph)
+		one_p_res = modifier.combine(other_modifier)
+		self.assertTrue(len(one_p_res) == 2)
+		self.assertTrue(len(modifier.one_point_coords) == 2)
+		self.assertTrue(len(modifier.two_point_coords) == 0)
+		self.assertTrue(len(other_modifier.one_point_coords) == 1)
+		self.assertTrue(len(other_modifier.two_point_coords) == 0)
+
+		two_p_res = modifier.combine(other_modifier, one_point=False, two_point=True)
+		self.assertTrue(len(two_p_res) == 3)
+		self.assertTrue(len(modifier.two_point_coords) == 2)
+		self.assertTrue(len(other_modifier.two_point_coords) == 1)
 
 
 if __name__ == '__main__':

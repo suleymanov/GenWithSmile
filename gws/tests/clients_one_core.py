@@ -4,7 +4,7 @@ import tempfile
 from random import sample
 
 from gws.src import OneCoreClient
-from gws.src.core import get_unique_mols, Modifier
+from gws.src.core import get_unique_mols, MoleculeHandler
 from gws.src.io import IOUtils
 
 from utils import ClientBaseTestCase
@@ -93,8 +93,8 @@ class ClientsOneCoreTests(ClientBaseTestCase):
 			mols = reduce(
 				lambda res, item: res + IOUtils.read_smi(path + os.sep + item),
 				filter(lambda x: 'iter_{}'.format(i + 1) in x, os.listdir(path)), [])
-			modifiers = [Modifier(s) for s in mols]
-			status = status and len(modifiers) == len(get_unique_mols(modifiers))
+			handlers = map(MoleculeHandler, mols)
+			status = status and len(handlers) == len(get_unique_mols(map(lambda x: x.mol.graph, handlers)))
 
 		return status
 
