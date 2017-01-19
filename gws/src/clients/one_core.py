@@ -9,7 +9,8 @@ import timeit
 
 from gws.src.io import read_one_core_config as read_config
 from gws.src.io import write_config
-from gws.src.core import Modifier, get_unique_mols
+# from gws.src.core import Modifier, get_unique_mols
+from gws.src.core import Modifier, get_unique_mols_special
 
 
 class OneCoreClient(object):
@@ -58,8 +59,10 @@ class OneCoreClient(object):
 
 			print('\tStarted filtering results.')
 			start_time = timeit.default_timer()
-			results = get_unique_mols(results)
-			print('\tFiltering time: {}.'.format(timeit.default_timer() - start_time))
+			# results = get_unique_mols(results)
+			results = get_unique_mols_special(results)
+			end_time = timeit.default_timer() - start_time
+			print('\tFiltering time: {}.'.format(end_time))
 			print('\t{} unique structures.'.format(len(results)))
 			iter_modifiers = results[::]
 			self._iter_results.extend(results)

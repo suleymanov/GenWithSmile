@@ -104,23 +104,23 @@ class CoreAlgsTests(unittest.TestCase):
 	# 		mols.append(FakeModifier(mol=FakeMolecule(mol_rdkit, mol_graph)))
 	# 	self.assertTrue(len(get_unique_mols(mols)) == 1)
 
-	# def test_demo(self):
-	# 	# raise NotImplementedError()
+	def test_demo(self):
+		# raise NotImplementedError()
 
-	# 	mol_smiles = 'CCC1CC(CC)CCC1'
-	# 	mol_rdkit = Chem.MolFromSmiles(mol_smiles)
-	# 	mol_graph = rdkitmol2graph(mol_rdkit)
-	# 	# print('\n')
-	# 	# print(mol_graph.adj)
-	# 	# print('\n')
-	# 	vf = mol_graph.subgraph([0, 1, 3, 6, 7, 9])
-	# 	reduced = mol_graph.subgraph([2, 4, 5, 8])
-	# 	with open('test_demo.json', 'w') as f:
-	# 		f.write(dumps(mol_graph.adj, indent=4))
-	# 	with open('test_demo_subgraph.json', 'w') as f:
-	# 		f.write(dumps(vf.adj, indent=4))
-	# 	with open('test_demo_reduced.json', 'w') as f:
-	# 		f.write(dumps(reduced.adj, indent=4))
+		mol_smiles = 'CCC1CC(CC)CCC1'
+		mol_rdkit = Chem.MolFromSmiles(mol_smiles)
+		mol_graph = rdkitmol2graph(mol_rdkit)
+		# print('\n')
+		# print(mol_graph.adj)
+		# print('\n')
+		vf = mol_graph.subgraph([0, 1, 3, 6, 7, 9])
+		reduced = mol_graph.subgraph([2, 4, 5, 8])
+		with open('test_demo.json', 'w') as f:
+			f.write(dumps(mol_graph.adj, indent=4))
+		with open('test_demo_subgraph.json', 'w') as f:
+			f.write(dumps(vf.adj, indent=4))
+		with open('test_demo_reduced.json', 'w') as f:
+			f.write(dumps(reduced.adj, indent=4))
 
 	# def test_iso_perf_example(self):
 	# 	num_repeats = 1000
@@ -151,31 +151,31 @@ class CoreAlgsTests(unittest.TestCase):
 
 	# 	print('\n')
 
-	def test_partition(self):
-		# with open('partition/iter_6_res.smi') as f:
-		with open('partition/iter_5_res.smi') as f:
-			mols_smiles = f.read().splitlines()
+	# def test_partition(self):
+	# 	with open('partition/iter_6_res.smi') as f:
+	# 	# with open('partition/iter_5_res.smi') as f:
+	# 		mols_smiles = f.read().splitlines()
 
-		# 1. trivial approach
-		mols = map(rdkitmol2graph, map(Chem.MolFromSmiles, mols_smiles))
-		start_time = timeit.default_timer()
-		unique_inds = [0]
-		for i, mol_graph in enumerate(mols[1:]):
-			if any(is_isomorph(mol_graph, mols[ind]) for ind in unique_inds):
-				continue
-			unique_inds.append(i + 1)
-		unique_mols = map(lambda ind: mols[ind], unique_inds)
-		end_time = timeit.default_timer()
-		print('\nTime: {}'.format(end_time - start_time))
+	# 	# 1. trivial approach
+	# 	mols = map(rdkitmol2graph, map(Chem.MolFromSmiles, mols_smiles))
+	# 	start_time = timeit.default_timer()
+	# 	unique_inds = [0]
+	# 	for i, mol_graph in enumerate(mols[1:]):
+	# 		if any(is_isomorph(mol_graph, mols[ind]) for ind in unique_inds):
+	# 			continue
+	# 		unique_inds.append(i + 1)
+	# 	unique_mols = map(lambda ind: mols[ind], unique_inds)
+	# 	end_time = timeit.default_timer()
+	# 	print('\nTime: {}'.format(end_time - start_time))
 
-		# 2. built-in approach
-		mols_rdkit = map(Chem.MolFromSmiles, mols_smiles)
-		mols_graph = map(rdkitmol2graph, mols_rdkit)
-		fake_modifiers = map(lambda x: FakeModifier(mol=FakeMolecule(*x)), zip(mols_rdkit, mols_graph))
-		start_time = timeit.default_timer()
-		get_unique_mols(fake_modifiers)
-		end_time = timeit.default_timer()
-		print('Time: {}\n'.format(end_time - start_time))
+	# 	# 2. built-in approach
+	# 	mols_rdkit = map(Chem.MolFromSmiles, mols_smiles)
+	# 	mols_graph = map(rdkitmol2graph, mols_rdkit)
+	# 	fake_modifiers = map(lambda x: FakeModifier(mol=FakeMolecule(*x)), zip(mols_rdkit, mols_graph))
+	# 	start_time = timeit.default_timer()
+	# 	get_unique_mols(fake_modifiers)
+	# 	end_time = timeit.default_timer()
+	# 	print('Time: {}\n'.format(end_time - start_time))
 
 
 if __name__ == '__main__':

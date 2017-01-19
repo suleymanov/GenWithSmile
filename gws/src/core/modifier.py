@@ -23,6 +23,7 @@ class Modifier(object):
 		:param atoms: list of str
 		:param attach_pos: list of int
 		:param merge_pos: list of int
+		:param vf_name: str
 		:return: None
 		"""
 		self._init_molecule(mol_smiles, mol_rdkit)
@@ -31,6 +32,15 @@ class Modifier(object):
 		self._two_point_attach_coords = []
 		self._one_point_merge_coords = []
 		self._two_point_merge_coords = []
+		self._vf_name = vf_name
+
+	def create_reduced_graph(self, label, attach, merge):
+		"""
+		
+		"""
+		raise NotImplementedError()
+
+		# virt_atom = self.mol._mol_graph.subgraph()
 
 	def create_attach_coords(self, one_point, two_point):
 		"""

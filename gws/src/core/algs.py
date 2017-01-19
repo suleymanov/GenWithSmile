@@ -26,6 +26,20 @@ def is_isomorph(graph1, graph2):
     return False
 
 
+def is_isomorph_special(graph1, graph2):
+    """
+    Check if graphs are isomorphic.
+    :param graph1: nx.Graph
+    :param graph2: nx.Graph
+    return: bool
+    """
+    if nx.faster_could_be_isomorphic(graph1, graph2):
+        node_match = iso.categorical_node_match('label', 'C')
+        edge_match = iso.categorical_edge_match(['weight', 'label'], [1, '-'])
+        return iso.is_isomorphic(graph1, graph2, node_match=node_match, edge_match=edge_match)
+    return False
+
+
 def rdkitmol2graph(mol):
     """
     Converts molecule to graph.
@@ -35,8 +49,6 @@ def rdkitmol2graph(mol):
     mol_atoms = mol.GetAtoms()
     rings = mol.GetRingInfo()
     num_rings = len(rings.BondRings())
-    # charges = np.array([atom.GetFormalCharge() for atom in mol_atoms] + [0] * num_rings)
-    # atoms = np.array([atom.GetSymbol() for atom in mol_atoms] + ['R'] * num_rings)
     atoms = np.array([atom.GetSymbol() for atom in mol_atoms])
     bonds = np.array([[bond.GetBeginAtomIdx(), bond.GetEndAtomIdx(), int(bond.GetBondType())]
         for bond in mol.GetBonds()])
@@ -47,9 +59,7 @@ def rdkitmol2graph(mol):
         gr[bonds[i, 1], bonds[i, 0]] = bonds[i, 2]
     graph = nx.Graph()
     for i, symbol in enumerate(atoms):
-        # graph.add_node(i, label=symbol, entity=charges[i])
         graph.add_node(i, label=symbol)
-    # edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||', 13: 'RING'}
     edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||'}
     for i in xrange(len(atoms)):
         for j in xrange(i + 1, len(atoms)):
@@ -103,6 +113,26 @@ def get_unique_mols(mol_list):
     start_time = timeit.default_timer()
     for i, mol_graph in enumerate(mol_graphs[1:]):
         if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
+            continue
+        unique_inds.append(i + 1)
+    print('\t\tget_unique_mols time: {}'.format(timeit.default_timer() - start_time))
+    return map(lambda ind: mol_list[ind], unique_inds)
+
+
+def get_unique_mols_special(mol_list):
+    """
+    Get all unique (non-isomorphic) molecules from list.
+    :param mol_list: list of modifier.Molecule
+    :return: list of modifier.Molecule
+    """
+    if not mol_list:
+        return []
+    unique_inds = [0]
+    mol_graphs = map(lambda x: x.mol.graph, mol_list)
+    start_time = timeit.default_timer()
+    for i, mol_graph in enumerate(mol_graphs[1:]):
+        # if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
+        if any(is_isomorph_special(mol_graph, mol_graphs[ind]) for ind in unique_inds):
             continue
         unique_inds.append(i + 1)
     print('\t\tget_unique_mols time: {}'.format(timeit.default_timer() - start_time))
