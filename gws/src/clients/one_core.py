@@ -60,7 +60,8 @@ class OneCoreClient(object):
 			print('\tStarted filtering results.')
 			start_time = timeit.default_timer()
 			# results = get_unique_mols(results)
-			results = get_unique_mols_special(results)
+			# results = get_unique_mols_special(results)
+			get_unique_mols_special(results)
 			end_time = timeit.default_timer() - start_time
 			print('\tFiltering time: {}.'.format(end_time))
 			print('\t{} unique structures.'.format(len(results)))
@@ -98,17 +99,18 @@ def _process(params):
 		return
 
 	modifier = modifiers[i]
-	results = []
+
+	attach_results, merge_results = [], []
 	for addon in iteration.attach.addons:
 		addon_modifier = Modifier(
-			mol_smiles=addon.smiles, atoms=addon.atoms, 
+			mol_smiles=addon.smiles, atoms=addon.atoms,
 			attach_pos=addon.attach_pos, merge_pos=addon.merge_pos)
-		results.extend(modifier.attach(
+		attach_results.extend(modifier.attach(
 			addon_modifier, iteration.attach.one_point, iteration.attach.two_point))
 	for addon in iteration.merge.addons:
 		addon_modifier = Modifier(
 			mol_smiles=addon.smiles, atoms=addon.atoms,
 			attach_pos=addon.attach_pos, merge_pos=addon.merge_pos)
-		results.extend(modifier.merge(
+		merge_results.extend(modifier.merge(
 			addon_modifier, iteration.merge.one_point, iteration.merge.two_point))
-	return results
+	return attach_results + merge_results

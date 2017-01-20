@@ -32,15 +32,99 @@ class Modifier(object):
 		self._two_point_attach_coords = []
 		self._one_point_merge_coords = []
 		self._two_point_merge_coords = []
-		self._vf_name = vf_name
 
 	def create_reduced_graph(self, label, attach, merge):
 		"""
-		
+		Initialize reduced graph.
+		Idea: create low-dimensional representation of molecular graph (networkx) based on
+		current/next attach or merge positions.
+		:param label: str
+		:param attach: bool
+		:param merge: bool
+		:return: None
 		"""
-		raise NotImplementedError()
+		assert isinstance(attach, bool)
+		assert isinstance(merge, bool)
 
-		# virt_atom = self.mol._mol_graph.subgraph()
+		if attach:
+			assert not merge
+		if merge:
+			assert not attach
+
+		# keep_pos = self._next_attach_pos[::]
+		# drop_pos = filter(lambda x: x not in keep_pos, xrange(self.mol.graph.number_of_nodes()))
+
+		drop_pos = self._attach_pos[::] if attach else self._merge_pos[::]
+		keep_pos = filter(lambda x: x not in drop_pos, xrange(self.mol.graph.number_of_nodes()))
+
+		virt_atom = self.mol.graph.subgraph(drop_pos)
+
+		reduced = self.mol.graph.subgraph(keep_pos)
+		for ind in reduced.nodes():
+			for virt_ind in virt_atom.nodes():
+				if self.mol.graph.has_edge(ind, virt_ind):
+					keep_label = reduced.node[ind]['label']
+					drop_label = virt_atom.node[virt_ind]['label']
+					edge_data = self.mol.graph.get_edge_data(ind, virt_ind)
+					reduced.add_edge(ind, label, weight=edge_data['weight'], label=edge_data['label'])
+		self.reduced = reduced
+
+	def create_new_modifier(
+		self, result_mol, addon_modifier, addon_inds_map, rm_attach_pos=None, rm_merge_pos=None,
+		pop_pos=None):
+		"""
+		Create new modifier from modification results.
+		:param result_mol: Chem.rdchem.Mol
+		:param addon_inds_map: dict  # {addon_old_index: result_new_index}
+		:param rm_attach_pos: list of int
+		:param rm_merge_pos: list of int
+		:return: Modifier
+		"""
+		attach_pos = self._attach_pos[::]
+		if rm_attach_pos is not None:
+			attach_pos = filter(lambda x: x not in rm_attach_pos, attach_pos)
+		merge_pos = self._merge_pos[::]
+		if rm_merge_pos is not None:
+			merge_pos = filter(lambda x: x not in rm_merge_pos, merge_pos)
+		modifier = Modifier(mol_rdkit=result_mol, attach_pos=attach_pos, merge_pos=merge_pos)
+		modifier.add_next_positions(
+			next_attach_pos=map(
+				lambda k: addon_inds_map[k], 
+				filter(lambda k: k in addon_modifier._attach_pos, addon_inds_map)),
+			next_merge_pos=map(
+				lambda k: addon_inds_map[k], 
+				filter(lambda k: k in addon_modifier._merge_pos, addon_inds_map)))
+		
+		assert rm_attach_pos or rm_merge_pos
+		rm_pos = rm_attach_pos if rm_attach_pos is not None else rm_merge_pos
+		drop_pos = (
+			modifier._attach_pos[::] if rm_attach_pos is not None else modifier._merge_pos[::]) + rm_pos
+		keep_pos = (
+			modifier._next_attach_pos[::] if rm_attach_pos is not None else modifier._next_merge_pos[::]) + [pop_pos]
+		virt_atom = modifier.mol.graph.subgraph(drop_pos)
+		reduced = modifier.mol.graph.subgraph(keep_pos)
+		label = 'vf'
+		for ind in reduced.nodes():
+			for virt_ind in virt_atom.nodes():
+				if modifier.mol.graph.has_edge(ind, virt_ind):
+					edge_data = modifier.mol.graph.get_edge_data(ind, virt_ind)
+					reduced.add_edge(ind, label, weight=edge_data['weight'], label=edge_data['label'])
+		modifier.set_reduced(reduced)
+		
+		return modifier
+
+	def set_reduced(self, reduced):
+		self.reduced = reduced
+
+	def add_next_positions(self, next_attach_pos, next_merge_pos):
+		"""
+		Add positions that will be used in the further steps.
+		:param next_attach_pos: list of int
+		:param next_merge_pos: list of int
+		:return: None
+		"""
+		self._next_attach_pos = list(set(self._next_attach_pos + next_attach_pos))
+		self._next_merge_pos = list(set(self._next_merge_pos + next_merge_pos))
 
 	def create_attach_coords(self, one_point, two_point):
 		"""
@@ -125,16 +209,6 @@ class Modifier(object):
 	def get_smiles(self):
 		return self.mol.smiles
 
-	def add_next_positions(self, next_attach_pos, next_merge_pos):
-		"""
-		Add positions that will be used in the further steps.
-		:param next_attach_pos: list of int
-		:param next_merge_pos: list of int
-		:return: None
-		"""
-		self._next_attach_pos = list(set(self._next_attach_pos + next_attach_pos))
-		self._next_merge_pos = list(set(self._next_merge_pos + next_merge_pos))
-
 	def update_positions(self):
 		"""
 		Update positions to prepare modifier to the further steps.
@@ -144,32 +218,6 @@ class Modifier(object):
 		self._merge_pos = self._next_merge_pos[::]
 		self._next_attach_pos = []
 		self._next_merge_pos = []
-
-	def create_new_modifier(
-		self, result_mol, addon_modifier, addon_inds_map, rm_attach_pos=None, rm_merge_pos=None):
-		"""
-		Create new modifier from modification results.
-		:param result_mol: Chem.rdchem.Mol
-		:param addon_inds_map: dict  # {addon_old_index: result_new_index}
-		:param rm_attach_pos: list of int
-		:param rm_merge_pos: list of int
-		:return: Modifier
-		"""
-		attach_pos = self._attach_pos[::]
-		if rm_attach_pos is not None:
-			attach_pos = filter(lambda x: x not in rm_attach_pos, attach_pos)
-		merge_pos = self._merge_pos[::]
-		if rm_merge_pos is not None:
-			merge_pos = filter(lambda x: x not in rm_merge_pos, merge_pos)
-		modifier = Modifier(mol_rdkit=result_mol, attach_pos=attach_pos, merge_pos=merge_pos)
-		modifier.add_next_positions(
-			next_attach_pos=map(
-				lambda k: addon_inds_map[k], 
-				filter(lambda k: k in addon_modifier._attach_pos, addon_inds_map)),
-			next_merge_pos=map(
-				lambda k: addon_inds_map[k], 
-				filter(lambda k: k in addon_modifier._merge_pos, addon_inds_map)))
-		return modifier
 
 	def _init_molecule(self, mol_smiles, mol_rdkit):
 		# TODO: implement initialization from networkx graph

@@ -128,10 +128,10 @@ def get_unique_mols_special(mol_list):
     if not mol_list:
         return []
     unique_inds = [0]
-    mol_graphs = map(lambda x: x.mol.graph, mol_list)
+    mol_graphs = map(lambda x: x.reduced, mol_list)
+    # mol_graphs = map(lambda x: x.mol.graph, mol_list)
     start_time = timeit.default_timer()
     for i, mol_graph in enumerate(mol_graphs[1:]):
-        # if any(is_isomorph(mol_graph, mol_graphs[ind]) for ind in unique_inds):
         if any(is_isomorph_special(mol_graph, mol_graphs[ind]) for ind in unique_inds):
             continue
         unique_inds.append(i + 1)
