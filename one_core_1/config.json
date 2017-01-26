@@ -1,0 +1,10 @@
+{
+    "core": {"smiles": "C1CC1"}, 
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "N"}]}, 
+            "max": 2
+        }
+    ],
+    "output": {"path": "one_core_1", "alias": "one_core_test_1"}
+}

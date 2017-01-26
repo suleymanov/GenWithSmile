@@ -1,0 +1,75 @@
+1 thread
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.114258050919
+		1 initial molecules were used.
+		2 structures generated
+Average number of nodes: 12.0
+Filtering time: 0.00189280509949
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.215670824051
+		2 initial molecules were used.
+		6 structures generated
+Average number of nodes: 15.0
+Filtering time: 0.0171091556549
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.652692079544
+		6 initial molecules were used.
+		18 structures generated
+Average number of nodes: 21.0
+Filtering time: 0.150671005249
+Start new iteration!
+	Repeat 1 of 1 generation time: 1.97142505646
+		18 initial molecules were used.
+		54 structures generated
+Average number of nodes: 24.0
+Filtering time: 1.52938294411
+Start new iteration!
+	Repeat 1 of 1 generation time: 6.48160290718
+		54 initial molecules were used.
+		162 structures generated
+Average number of nodes: 30.0
+Filtering time: 13.018887043
+Start new iteration!
+	Repeat 1 of 1 generation time: 48.6562991142
+		162 initial molecules were used.
+		486 structures generated
+Average number of nodes: 33.0
+Filtering time: 125.24703908
+
+8 threads
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.122193098068
+		1 initial molecules were used.
+		2 structures generated
+Average number of nodes: 12.0
+Filtering time: 0.00197696685791
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.120599985123
+		2 initial molecules were used.
+		6 structures generated
+Average number of nodes: 15.0
+Filtering time: 0.0175368785858
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.114439964294
+		6 initial molecules were used.
+		18 structures generated
+Average number of nodes: 21.0
+Filtering time: 0.153533935547
+Start new iteration!
+	Repeat 1 of 1 generation time: 0.55735707283
+		18 initial molecules were used.
+		54 structures generated
+Average number of nodes: 24.0
+Filtering time: 1.6514840126
+Start new iteration!
+	Repeat 1 of 1 generation time: 2.29620409012
+		54 initial molecules were used.
+		162 structures generated
+Average number of nodes: 30.0
+Filtering time: 13.3607459068
+Start new iteration!
+	Repeat 1 of 1 generation time: 22.6038341522
+		162 initial molecules were used.
+		486 structures generated
+Average number of nodes: 33.0
+Filtering time: 125.629335165

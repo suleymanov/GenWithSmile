@@ -28,6 +28,13 @@ class CombinationsClient(object):
 			lambda x: MoleculeHandler(
 				mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
 			self._config.linkers)
+		for i, handler in enumerate(self._mol_handlers):
+			handler.create_mol_graph('handler_{}'.format(i + 1))
+		for i, handler in enumerate(self._addon_handlers):
+			handler.create_mol_graph('{}_{}'.format(
+				'handler' if self._config.samelist else 'addon', i + 1))
+		for i, handler in enumerate(self._linker_handlers):
+			handler.create_mol_graph('linker_{}'.format(i + 1))
 		dt = datetime.now()
 		self._dt_str = '{}_{}_{}_{}_{}'.format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
 		config_fn = '{}{}{}_{}_config.json'.format(
@@ -81,26 +88,25 @@ def _process(params):
 
 	handlers = [mol_handlers[i]]
 	if linker_handlers:
-		modifier = handlers.pop()
+		handler = handlers.pop()
+		
 		for linker_handler in linker_handlers:
 			handlers.extend(
-				modifier.attach(linker_handler, config.attach.one_point, config.attach.two_point) +
-				modifier.merge(linker_handler, config.merge.one_point, config.merge.two_point))
-		for handler in handlers:
-			modifier.update_modifiers_positions()
+				handler.attach(linker_handler, config.attach.one_point, config.attach.two_point) +
+				handler.merge(linker_handler, config.merge.one_point, config.merge.two_point))
 	for j in xrange(len(addon_handlers)):
 		addon_handler = addon_handlers[j]
 		results = []
-		for modifier in handlers:
+		for handler in handlers:
 			results.extend(
-				modifier.attach(addon_handler, config.attach.one_point, config.attach.two_point) +
-				modifier.merge(addon_handler, config.merge.one_point, config.merge.two_point))
+				handler.attach(addon_handler, config.attach.one_point, config.attach.two_point) +
+				handler.merge(addon_handler, config.merge.one_point, config.merge.two_point))
 			if len(results) > 0:
 				_update_results(_filter_non_unique(results), i, j + shift, config.output, dt_str)
 
 
 def _filter_non_unique(handlers):
-	return map(lambda ind: handlers[ind], get_unique_mols(map(lambda x: x.mol.graph, handlers)))
+	return map(lambda ind: handlers[ind], get_unique_mols(map(lambda x: x.mol_graph, handlers)))
 
 
 def _update_results(results, i, j, output, dt_str):
@@ -110,5 +116,5 @@ def _update_results(results, i, j, output, dt_str):
 			output.path, os.sep, output.alias, dt_str, i, j, ind + 1)
 		with open(fn, 'w') as f:
 			f.write('\n'.join(map(
-				lambda x: x.mol.smiles,
+				lambda x: x.mol_smiles,
 				results[ind*max_entries:(ind+1)*max_entries])) + '\n')

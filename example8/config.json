@@ -1,0 +1,9 @@
+{
+    "core": {"smiles": "C1CNCCC1", "attach_pos": [0, 3], "merge_pos": [0, 3]},
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "C1CC1", "attach_pos": [0, 1]}]}
+        }
+    ],
+    "output": {"path": "example8"}
+}

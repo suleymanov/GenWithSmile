@@ -1,0 +1,63 @@
+{
+    "core": {
+        "smiles": "CC(C)C",
+        "atoms": [],
+        "attach_pos": [],
+        "merge_pos": []
+    },
+    "iterations": [
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "CCOCC",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "CCOCC",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 1
+        },
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "ClC(=O)C",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 1
+        }
+    ],
+    "output": {
+        "path": "one_core_problems/results",
+        "alias": "problem1",
+        "max": 1000
+    },
+    "numthreads": 1
+}

@@ -1,0 +1,1260 @@
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.11243391037.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00246500968933.
+	2 unique structures.
+Iteration #1 time: 0.115566968918
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.214511871338.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0183842182159.
+	6 unique structures.
+Iteration #2 time: 0.233606100082
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.645417928696.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.149744033813.
+	18 unique structures.
+Iteration #3 time: 0.796156167984
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.96094894409.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.55323886871.
+	54 unique structures.
+Iteration #4 time: 3.51559495926
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.21135401726.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.3541488647.
+	162 unique structures.
+Iteration #5 time: 19.569327116
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 45.044563055.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 125.889472008.
+	486 unique structures.
+Iteration #6 time: 170.944118023
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.110337018967.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00240707397461.
+	2 unique structures.
+Iteration #1 time: 0.113368988037
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.213733196259.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0176479816437.
+	6 unique structures.
+Iteration #2 time: 0.232198953629
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.646080970764.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.14625787735.
+	18 unique structures.
+Iteration #3 time: 0.793148994446
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.96026802063.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.53133797646.
+	54 unique structures.
+Iteration #4 time: 3.4929420948
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.2130510807.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.2171499729.
+	162 unique structures.
+Iteration #5 time: 19.4333350658
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 43.0733671188.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 126.361407995.
+	486 unique structures.
+Iteration #6 time: 169.447173834
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.111964941025.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00165295600891.
+	2 unique structures.
+Iteration #1 time: 0.114222049713
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.222747087479.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0203130245209.
+	6 unique structures.
+Iteration #2 time: 0.244336128235
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.640860080719.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.141971111298.
+	18 unique structures.
+Iteration #3 time: 0.783674001694
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.94541096687.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.46300601959.
+	54 unique structures.
+Iteration #4 time: 3.40973186493
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.38180804253.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.3865528107.
+	162 unique structures.
+Iteration #5 time: 19.7719459534
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 49.6986169815.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 124.880643129.
+	486 unique structures.
+Iteration #6 time: 174.589187145
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.111096858978.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00184392929077.
+	2 unique structures.
+Iteration #1 time: 0.113308906555
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.214410066605.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.018914937973.
+	6 unique structures.
+Iteration #2 time: 0.234012842178
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.64276099205.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.137391090393.
+	18 unique structures.
+Iteration #3 time: 0.781014919281
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.94082283974.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.45942497253.
+	54 unique structures.
+Iteration #4 time: 3.40187716484
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.19260501862.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 12.862705946.
+	162 unique structures.
+Iteration #5 time: 19.0585360527
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 42.8642549515.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 122.81893301.
+	486 unique structures.
+Iteration #6 time: 165.694654942
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.113161087036.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00184607505798.
+	2 unique structures.
+Iteration #1 time: 0.115599870682
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.218381881714.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0180099010468.
+	6 unique structures.
+Iteration #2 time: 0.237389802933
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.64288687706.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.143000841141.
+	18 unique structures.
+Iteration #3 time: 0.786943912506
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.94419002533.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.48682713509.
+	54 unique structures.
+Iteration #4 time: 3.43271899223
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.1153550148.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.2641270161.
+	162 unique structures.
+Iteration #5 time: 19.3826160431
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 42.8663129807.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 125.087517977.
+	486 unique structures.
+Iteration #6 time: 167.966427088
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.120995998383.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00167107582092.
+	2 unique structures.
+Iteration #1 time: 0.123201131821
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.11452293396.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0179648399353.
+	6 unique structures.
+Iteration #2 time: 0.133277893066
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.113874912262.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.149752855301.
+	18 unique structures.
+Iteration #3 time: 0.264194965363
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.452538967133.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.57525396347.
+	54 unique structures.
+Iteration #4 time: 2.0293700695
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.27253103256.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.0799369812.
+	162 unique structures.
+Iteration #5 time: 15.3553540707
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 19.6554460526.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 125.864039898.
+	486 unique structures.
+Iteration #6 time: 145.532172918
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.121088981628.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00189900398254.
+	2 unique structures.
+Iteration #1 time: 0.123748779297
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.117624044418.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0184600353241.
+	6 unique structures.
+Iteration #2 time: 0.136827945709
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.117732048035.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.142910957336.
+	18 unique structures.
+Iteration #3 time: 0.261478185654
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.453409910202.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.47764611244.
+	54 unique structures.
+Iteration #4 time: 1.93244886398
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.29817605019.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.023501873.
+	162 unique structures.
+Iteration #5 time: 15.3251099586
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 19.9160921574.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 126.868412971.
+	486 unique structures.
+Iteration #6 time: 146.794127941
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.119607925415.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00201106071472.
+	2 unique structures.
+Iteration #1 time: 0.122284889221
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.112289905548.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0192470550537.
+	6 unique structures.
+Iteration #2 time: 0.132547140121
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.117401123047.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.137453079224.
+	18 unique structures.
+Iteration #3 time: 0.255638122559
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.553884983063.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.48912501335.
+	54 unique structures.
+Iteration #4 time: 2.04455304146
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.39075183868.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.8014287949.
+	162 unique structures.
+Iteration #5 time: 16.1956748962
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.2476689816.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 129.791018963.
+	486 unique structures.
+Iteration #6 time: 150.049711943
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.116012096405.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.0015652179718.
+	2 unique structures.
+Iteration #1 time: 0.118186950684
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.114150047302.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.019721031189.
+	6 unique structures.
+Iteration #2 time: 0.134798765182
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.115252017975.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.161607027054.
+	18 unique structures.
+Iteration #3 time: 0.277595043182
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.554716825485.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.57856202126.
+	54 unique structures.
+Iteration #4 time: 2.13458299637
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.3006310463.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.8095638752.
+	162 unique structures.
+Iteration #5 time: 16.1136059761
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.6663999557.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 129.047865868.
+	486 unique structures.
+Iteration #6 time: 149.725373983
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.11878991127.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00169491767883.
+	2 unique structures.
+Iteration #1 time: 0.121072053909
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.114676952362.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0187819004059.
+	6 unique structures.
+Iteration #2 time: 0.134241104126
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.116775989532.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.153934955597.
+	18 unique structures.
+Iteration #3 time: 0.271374940872
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.45349407196.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.53513884544.
+	54 unique structures.
+Iteration #4 time: 1.9900739193
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.39226007462.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.935240984.
+	162 unique structures.
+Iteration #5 time: 16.3306500912
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 21.1366200447.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 128.658946037.
+	486 unique structures.
+Iteration #6 time: 149.807794094
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.111998081207.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00229501724243
+	Filtering time: 0.00238585472107.
+	2 unique structures.
+Iteration #1 time: 0.115051984787
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.218822002411.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0224769115448
+	Filtering time: 0.0225789546967.
+	6 unique structures.
+Iteration #2 time: 0.242232084274
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.640423059464.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.152941942215
+	Filtering time: 0.153078079224.
+	18 unique structures.
+Iteration #3 time: 0.794162988663
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.95533323288.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.50554203987
+	Filtering time: 1.50589299202.
+	54 unique structures.
+Iteration #4 time: 3.46275997162
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.1814968586.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.5949249268
+	Filtering time: 13.595965147.
+	162 unique structures.
+Iteration #5 time: 19.7809069157
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 45.6191449165.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 128.350812912
+	Filtering time: 128.353471041.
+	486 unique structures.
+Iteration #6 time: 173.983668804
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.115742921829.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00211095809937
+	Filtering time: 0.00222897529602.
+	2 unique structures.
+Iteration #1 time: 0.11864900589
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.218981027603.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0190150737762
+	Filtering time: 0.0191090106964.
+	6 unique structures.
+Iteration #2 time: 0.238848924637
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.647207975388.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.160811901093
+	Filtering time: 0.160937070847.
+	18 unique structures.
+Iteration #3 time: 0.809026002884
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.95297384262.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.52574801445
+	Filtering time: 1.52615904808.
+	54 unique structures.
+Iteration #4 time: 3.48106098175
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.27042984962.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.8251268864
+	Filtering time: 13.826184988.
+	162 unique structures.
+Iteration #5 time: 20.1005620956
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 46.7388420105.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 124.682084084
+	Filtering time: 124.684635162.
+	486 unique structures.
+Iteration #6 time: 171.433928013
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.112539052963.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00174498558044
+	Filtering time: 0.00181293487549.
+	2 unique structures.
+Iteration #1 time: 0.114966154099
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.213365077972.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0184869766235
+	Filtering time: 0.018697977066.
+	6 unique structures.
+Iteration #2 time: 0.232943058014
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.642799854279.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.149856090546
+	Filtering time: 0.150114059448.
+	18 unique structures.
+Iteration #3 time: 0.794073104858
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.94232606888.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.54740905762
+	Filtering time: 1.54774904251.
+	54 unique structures.
+Iteration #4 time: 3.49166798592
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.2757089138.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.4195110798
+	Filtering time: 13.4204750061.
+	162 unique structures.
+Iteration #5 time: 19.6993257999
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 44.259155035.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 123.501927853
+	Filtering time: 123.504737854.
+	486 unique structures.
+Iteration #6 time: 167.774133921
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.111645936966.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00189399719238
+	Filtering time: 0.0019748210907.
+	2 unique structures.
+Iteration #1 time: 0.114763021469
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.210441112518.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0173380374908
+	Filtering time: 0.0174219608307.
+	6 unique structures.
+Iteration #2 time: 0.228882074356
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.642187833786.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.141839027405
+	Filtering time: 0.142019033432.
+	18 unique structures.
+Iteration #3 time: 0.785320043564
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.95739293098.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.53869080544
+	Filtering time: 1.53972601891.
+	54 unique structures.
+Iteration #4 time: 3.49940919876
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.22728013992.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.3935070038
+	Filtering time: 13.3945519924.
+	162 unique structures.
+Iteration #5 time: 19.6252281666
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 41.84187603.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 128.606335163
+	Filtering time: 128.608937979.
+	486 unique structures.
+Iteration #6 time: 170.461946964
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.11530995369.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00225114822388
+	Filtering time: 0.00232815742493.
+	2 unique structures.
+Iteration #1 time: 0.118313074112
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.212111949921.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0201790332794
+	Filtering time: 0.0202538967133.
+	6 unique structures.
+Iteration #2 time: 0.233355045319
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.65488409996.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.155982971191
+	Filtering time: 0.156162977219.
+	18 unique structures.
+Iteration #3 time: 0.811862945557
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.96158313751.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.55448484421
+	Filtering time: 1.55477285385.
+	54 unique structures.
+Iteration #4 time: 3.51840400696
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.3168399334.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.9454360008
+	Filtering time: 13.9466049671.
+	162 unique structures.
+Iteration #5 time: 20.266919136
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 44.5205609798.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 128.792968035
+	Filtering time: 128.796165943.
+	486 unique structures.
+Iteration #6 time: 173.328591824
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.12114405632.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00220894813538
+	Filtering time: 0.00233721733093.
+	2 unique structures.
+Iteration #1 time: 0.124758005142
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.117263793945.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0181288719177
+	Filtering time: 0.0182459354401.
+	6 unique structures.
+Iteration #2 time: 0.136270046234
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.113904953003.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.150923013687
+	Filtering time: 0.151024103165.
+	18 unique structures.
+Iteration #3 time: 0.266115188599
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.55481004715.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.56892704964
+	Filtering time: 1.56903219223.
+	54 unique structures.
+Iteration #4 time: 2.12548112869
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.28396010399.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.2485280037
+	Filtering time: 13.2493700981.
+	162 unique structures.
+Iteration #5 time: 15.5364320278
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.4108979702.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 128.194580793
+	Filtering time: 128.195055962.
+	486 unique structures.
+Iteration #6 time: 148.61739397
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.118407011032.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00157713890076
+	Filtering time: 0.0016348361969.
+	2 unique structures.
+Iteration #1 time: 0.120812892914
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.114592075348.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0178709030151
+	Filtering time: 0.0179560184479.
+	6 unique structures.
+Iteration #2 time: 0.133425951004
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.113893032074.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.151149988174
+	Filtering time: 0.151239871979.
+	18 unique structures.
+Iteration #3 time: 0.266209125519
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.451553106308.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.55495095253
+	Filtering time: 1.55504703522.
+	54 unique structures.
+Iteration #4 time: 2.00821089745
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.29016494751.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.3399858475
+	Filtering time: 13.3408257961.
+	162 unique structures.
+Iteration #5 time: 15.6342949867
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.6188290119.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 128.623365164
+	Filtering time: 128.623872042.
+	486 unique structures.
+Iteration #6 time: 149.253163815
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.116500139236.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00180387496948
+	Filtering time: 0.00188088417053.
+	2 unique structures.
+Iteration #1 time: 0.119267940521
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.12087893486.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.0188879966736
+	Filtering time: 0.019003868103.
+	6 unique structures.
+Iteration #2 time: 0.141044139862
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.114991903305.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.138522148132
+	Filtering time: 0.138625860214.
+	18 unique structures.
+Iteration #3 time: 0.254711866379
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.55732011795.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.4981200695
+	Filtering time: 1.49825692177.
+	54 unique structures.
+Iteration #4 time: 2.05704593658
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.40874409676.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.3516530991
+	Filtering time: 13.3528470993.
+	162 unique structures.
+Iteration #5 time: 15.765570879
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.6074440479.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 125.731430054
+	Filtering time: 125.731896162.
+	486 unique structures.
+Iteration #6 time: 146.35115099
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.117655038834.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00185894966125
+	Filtering time: 0.00202894210815.
+	2 unique structures.
+Iteration #1 time: 0.120288133621
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.113054037094.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.021623134613
+	Filtering time: 0.0217008590698.
+	6 unique structures.
+Iteration #2 time: 0.135603904724
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.116314888.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.138758182526
+	Filtering time: 0.138839960098.
+	18 unique structures.
+Iteration #3 time: 0.255982875824
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.448933839798.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.54107689857
+	Filtering time: 1.54120898247.
+	54 unique structures.
+Iteration #4 time: 1.99152421951
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.40505099297.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.5709338188
+	Filtering time: 13.5717110634.
+	162 unique structures.
+Iteration #5 time: 15.9799509048
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.598608017.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 124.51679492
+	Filtering time: 124.517268181.
+	486 unique structures.
+Iteration #6 time: 145.126138926
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.120936155319.
+	2 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.00140714645386
+	Filtering time: 0.00148701667786.
+	2 unique structures.
+Iteration #1 time: 0.122896909714
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.116839170456.
+	6 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.020115852356
+	Filtering time: 0.0202870368958.
+	6 unique structures.
+Iteration #2 time: 0.137861013412
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.117830991745.
+	18 structures generated.
+	Started filtering results.
+		get_unique_mols time: 0.147543907166
+	Filtering time: 0.147634983063.
+	18 unique structures.
+Iteration #3 time: 0.266266822815
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.556571960449.
+	54 structures generated.
+	Started filtering results.
+		get_unique_mols time: 1.48662805557
+	Filtering time: 1.48691391945.
+	54 unique structures.
+Iteration #4 time: 2.04479908943
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.40006184578.
+	162 structures generated.
+	Started filtering results.
+		get_unique_mols time: 13.2072479725
+	Filtering time: 13.2080850601.
+	162 unique structures.
+Iteration #5 time: 15.6110320091
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.7391228676.
+	486 structures generated.
+	Started filtering results.
+		get_unique_mols time: 124.874849081
+	Filtering time: 124.875384808.
+	486 unique structures.
+Iteration #6 time: 145.625610828

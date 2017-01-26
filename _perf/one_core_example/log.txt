@@ -1,0 +1,125 @@
+Example 1 (one thread)
+
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.109826803207.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00254893302917.
+	2 unique structures.
+Iteration #1 time: 0.11282491684
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.216471910477.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0183000564575.
+	6 unique structures.
+Iteration #2 time: 0.235209941864
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.64471077919.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.152755022049.
+	18 unique structures.
+Iteration #3 time: 0.798150062561
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 1.96008992195.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.5398709774.
+	54 unique structures.
+Iteration #4 time: 3.50157403946
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 6.31420397758.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.1927230358.
+	162 unique structures.
+Iteration #5 time: 19.5103898048
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 43.311273098.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 127.408631802.
+	486 unique structures.
+Iteration #6 time: 170.730745792
+
+Example 2 (8 threads)
+
+Start iteration #1
+	Start repeats
+	Start repeat #1
+	Start generation: 1 initial modifiers.
+	Generation time: 0.124197006226.
+	2 structures generated.
+	Started filtering results.
+	Filtering time: 0.00332713127136.
+	2 unique structures.
+Iteration #1 time: 0.128822088242
+Start iteration #2
+	Start repeats
+	Start repeat #1
+	Start generation: 2 initial modifiers.
+	Generation time: 0.115991830826.
+	6 structures generated.
+	Started filtering results.
+	Filtering time: 0.0171279907227.
+	6 unique structures.
+Iteration #2 time: 0.133832931519
+Start iteration #3
+	Start repeats
+	Start repeat #1
+	Start generation: 6 initial modifiers.
+	Generation time: 0.112383127213.
+	18 structures generated.
+	Started filtering results.
+	Filtering time: 0.160484075546.
+	18 unique structures.
+Iteration #3 time: 0.273558855057
+Start iteration #4
+	Start repeats
+	Start repeat #1
+	Start generation: 18 initial modifiers.
+	Generation time: 0.552832841873.
+	54 structures generated.
+	Started filtering results.
+	Filtering time: 1.59053206444.
+	54 unique structures.
+Iteration #4 time: 2.14488077164
+Start iteration #5
+	Start repeats
+	Start repeat #1
+	Start generation: 54 initial modifiers.
+	Generation time: 2.2935769558.
+	162 structures generated.
+	Started filtering results.
+	Filtering time: 13.7233541012.
+	162 unique structures.
+Iteration #5 time: 16.0200819969
+Start iteration #6
+	Start repeats
+	Start repeat #1
+	Start generation: 162 initial modifiers.
+	Generation time: 20.5038380623.
+	486 structures generated.
+	Started filtering results.
+	Filtering time: 126.697274923.
+	486 unique structures.
+Iteration #6 time: 147.211522818

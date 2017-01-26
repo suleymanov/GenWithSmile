@@ -1,0 +1,10 @@
+{
+    "core": {"smiles": "C1CCCCC1"},
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "C"}]},
+            "max": 6
+        }
+    ],
+    "output": {"path": "example6"}
+}

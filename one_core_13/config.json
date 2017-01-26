@@ -1,0 +1,14 @@
+{
+    "core": {"smiles": "C1CC1"}, 
+    "iterations": [
+        {
+            "merge": {
+                "addons": [{"smiles": "C1CC1"}],
+                "one_point": false,
+                "two_point": true
+            },
+            "max": 3
+        }
+    ],
+    "output": {"path": "one_core_13"}
+}

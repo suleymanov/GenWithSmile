@@ -1,0 +1,11 @@
+{
+    "core": {"smiles": "N1C(O)CC1", "attach_pos": [0, 3, 4], "merge_pos": [0, 3, 4]},
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "O"}]},
+            "merge": {"addons": [{"smiles": "N"}]},
+            "max": 2
+        }
+    ],
+    "output": {"path": "example5"}
+}

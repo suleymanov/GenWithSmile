@@ -1,0 +1,36 @@
+{
+    "core": {
+        "smiles": "C1CCCCC1",
+        "atoms": [],
+        "attach_pos": [],
+        "merge_pos": []
+    },
+    "iterations": [
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "C",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 6
+        }
+    ],
+    "output": {
+        "path": "example6",
+        "alias": "result",
+        "max": 1000
+    },
+    "numthreads": 1
+}

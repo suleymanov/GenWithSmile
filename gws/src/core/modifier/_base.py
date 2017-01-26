@@ -4,11 +4,12 @@ from abc import ABCMeta, abstractmethod
 from collections import namedtuple
 
 from rdkit import Chem
+from networkx import Graph, MultiGraph
 
 from gws.src.core.algs import get_unique_coords
 
 
-CombinationResult = namedtuple('CombinationResult', ['result_mol_rdkit', 'pos', 'next_pos', 'inds_map'])
+CombinationResult = namedtuple('CombinationResult', ['result_mol_rdkit', 'pos', 'next_pos', 'inds_map', 'ind'])
 
 
 bonds_def = {
@@ -23,24 +24,27 @@ bonds_def = {
 class BaseModifier(object):
 	__metaclass__ = ABCMeta
 
-	def __init__(self, mol_rdkit, mol_graph, positions=None, atoms=None):
+	def __init__(self, mol_rdkit, positions=None, atoms=None):
 		"""
+		New version of an abstract Modifier instance (without explicitly defining molecular graph).
 		:param mol_rdkit: Chem.rdchem.Mol
-		:param mol_graph: networkx.Graph
 		:param positions: list of int
 		:param atoms: list of str
 		"""
-		self.mol_rdkit = mol_rdkit
-		self.mol_graph = mol_graph
+		self._mol_rdkit = mol_rdkit
+		self._mol_graph = None
 		all_pos = (
 			map(
 				lambda x: x.GetIdx(),
-				filter(lambda x: x.GetSymbol() in atoms, self.mol_rdkit.GetAtoms()))
-			if atoms else list(xrange(self.mol_rdkit.GetNumAtoms())))
+				filter(lambda x: x.GetSymbol() in atoms, self._mol_rdkit.GetAtoms()))
+			if atoms else list(xrange(self._mol_rdkit.GetNumAtoms())))
 		self.pos = filter(lambda x: x in positions, all_pos) if positions else all_pos
 		self.next_pos = []
 		self.one_point_coords = []
 		self.two_point_coords = []
+
+	def set_mol_graph(self, mol_graph):
+		self._mol_graph = mol_graph
 
 	def combine(self, other_modifier, one_point=True, two_point=False):
 		"""
@@ -54,13 +58,13 @@ class BaseModifier(object):
 
 		results = []
 		if one_point:
-			for coord in self.get_coords(one_point=one_point):
+			for ind, coord in enumerate(self.get_coords(one_point=one_point)):
 				for other_coord in other_modifier.get_coords(one_point=one_point):
-					results.extend(self._combine_one_point(other_modifier, coord, other_coord))
+					results.extend(self._combine_one_point(other_modifier, coord, other_coord, ind))
 		if two_point:
-			for coord in self.get_coords(two_point=two_point):
+			for ind, coord in enumerate(self.get_coords(two_point=two_point)):
 				for other_coord in other_modifier.get_coords(two_point=two_point):
-					results.extend(self._combine_two_points(other_modifier, coord, other_coord))
+					results.extend(self._combine_two_points(other_modifier, coord, other_coord, ind))
 		return results
 
 	def get_coords(self, one_point=False, two_point=False):
@@ -97,22 +101,24 @@ class BaseModifier(object):
 	def _init_coords(self, one_point=False, two_point=False):
 		if one_point:
 			self.one_point_coords = get_unique_coords(
-				self.mol_graph, 1, map(lambda x: [x], self.pos))
+				self._mol_graph, 1, map(lambda x: [x], self.pos))
 		if two_point:
-			bonds = self.mol_rdkit.GetBonds()
-			self.two_point_coords = get_unique_coords(
-				self.mol_graph, 2, map(lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()), bonds))
+			self.two_point_coords = filter(
+				lambda x: x[0] in self.pos and x[1] in self.pos,
+				map(lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()), self._mol_rdkit.GetBonds()))
 
-	@abstractmethod
-	def _combine_one_point(self, other_modifier, coord, other_coord):
-		pass
-
-	@abstractmethod
-	def _combine_two_points(self, other_modifier, coord, other_coord):
-		pass
-
-	def _pack_result(self, other_modifier, result_mol, inds_map, drop_pos=None):
-		curr_pos = filter(lambda x: x not in drop_pos, self.pos) if drop_pos is not None else self.pos[::]
-		next_pos = map(lambda k: inds_map[k], filter(lambda k: k in other_modifier.pos, inds_map))
+	def _pack_result(self, other_modifier, result_mol, inds_map, coord, other_coord, ind):
+		curr_pos = filter(lambda x: x not in coord, self.pos)
+		next_pos = map(
+			lambda x: inds_map[x], 
+			filter(lambda x: x not in other_coord and x in other_modifier.pos, inds_map))
 		next_pos += self.next_pos
-		return CombinationResult(result_mol, curr_pos, next_pos, inds_map)
+		return CombinationResult(result_mol, curr_pos, next_pos, inds_map, ind)
+
+	@abstractmethod
+	def _combine_one_point(self, other_modifier, coord, other_coord, ind):
+		pass
+
+	@abstractmethod
+	def _combine_two_points(self, other_modifier, coord, other_coord, ind):
+		pass

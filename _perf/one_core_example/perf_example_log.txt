@@ -1,0 +1,168 @@
+def test_iso_perf_example(self):
+		num_repeats = 1000
+
+		def test_iso(mol_graph, mol_graph2):
+			start_time = timeit.default_timer()
+			for _ in xrange(num_repeats):
+				assert is_isomorph(mol_graph, mol_graph2)
+			end_time = timeit.default_timer() - start_time
+			print('\tTime: {}'.format(end_time / num_repeats))
+
+		print('\n')
+
+		initial = rdkitmol2graph(Chem.MolFromSmiles('CCC1CC(CC)CCC1'))
+		other = map(rdkitmol2graph, map(Chem.MolFromSmiles, [
+			'C(C)C1CC(CC)CCC1', 'C(C)C1CCCC(CC)C1',
+			'C1(CC)CC(CC)CCC1', 'C1(CC)CCCC(CC)C1',
+			'C1C(CC)CCCC1CC', 'C1C(CCCC1CC)CC',
+			'C1CCC(CC)CC1CC', 'C1C(CC)CC(CC)CC1',
+			'C1CC(CC)CC(CC)C1', 'C1CC(CC(CC)C1)CC'
+		]))
+
+		print('Trivial case...')
+		test_iso(initial, initial)
+		print('Other cases...')
+		for graph in other:
+			test_iso(initial, graph)
+
+		print('\n')
+
+Trivial case...
+	Time: 0.000383945941925
+Other cases...
+	Time: 0.000378356933594
+	Time: 0.000457127094269
+	Time: 0.000398336172104
+	Time: 0.000450008869171
+	Time: 0.000573199033737
+	Time: 0.000661240816116
+	Time: 0.000541495084763
+	Time: 0.00112350010872
+	Time: 0.000631105899811
+	Time: 0.000561492919922
+
+Trivial case...
+	Time: 0.00034795498848
+Other cases...
+	Time: 0.000365170001984
+	Time: 0.000442656993866
+	Time: 0.000374913930893
+	Time: 0.000439484119415
+	Time: 0.000531559944153
+	Time: 0.000614942789078
+	Time: 0.000531790018082
+	Time: 0.00114437389374
+	Time: 0.000613331079483
+	Time: 0.000582816839218
+
+Trivial case...
+	Time: 0.000359099149704
+Other cases...
+	Time: 0.000361991167068
+	Time: 0.000414577007294
+	Time: 0.000372440814972
+	Time: 0.000416813135147
+	Time: 0.000546522140503
+	Time: 0.000621588945389
+	Time: 0.000542613983154
+	Time: 0.00112961697578
+	Time: 0.000657027959824
+	Time: 0.000610134840012
+
+Trivial case...
+	Time: 0.00035329914093
+Other cases...
+	Time: 0.00036022901535
+	Time: 0.000455610990524
+	Time: 0.000381732940674
+	Time: 0.000447370052338
+	Time: 0.000513650178909
+	Time: 0.000615205049515
+	Time: 0.000527101993561
+	Time: 0.00113225698471
+	Time: 0.000608284950256
+	Time: 0.000547834157944
+
+Trivial case...
+	Time: 0.000344710111618
+Other cases...
+	Time: 0.000355287790298
+	Time: 0.000438477039337
+	Time: 0.000367329120636
+	Time: 0.000423764944077
+	Time: 0.000523274898529
+	Time: 0.000624998092651
+	Time: 0.000485126018524
+	Time: 0.00110786104202
+	Time: 0.000609000921249
+	Time: 0.000569665908813
+
+Trivial case...
+	Time: 0.000352015972137
+Other cases...
+	Time: 0.000354408025742
+	Time: 0.000413887023926
+	Time: 0.000366375923157
+	Time: 0.00040527510643
+	Time: 0.00051264500618
+	Time: 0.000605412006378
+	Time: 0.000489460945129
+	Time: 0.0010754070282
+	Time: 0.000589675188065
+	Time: 0.000584154844284
+
+Trivial case...
+	Time: 0.00039480304718
+Other cases...
+	Time: 0.000362457990646
+	Time: 0.000473368167877
+	Time: 0.000399504899979
+	Time: 0.000436105012894
+	Time: 0.000573908090591
+	Time: 0.000678266048431
+	Time: 0.000545881986618
+	Time: 0.00115735292435
+	Time: 0.00065362906456
+	Time: 0.000581491947174
+
+Trivial case...
+	Time: 0.000362396001816
+Other cases...
+	Time: 0.00034625005722
+	Time: 0.000435389041901
+	Time: 0.000385653972626
+	Time: 0.000444569826126
+	Time: 0.000549128055573
+	Time: 0.000655213832855
+	Time: 0.000524083852768
+	Time: 0.00116058802605
+	Time: 0.000672029018402
+	Time: 0.000624541044235
+
+Trivial case...
+	Time: 0.000353733062744
+Other cases...
+	Time: 0.000356696844101
+	Time: 0.000430596828461
+	Time: 0.000369668006897
+	Time: 0.000432364940643
+	Time: 0.000535019159317
+	Time: 0.0006312520504
+	Time: 0.000528682947159
+	Time: 0.00113479089737
+	Time: 0.000642683029175
+	Time: 0.000598896026611
+
+Trivial case...
+	Time: 0.00037540102005
+Other cases...
+	Time: 0.000364856958389
+	Time: 0.000417098045349
+	Time: 0.000360881090164
+	Time: 0.000430417060852
+	Time: 0.000524079084396
+	Time: 0.00061741399765
+	Time: 0.000506477832794
+	Time: 0.00109804987907
+	Time: 0.000607229948044
+	Time: 0.000565803050995

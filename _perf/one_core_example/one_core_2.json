@@ -1,0 +1,30 @@
+{
+    "core": {"smiles": "C1CCCCC1"},
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "C1CCCCC1"}]},
+            "merge": {"one_point": false}
+        },
+        {
+            "attach": {"one_point": false},
+            "merge": {"addons": [{"smiles": "CC(C)C"}]}
+        },
+        {
+            "attach": {"addons": [{"smiles": "C1CCCCC1"}]},
+            "merge": {"one_point": false}
+        },
+        {
+            "attach": {"one_point": false},
+            "merge": {"addons": [{"smiles": "CC(C)C"}]}
+        },
+        {
+            "attach": {"addons": [{"smiles": "C1CCCCC1"}]},
+            "merge": {"one_point": false}
+        },
+        {
+            "attach": {"one_point": false},
+            "merge": {"addons": [{"smiles": "CC(C)C"}]}
+        }
+    ],
+    "output": {"path": "_perf/one_core_example/1_thread_result_2"}
+}

@@ -1,0 +1,71 @@
+1 thread
+Iteration #1 time: 0.115517139435
+Iteration #2 time: 0.21744799614
+Iteration #3 time: 0.653620958328
+Iteration #4 time: 1.97568798065
+Iteration #5 time: 6.36741781235
+Iteration #6 time: 49.2192749977
+
+Iteration #1 time: 0.114019870758
+Iteration #2 time: 0.218079090118
+Iteration #3 time: 0.650684833527
+Iteration #4 time: 1.96940398216
+Iteration #5 time: 6.38987493515
+Iteration #6 time: 49.4904620647
+
+Iteration #1 time: 0.112907886505
+Iteration #2 time: 0.217893123627
+Iteration #3 time: 0.652737140656
+Iteration #4 time: 1.96660804749
+Iteration #5 time: 6.38213515282
+Iteration #6 time: 52.4189817905
+
+Iteration #1 time: 0.114035129547
+Iteration #2 time: 0.21297121048
+Iteration #3 time: 0.65101313591
+Iteration #4 time: 1.96867799759
+Iteration #5 time: 6.25294589996
+Iteration #6 time: 47.2238361835
+
+Iteration #1 time: 0.113551139832
+Iteration #2 time: 0.215698003769
+Iteration #3 time: 0.647592067719
+Iteration #4 time: 1.95014595985
+Iteration #5 time: 6.38007879257
+Iteration #6 time: 46.1269140244
+
+8 threads
+Iteration #1 time: 0.122355937958
+Iteration #2 time: 0.123050928116
+Iteration #3 time: 0.127879142761
+Iteration #4 time: 0.466920137405
+Iteration #5 time: 2.35873198509
+Iteration #6 time: 20.7979888916
+
+Iteration #1 time: 0.119539022446
+Iteration #2 time: 0.115244865417
+Iteration #3 time: 0.126985788345
+Iteration #4 time: 0.462291002274
+Iteration #5 time: 2.36649513245
+Iteration #6 time: 20.9748051167
+
+Iteration #1 time: 0.116865873337
+Iteration #2 time: 0.113707065582
+Iteration #3 time: 0.12639093399
+Iteration #4 time: 0.563377141953
+Iteration #5 time: 2.368694067
+
+Iteration #6 time: 20.9599289894
+Iteration #1 time: 0.118228912354
+Iteration #2 time: 0.115178108215
+Iteration #3 time: 0.124497890472
+Iteration #4 time: 0.465752840042
+Iteration #5 time: 2.35061097145
+Iteration #6 time: 21.4180290699
+
+Iteration #1 time: 0.117603063583
+Iteration #2 time: 0.116777181625
+Iteration #3 time: 0.129507780075
+Iteration #4 time: 0.564167022705
+Iteration #5 time: 2.36339497566
+Iteration #6 time: 21.4730949402

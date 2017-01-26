@@ -1,0 +1,25 @@
+{
+    "core": {"smiles": "C1CCCCC1"},
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "C1CCCCC1"}]}
+        },
+        {
+            "merge": {"addons": [{"smiles": "C1CCCCC1"}]}
+        },
+        {
+            "attach": {"addons": [{"smiles": "C1CCCCC1"}]}
+        },
+        {
+            "merge": {"addons": [{"smiles": "C1CCCCC1"}]}
+        },
+        {
+            "attach": {"addons": [{"smiles": "C1CCCCC1"}]}
+        },
+        {
+            "merge": {"addons": [{"smiles": "C1CCCCC1"}]}
+        }
+    ],
+    "output": {"path": "_perf/pres_20_jan/case_2/res_8th_1"},
+    "numthreads": 8
+}

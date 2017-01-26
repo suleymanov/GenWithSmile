@@ -1,0 +1,43 @@
+{
+    "core": {
+        "smiles": "N1CCC1",
+        "atoms": [],
+        "attach_pos": [],
+        "merge_pos": []
+    },
+    "iterations": [
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "O",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "NO",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 4
+        }
+    ],
+    "output": {
+        "path": "example3",
+        "alias": "result",
+        "max": 1000
+    },
+    "numthreads": 1
+}

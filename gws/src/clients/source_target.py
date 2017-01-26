@@ -18,9 +18,12 @@ class SourceTargetClient(object):
 		self._handlers = [MoleculeHandler(
 			mol_smiles=self._config.source.smiles, atoms=self._config.source.atoms,
 			attach_pos=self._config.source.attach_pos, merge_pos=self._config.source.merge_pos)]
+		for i, handler in enumerate(self._handlers):
+			handler.create_mol_graph('handler_{}'.format(i + 1))
 		self._target_handler = MoleculeHandler(
 			mol_smiles=self._config.target.smiles, atoms=self._config.target.atoms,
 			attach_pos=self._config.target.attach_pos, merge_pos=self._config.target.merge_pos)
+		self._target_handler.create_mol_graph('target')
 		self._iter_results = []
 		dt = datetime.now()
 		self._dt_str = '{}_{}_{}_{}_{}'.format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
@@ -76,7 +79,7 @@ class SourceTargetClient(object):
 				self._dt_str, it_num + 1, i + 1)
 			with open(fn, 'w') as f:
 				f.write('\n'.join(map(
-					lambda handler: handler.mol.smiles,
+					lambda handler: handler.mol_smiles,
 					self._iter_results[i*max_entries:(i+1)*max_entries])) + '\n')
 		self._iter_results = []
 
@@ -86,7 +89,7 @@ class SourceTargetClient(object):
 
 	@staticmethod
 	def _filter_non_unique(handlers):
-		return map(lambda ind: handlers[ind], get_unique_mols(map(lambda x: x.mol.graph, handlers)))
+		return map(lambda ind: handlers[ind], get_unique_mols(map(lambda x: x.mol_graph, handlers)))
 
 
 def _add_linkers(params):
@@ -98,19 +101,20 @@ def _add_linkers(params):
 		return
 
 	handler = handlers[i]
-	return (
-		reduce(
-			lambda res, x: res + handler.attach(
-				MoleculeHandler(
-					mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
-				iteration.attach.one_point, iteration.attach.two_point),
-			iteration.attach.addons, []) +
-		reduce(
-			lambda res, x: res + handler.merge(
-				MoleculeHandler(
-					mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos),
-				iteration.attach.one_point, iteration.attach.two_point),
-			iteration.merge.addons, []))
+	attach_res, merge_res = [], []
+	for j, x in enumerate(iteration.attach.addons):
+		addon_handler = MoleculeHandler(
+			mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos)
+		addon_handler.create_mol_graph('a_{}'.format(j + 1))
+		attach_res.extend(handler.attach(
+			addon_handler, iteration.attach.one_point, iteration.attach.two_point))
+	for j, x in enumerate(iteration.merge.addons):
+		addon_handler = MoleculeHandler(
+			mol_smiles=x.smiles, atoms=x.atoms, attach_pos=x.attach_pos, merge_pos=x.merge_pos)
+		addon_handler.create_mol_graph('m_{}'.format(j + 1))
+		merge_res.extend(handler.merge(
+			addon_handler, iteration.merge.one_point, iteration.merge.two_point))
+	return attach_res + merge_res
 
 
 def _extend(params):

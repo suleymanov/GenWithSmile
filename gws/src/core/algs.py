@@ -9,6 +9,9 @@ import networkx as nx
 import networkx.algorithms.isomorphism as iso
 
 
+edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||'}
+
+
 def is_isomorph(graph1, graph2):
     """
     Check if molecular graphs are isomorphic.
@@ -40,7 +43,6 @@ def rdkitmol2graph(mol):
     graph = nx.Graph()
     for i, symbol in enumerate(atoms):
         graph.add_node(i, label=symbol)
-    edge_type_to_label = {1: '-', 2: '=', 3: '#', 12: '||'}
     for i in xrange(len(atoms)):
         for j in xrange(i + 1, len(atoms)):
             edge_type = gr[i, j]
@@ -50,10 +52,35 @@ def rdkitmol2graph(mol):
     return graph
 
 
+def reduce_graph(mol_graph, pos=None, virt_label='virt_label'):
+    """
+    Obtain reduced version of molecular graph.
+    :param mol_graph: nx.Graph
+    :param pos: list of int
+    :param virt_label: str
+    :return: nx.Graph
+    """
+    if (not pos or
+        len(pos) == mol_graph.number_of_nodes() or 
+        len(pos) == mol_graph.number_of_nodes() - 1):
+        return mol_graph
+
+    keep_nodes = pos[::]
+    drop_nodes = filter(lambda x: x not in keep_nodes, mol_graph.nodes())
+    reduced = nx.Graph(mol_graph.subgraph(keep_nodes).copy())
+    dropped = nx.Graph(mol_graph.subgraph(drop_nodes).copy())
+    virt_node_name, virt_node_label = 'virtual', virt_label
+    reduced.add_node(virt_node_name, label=virt_node_label)
+    for i, orbit in enumerate(_get_orbits(mol_graph, keep_nodes)):
+        for ind in orbit:
+            reduced.add_edge(
+                ind, virt_node_name, label='virt_{}'.format(i + 1), weight='virt_{}'.format(i + 1))
+    return reduced
+
+
 def get_unique_coords(mol_graph, num_points, positions):
     """
     Get positions which would provide unique modification result.
-    (TODO: don't forget that coordinates should be provided explicitly.)
     :param mol_graph: nx.Graph
     :param num_points: int
     :param positions: list of list of int
@@ -102,6 +129,25 @@ def _get_nonisomorphic_positions(graph, positions):
     for (_, graph1), (j, graph2) in _get_graph_combinations():
     	is_isomorph_flag[j] = is_isomorph(graph1, graph2)
     return list(np.where(~is_isomorph_flag)[0])
+
+
+def _get_orbits(graph, positions):
+    orbits = []
+    is_in_orbit = [False] * len(positions)
+    for i in xrange(len(positions)):
+        if not is_in_orbit[i]:
+            i_orbit = [positions[i]]
+            graph1 = graph.copy()
+            with _modify_vertices(graph1, [positions[i]]):
+                for j in xrange(i + 1, len(positions)):
+                    if not is_in_orbit[j]:
+                        graph2 = graph.copy()
+                        with _modify_vertices(graph2, [positions[j]]):
+                            if is_isomorph(graph1, graph2):
+                                is_in_orbit[j] = True
+                                i_orbit.append(positions[j])
+            orbits.append(i_orbit)
+    return orbits
 
 
 @contextmanager

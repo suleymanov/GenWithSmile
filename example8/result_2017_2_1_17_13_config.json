@@ -1,0 +1,44 @@
+{
+    "core": {
+        "smiles": "C1C(C2CC2)C1(=C3CC3)",
+        "atoms": [],
+        "attach_pos": [
+            3,
+            7
+        ],
+        "merge_pos": [
+            3,
+            7
+        ]
+    },
+    "iterations": [
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "C1CCC1",
+                        "atoms": [],
+                        "attach_pos": [
+                            0
+                        ],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 1
+        }
+    ],
+    "output": {
+        "path": "example8",
+        "alias": "result",
+        "max": 1000
+    },
+    "numthreads": 1
+}

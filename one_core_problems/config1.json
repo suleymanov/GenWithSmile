@@ -1,0 +1,42 @@
+{
+    "core": {
+        "smiles": "CC(C)C"
+    }, 
+    "iterations": [
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "CC"
+                    }
+                ]
+            }, 
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "CC"
+                    }
+                ]
+            }
+        }, 
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "ClC(=O)C"
+                    }
+                ]
+            }, 
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "ClC(=O)C"
+                    }
+                ]
+            }
+        }
+    ], 
+    "output": {
+        "path": "one_core_problems/results", "alias": "problem1"
+    }
+}

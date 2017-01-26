@@ -1,0 +1,11 @@
+{
+    "core": {"smiles": "N1CCCCC1"},
+    "iterations": [
+        {
+            "attach": {"addons": [{"smiles": "O"}]},
+            "merge": {"addons": [{"smiles": "NO"}]},
+            "max": 1
+        }
+    ],
+    "output": {"path": "example3"}
+}

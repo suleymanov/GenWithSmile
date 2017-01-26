@@ -12,57 +12,57 @@ from utils import clean_files, clean_paths
 
 
 class ClientsOneCoreTests(ClientBaseTestCase):
-	def test_1(self):
-		print('Test 1: atoms as cores')
-		self.assertTrue(self._run_test_case(self.atoms, self.atoms))
-		self.assertTrue(self._run_test_case(self.atoms, self.basic))
-		self.assertTrue(self._run_test_case(self.atoms, self.groups))
-		self.assertTrue(self._run_test_case(self.atoms, self.rings))
+	# def test_1(self):
+	# 	print('Test 1: atoms as cores')
+	# 	self.assertTrue(self._run_test_case(self.atoms, self.atoms))
+	# 	self.assertTrue(self._run_test_case(self.atoms, self.basic))
+	# 	self.assertTrue(self._run_test_case(self.atoms, self.groups))
+	# 	self.assertTrue(self._run_test_case(self.atoms, self.rings))
 
-	def test_2(self):
-		print('Test 2: basic structs as cores')
-		self.assertTrue(self._run_test_case(self.basic, self.atoms))
-		self.assertTrue(self._run_test_case(self.basic, self.basic))
-		self.assertTrue(self._run_test_case(self.basic, self.groups))
-		self.assertTrue(self._run_test_case(self.basic, self.rings))
+	# def test_2(self):
+	# 	print('Test 2: basic structs as cores')
+	# 	self.assertTrue(self._run_test_case(self.basic, self.atoms))
+	# 	self.assertTrue(self._run_test_case(self.basic, self.basic))
+	# 	self.assertTrue(self._run_test_case(self.basic, self.groups))
+	# 	self.assertTrue(self._run_test_case(self.basic, self.rings))
 
-	def test_3(self):
-		print('Test 3: groups as cores')
-		self.assertTrue(self._run_test_case(self.groups, self.atoms))
-		self.assertTrue(self._run_test_case(self.groups, self.basic))
-		self.assertTrue(self._run_test_case(self.groups, self.groups))
-		self.assertTrue(self._run_test_case(self.groups, self.rings))
+	# def test_3(self):
+	# 	print('Test 3: groups as cores')
+	# 	self.assertTrue(self._run_test_case(self.groups, self.atoms))
+	# 	self.assertTrue(self._run_test_case(self.groups, self.basic))
+	# 	self.assertTrue(self._run_test_case(self.groups, self.groups))
+	# 	self.assertTrue(self._run_test_case(self.groups, self.rings))
 
-	def test_4(self):
-		print('Test 4: rings as cores')
-		self.assertTrue(self._run_test_case(self.rings, self.atoms))
-		self.assertTrue(self._run_test_case(self.rings, self.basic))
-		self.assertTrue(self._run_test_case(self.rings, self.groups))
-		self.assertTrue(self._run_test_case(self.rings, self.rings))
+	# def test_4(self):
+	# 	print('Test 4: rings as cores')
+	# 	self.assertTrue(self._run_test_case(self.rings, self.atoms))
+	# 	self.assertTrue(self._run_test_case(self.rings, self.basic))
+	# 	self.assertTrue(self._run_test_case(self.rings, self.groups))
+	# 	self.assertTrue(self._run_test_case(self.rings, self.rings))
 
 	def test_5(self):
 		print('Test 5: two iterations')
 		self.assertTrue(self._run_test_case(self.basic, self.groups, num_iter=2))
-		self.assertTrue(self._run_test_case(self.groups, self.rings, num_iter=2))
-		self.assertTrue(self._run_test_case(self.rings, self.basic, num_iter=2))
+		# self.assertTrue(self._run_test_case(self.groups, self.rings, num_iter=2))
+		# self.assertTrue(self._run_test_case(self.rings, self.basic, num_iter=2))
 
-	def test_6(self):
-		print('Test 6: two modifications')
-		self.assertTrue(self._run_test_case(self.basic, self.groups, max=2))
-		self.assertTrue(self._run_test_case(self.groups, self.rings, max=2))
-		self.assertTrue(self._run_test_case(self.rings, self.basic, max=2))
+	# def test_6(self):
+	# 	print('Test 6: two modifications')
+	# 	self.assertTrue(self._run_test_case(self.basic, self.groups, max=2))
+	# 	self.assertTrue(self._run_test_case(self.groups, self.rings, max=2))
+	# 	self.assertTrue(self._run_test_case(self.rings, self.basic, max=2))
 
-	def test_7(self):
-		print('Test 7: two addons')
-		self.assertTrue(self._run_test_case(self.basic, self.groups, num_add=2))
-		self.assertTrue(self._run_test_case(self.groups, self.rings, num_add=2))
-		self.assertTrue(self._run_test_case(self.rings, self.basic, num_add=2))
+	# def test_7(self):
+	# 	print('Test 7: two addons')
+	# 	self.assertTrue(self._run_test_case(self.basic, self.groups, num_add=2))
+	# 	self.assertTrue(self._run_test_case(self.groups, self.rings, num_add=2))
+	# 	self.assertTrue(self._run_test_case(self.rings, self.basic, num_add=2))
 
-	def test_8(self):
-		print('Test 7: two-point')
-		self.assertTrue(self._run_test_case(self.basic, self.groups, two_point=True))
-		self.assertTrue(self._run_test_case(self.groups, self.rings, two_point=True))
-		self.assertTrue(self._run_test_case(self.rings, self.basic, two_point=True))
+	# def test_8(self):
+	# 	print('Test 7: two-point')
+	# 	self.assertTrue(self._run_test_case(self.basic, self.groups, two_point=True))
+	# 	self.assertTrue(self._run_test_case(self.groups, self.rings, two_point=True))
+	# 	self.assertTrue(self._run_test_case(self.rings, self.basic, two_point=True))
 
 	def _run_test_case(self, structures, addons, num_iter=1, max=1, num_add=1, two_point=False):
 		status = True
@@ -83,6 +83,8 @@ class ClientsOneCoreTests(ClientBaseTestCase):
 			self.paths_to_remove.append(client._config.output.path)
 			client.process()
 			status = status and self._all_unique(client._config)
+			if not status:
+				print(config_fn)
 		return status
 
 	def _all_unique(self, run_config):
@@ -94,7 +96,10 @@ class ClientsOneCoreTests(ClientBaseTestCase):
 				lambda res, item: res + IOUtils.read_smi(path + os.sep + item),
 				filter(lambda x: 'iter_{}'.format(i + 1) in x, os.listdir(path)), [])
 			handlers = map(MoleculeHandler, mols)
-			status = status and len(handlers) == len(get_unique_mols(map(lambda x: x.mol.graph, handlers)))
+			for h in handlers:
+				h.create_mol_graph()
+			print(len(handlers), len(get_unique_mols(map(lambda x: x.mol_graph, handlers))))
+			status = status and len(handlers) == len(get_unique_mols(map(lambda x: x.mol_graph, handlers)))
 
 		return status
 

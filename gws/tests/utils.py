@@ -21,8 +21,9 @@ class ClientBaseTestCase(unittest.TestCase):
 		self.rings = IOUtils.read_smi('gws/tests/resources/rings.smi')
 
 	def tearDown(self):
-		clean_files(self.files_to_remove)
-		clean_paths(self.paths_to_remove)
+		# clean_files(self.files_to_remove)
+		# clean_paths(self.paths_to_remove)
+		pass
 
 
 def clean_files(file_names):

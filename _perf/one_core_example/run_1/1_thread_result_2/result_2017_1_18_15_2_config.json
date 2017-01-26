@@ -1,0 +1,136 @@
+{
+    "core": {
+        "smiles": "C1CCCCC1",
+        "atoms": [],
+        "attach_pos": [],
+        "merge_pos": []
+    },
+    "iterations": [
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "C1CCCCC1",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [],
+                "one_point": false,
+                "two_point": false
+            },
+            "max": 1
+        },
+        {
+            "attach": {
+                "addons": [],
+                "one_point": false,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "CC(C)C",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 1
+        },
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "C1CCCCC1",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [],
+                "one_point": false,
+                "two_point": false
+            },
+            "max": 1
+        },
+        {
+            "attach": {
+                "addons": [],
+                "one_point": false,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "CC(C)C",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 1
+        },
+        {
+            "attach": {
+                "addons": [
+                    {
+                        "smiles": "C1CCCCC1",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [],
+                "one_point": false,
+                "two_point": false
+            },
+            "max": 1
+        },
+        {
+            "attach": {
+                "addons": [],
+                "one_point": false,
+                "two_point": false
+            },
+            "merge": {
+                "addons": [
+                    {
+                        "smiles": "CC(C)C",
+                        "atoms": [],
+                        "attach_pos": [],
+                        "merge_pos": []
+                    }
+                ],
+                "one_point": true,
+                "two_point": false
+            },
+            "max": 1
+        }
+    ],
+    "output": {
+        "path": "_perf/one_core_example/1_thread_result_2",
+        "alias": "result",
+        "max": 1000
+    },
+    "numthreads": 1
+}

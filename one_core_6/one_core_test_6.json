@@ -1,0 +1,10 @@
+{
+    "core": {"smiles": "C1CC1"}, 
+    "iterations": [
+        {
+            "merge": {"addons": [{"smiles": "N"}]},
+            "max": 3
+        }
+    ],
+    "output": {"path": "one_core_6", "alias": "one_core_test_6"}
+}
