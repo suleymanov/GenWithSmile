@@ -5,7 +5,7 @@ from collections import namedtuple
 MoleculeSettings = namedtuple('MoleculeSettings', ['smiles', 'atoms', 'attach_pos', 'merge_pos'])
 ModificationSettings = namedtuple('ModificationSettings', ['addons', 'one_point', 'two_point'])
 IterationSettings = namedtuple('IterationSettings', ['attach', 'merge', 'max'])
-SmartsSettings = namedtuple('SmartsSettings', ['include', 'exclude'])
+PatternsSettings = namedtuple('PatternsSettings', ['include', 'exclude'])
 OutputSettings = namedtuple('OutputSettings', ['path', 'alias', 'max'])
 
 
@@ -36,11 +36,17 @@ class ReaderTools(object):
 		)
 
 	@staticmethod
-	def read_smarts_settings(iter_dict):
-		return SmartsSettings(
-			include=iter_dict.get('include', []),
-			exclude=iter_dict.get('exclude', [])
-		)
+	def read_patterns_settings(iter_dict, io_utils):
+		def process_type(key, iter_dict):
+			patts = iter_dict.get(key, {}).get('from_list', [])
+			fn = iter_dict.get(key, {}).get('from_df', None)
+			if fn:
+				patts.extend(io_utils.read_df(fn))
+			return patts
+
+		return PatternsSettings(
+			include=process_type('include', iter_dict), 
+			exclude=process_type('exclude', iter_dict))
 
 	@staticmethod
 	def read_output(out_dict):

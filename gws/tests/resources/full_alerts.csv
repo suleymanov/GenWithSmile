@@ -1,0 +1,128 @@
+#Acetylurea|[C;!R](=O)NC(=O)
+#Acid halide|C(=O)[Cl,Br,I,F]
+#Acyl cyanide|C(=O)C#N
+#Acyl with aromatic nitrogen|C(=O)n
+#Activated aryl ester|O=[C,S]Oc1aaa([$(S(=O)(=O)),$(C(F)(F)(F)),$(C#N),$(N(=O)(=O)),$([N+](=O)[O-]),$(C(=O)O),$(C(=O)N)])aa([$(S(=O)(=O)),$(C(F)(F)(F)),$(C#N),$(N(=O)(=O)),$([N+](=O)[O-]),$(C(=O)O),$(C(=O)N)])1
+#Acyclic N-,=N and not N bound to carbonyl or sulfone|[N;!$(N-[C,S]=*)]-,=;!@[N;!$(N-[C,S]=*)]
+#Acridine|n1c3c(cc2c1cccc2)cccc3
+#Acrylonitrile|C=[C!r]C#N
+#Activated four member ring|[#6]1~[$(C(=O)),$(S(=O))]~[O,S,N]~[$(C(=O)),$(S(=O))]1
+#Aldehyde|[CH1](=O)
+#Aliphatic long chain|[R0;D2][R0;D2][R0;D2][R0;D2]
+#Allene|*=C=*
+#Aminonitrile|NC#N
+#4-Nitroaniline|O=[N+](-[O-])-caac-[$(N(C)C),$([NH]C),$([NH2])]
+#Antracene|c3ccc2cc1ccccc1cc2c3
+#Azo group|N#N
+#Azulene|c:2:c:c:c:1:c(:c:c:c:1):c:c:2
+#Bad cations |[C+,c+,O+,o+,S+,s+,F+,Cl+,Br+,I+]
+#Benzidine_like|c([N;!+])1ccc(c2ccc([N;!+])cc2)cc1
+#Beta carbonyl quaternary nitrogen|C(=O)C[N+,n+,NX4,nX4]
+#Betafluoroethyl-one|[C;H2$(CF),H1$(C(F)F)]!@[CH2][N,O]
+#Beta halocarbonyl|[#6,#1]C(=O)CC[Br,I]
+#Biciclic imide|*~@C1C(=O)NC(=O)C(~@*)1
+#(Bromine + Iodine) > 3|[Br,I].[Br,I].[Br,I].[Br,I]
+#Carbamate|OC(=O)-!@[NX3]
+#Carboanion|[C-,c-]
+#Carbonyl with halobenzene|C(=O)Oc1c([Cl,F])[cH1,$(c[F,Cl])]c([F,Cl])[cH1,$(c[F,Cl])]c1([F,Cl])
+#Carbonyl with sulfur|[C;!r](=O)[S;!r]
+#Chlorine > 2|Cl.Cl.Cl
+#Compounds with 2 or more carboxygroup|C(=O)[OH].C(=O)[OH]
+#Compounds with 2 or more sulphogroup|S(=O)[OH].S(=O)[OH]
+#Compounds with 2 or more ester groups|C(=O)O[C,H1].C(=O)O[C,H1]
+#Compounds with 3 or more nitriles|C#N.C#N.C#N
+#Compounds with 2 or more quaternary nitrogens|[N,n;H0;+;!$(N~O);!$(n~O)].[N,n;H0;+;!$(N~O);!$(n~O)]
+#Compounds with 2 or more double bonds|C=[C;!R].C=[C;!R]
+#Compounds with 2 or more aliphatic sulphur|[S;!R].[S;!R]
+#Compounds with 2 or more carboxygroup|[CX3](=O)[OH1].[CX3](=O)[OH1]
+#Compounds with 3 or more ketogroup|C=O.C=O.C=O
+#Compounds with 3 or more cyano groups|C#N.C#N.C#N
+#Crown Ether|[$([O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18]),$([O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18]),$([O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][CH,CH2;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18][O,S,#7;R1;r9,r10,r11,r12,r13,r14,r15,r16,r17,r18])]
+#Cyanate|OC#N
+#Cyanhydrin|[NX1]#C[CX4][OH]
+#Cyanamide|[NH2][CH2]C#N
+#Cyanomethyl|NCC#N
+#Cyclobutene|C1CC=C1
+#Conjugated cyano|C=CC#N
+#Cycloheximide|O=C2NC(=O)CC(C[C@@H](O)[C@H]1C(=O)[C@@H](C)C[C@H](C)C1)C2
+#Diazo group|[N!R]=[N!R]
+#Dicarbonyl Sulfonamide|[$(N(-C(=O))(-C(=O))(-S(=O))),$(n([#6](=O))([#6](=O))([#16](=O)))]
+#Disulphide|SS
+#Double Bond adjacent to ring|[*;R]=[*;R]=[*;R]
+#Dye 2|OCccCO
+#Dye 4|c12ccccc1C(=O)c3ccccc3C2=O
+#Dye 6|c12cccc(C(=O)C(ca)C(=O)3)c2c3ccc1
+#Dye 25|acC=&!@Cca
+#Dye 26|c1ccccc1-n2nnnc2[CH2]*
+#Dye 31|a1aaac2ac3acac4aaac(c34)c12
+#Dye 32|c1cccc2C(=O)C(C:,=*)C(=O)c12
+#Enyne|C=!@CC#C
+#EWG(2) with halogen in heterocycle|[#7,#8,#16]1[#6]([$(S(=O)(=O)),$([F,Cl]),$(C(F)(F)(F)),$(C#N),$(N(=O)(=O)),$([N+](=O)[O-]),$(C(=O))])[#6]([$(S(=O)(=O)),$([F,Cl]),$(C(F)(F)(F)),$(C#N),$(N(=O)(=O)),$([N+](=O)[O-]),$(C(=O))])[#7][#6]1([Cl,Br,I])
+#EWG(2) with halogen in olefines|C([Cl,Br,I,$(O(S(=O)(=O)))])=C([$(S(=O)(=O)),$(C(F)(F)(F)),$(C#N),$(N(=O)(=O)),$([N+](=O)[O-]),$(C=O)])([$(S(=O)(=O)),$(C(F)(F)(F)),$(C#N),$(N(=O)(=O)),$([N+](=O)[O-]),$(C=O)])
+#Enol|C=[C!r][OH]
+#Fluorine Ketone or Sulfone|[#6][C,S](=O)C[F]
+#Halo pyrimidine|c1nc(ncc1)[Br,I]
+#Halogen heteroatom|[!C;!c;!H][F,Cl,Br,I]
+#Hetero_hetero|*[N,O;R0]-&!@[N,O]*
+#Hetero-Carbon-Hetero not in ring|[NX3R0,NX4R0,OR0,SX2R0][CX4][NX3R0,NX4R0,OR0,SX2R0]
+#Heterocycle with keto|[$(c([C;!R;!$(C-[N,O,S]);!$(C-[H])](=O))1naaaa1),$(c([C;!R;!$(C-[N,O,S]);!$(C-[H])](=O))1naa[n,s,o]1)]
+#Hydrated diketone|C(=O)C([OH])[OH]
+#Hydroxylamine|[N]-[O][C,H]
+#Hydroxamic acid|C(=O)N[OH]
+#Isolated alkene|[$([CH2]),$([CH][CX4]),$(C([CX4])[CX4])]=[$([CH2]),$([CH][CX4]),$(C([CX4])[CX4])]
+#CH2=|[CH2]=*
+#Ketene|C=C=O
+#Meldrums acid|O=C1OC(C)(C)OC(C1)=O
+#Meta dinitrobenzene|c1c([N+](=O)[O-])cc([N+](=O)[O-])cc1
+#Michael acceptor 1|C=CC=[O,S]
+#Michael acceptor 2|C#CC=[O,S]
+#Michael acceptor 3|C#CS(=O)(=O)[C,c]
+#Michael acceptor 4|C#CC(=O)O[C,c]
+#Michael acceptor 5|N#CC(=C)C#N
+#Monensin derivatives|O1CCCCC1C2CCCO2
+#Nitrogen double bond|[N]=*
+#Nitrogen with adjacent double bond|C=CN
+#Nitrogen-Carbon-Halogen|N-C-[F,Cl,Br,I]
+#Non-Organic Atoms|[!#6;!#7;!#8;!#16;!#1;!#9;!#11;!#17;!#19;!#35;!#53]
+N-hydroxylpyridine|n[OH]
+#Ortho dinitrobenzene|c1c([N+](=O)[O-])c([N+](=O)[O-])ccc1
+#Orthoester|C(O)(O)[OH]
+#Oxy-amide|[#6]C(=O)!@C!@C(=O)N
+#Para dinitrobenzene|c1c([N+](=O)[O-])ccc([N+](=O)[O-])c1
+#Paranitrophenyl esters|C(=O)Oc1ccc(N(=O)~[OX1])cc1
+#Perfluorinated chain|[CX4](F)(F)[CX4](F)F
+#Polyethers|O[CH2][CH2]O-!@[CH2][CH2]O
+#Pyrrole with aromatic|n2(-[#6]:1:[!#1]:[#6]:[#6]:[#6]:[#6]:1)c(cc(c2-[#6;X4])-[#1])-[#6;X4]
+#Phenol ester|c1ccccc1OC(=O)[#6]
+#Polyenes|[CR0]=[CR0][CR0]=[CR0]
+#Propiolactone|C1(=O)OCC1
+#Reactive alkyl halides|[Br,Cl,I][CX4;CH,CH2,CH3]
+#Saponine|O1CCCCC1OC2CCC3CCCCC3C2
+#Styrene|c1ccccc1C=C
+#Sulphate esters|COS(=O)O[C,c]
+#Sulfonamide activated by halogen|NS(=O)(=O)c1cc([F,Cl,Br,I])cc([F,Cl,Br,I])c1O
+#Sulfonate|COS(=O)(=O)[C,c]
+#Sulfonic Acid|S(=O)(=O)[O-,OH]
+#Sulfonyl cyanides|S(=O)(=O)C#N
+#Sulfonium salt|*[SX3](*)*
+#Sulfur nitrogen bonds except sulfonamides|[#6][S!$(S(~[OD1])~[OD1])][N;H0]
+#Sulfur double bond|[S;D1;!r]=*
+#Sulfite sulfate ester|[C,c]OS(=O)O[C,c]
+#Sulfur carbon double bond|S=C
+#Sulfur with adjacent double bond|SC=C
+#Sulfur with 2 connections|[#16;X2;!R]
+#Sulphonyl with halobenzene|S(=O)Oc1c([Cl,F])[cH1,$(c[F,Cl])]c([F,Cl])[cH1,$(c[F,Cl])]c1([F,Cl])
+#Sulfonyl heteroatom|[!#6;!#1;!#11;!#19]O(S(=O)(=O)(-[C,c]))
+#Sulphonyl cyanide|S(=O)(=O)C#N
+#Thiocyanate|SC#N
+#Thiocarbonyl|C(=O)S
+#Thiophene with hydroxyl|s1ccc(c1)-[#8;H1]
+#Thiol warhead|NC(C[S;D1])C(O)=O
+#Three-membered heterocycle|*1[O,S,N]*1
+#Triflate|OS(=O)(=O)C(F)(F)F
+#Trifluroacetate(amide)(ester)|FC(F)(F)C(=O)[N,O]
+#Triple bond|C#C
+#Vinyl Terminal|[CH2D1]=[CD2]-!@*
+#Vinyl Ester|O=COC=C
+#Vinyl Sulfonate|O(-S(=O)(=O))C=C
+#Vinyl halide|[Cl,Br,I]C=[!O!R]

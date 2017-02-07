@@ -30,6 +30,13 @@ class ValidationFactory(object):
 			'Modification positions exceed number of atoms.'
 
 	@staticmethod
+	def validate_patterns(patterns):
+		from rdkit import Chem
+		for patt in patterns:
+			assert Chem.MolFromSmarts(patt), \
+				'Could not initialize pattern: {}'.format(patt)
+
+	@staticmethod
 	def validate_iterations(iterations):
 		assert isinstance(iterations, list), 'Iterations should be provided as list.'
 		assert len(iterations) > 0, 'Should be at least one iteration.'

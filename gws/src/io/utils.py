@@ -30,3 +30,10 @@ class IOUtils(object):
 	@staticmethod
 	def write_smi(fn, data):
 		return IOUtils.write_file(fn, '\n'.join(data) + '\n')
+
+	@staticmethod
+	def read_df(fn, sep='|', col_ind=1):
+		import pandas as pd
+
+		df = pd.read_csv(fn, sep=sep)
+		return list(df.iloc[:,col_ind])

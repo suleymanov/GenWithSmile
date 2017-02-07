@@ -9,11 +9,8 @@
     ],
     "patterns": {
         "exclude": {
-            "from_list": ["CN", "C=N"]
-        },
-        "include": {
-            "from_list": ["CC"]
+            "from_df": "gws/tests/resources/full_alerts.csv"
         }
     },
-    "output": {"path": "gws/tests/demos/one_core/results", "alias": "one_core_test_19"}
+    "output": {"path": "gws/tests/demos/one_core/results", "alias": "one_core_test_20"}
 }

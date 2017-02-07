@@ -10,15 +10,14 @@ from reader_tools import ReaderTools
 
 OneCoreSettings = namedtuple(
 	'OneCoreSettings', 
-	['core', 'iterations', 'output', 'filters', 'numthreads'])
+	['core', 'iterations', 'output', 'patterns', 'numthreads'])
 SourceTargetSettings = namedtuple(
 	'SourceTargetSettings', 
-	['source', 'target', 'iterations', 'output', 'filters', 'numthreads'])
+	['source', 'target', 'iterations', 'output', 'patterns', 'numthreads'])
 CombinationsSettings = namedtuple(
 	'CombinationsSettings',
-	[
-		'molecules', 'addons', 'linkers', 'attach', 'merge', 'output', 'filters', 'numthreads', 
-		'samelist', 'config_dict'])
+	['molecules', 'addons', 'linkers', 'attach', 'merge', 'output', 'patterns', 'numthreads', 
+	'samelist', 'config_dict'])
 
 
 class OneCoreConfigReader(object):
@@ -45,7 +44,7 @@ class OneCoreConfigReader(object):
 			core=ReaderTools.read_molecule(config_dict['core']),
 			iterations=map(ReaderTools.read_iteration, config_dict['iterations']),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
-			filters=ReaderTools.read_smarts_settings(config_dict.get('smarts', {})),
+			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
 			numthreads=config_dict.get('numthreads', 1)
 		)
 
@@ -55,6 +54,8 @@ class OneCoreConfigReader(object):
 		ValidationFactory.validate_iterations(config.iterations)
 		ValidationFactory.validate_output(config.output)
 		ValidationFactory.validate_threading(config.numthreads)
+		ValidationFactory.validate_patterns(config.patterns.include)
+		ValidationFactory.validate_patterns(config.patterns.exclude)
 
 
 class SourceTargetConfigReader(object):
@@ -83,7 +84,7 @@ class SourceTargetConfigReader(object):
 			target=ReaderTools.read_molecule(config_dict['target']),
 			iterations=map(ReaderTools.read_iteration, config_dict['iterations']),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
-			filters=ReaderTools.read_smarts_settings(config_dict.get('smarts', {})),
+			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
 			numthreads=config_dict.get('numthreads', 1)
 		)
 
@@ -94,6 +95,8 @@ class SourceTargetConfigReader(object):
 		ValidationFactory.validate_output(config.output)
 		ValidationFactory.validate_threading(config.numthreads)
 		ValidationFactory.validate_iterations(config.iterations)
+		ValidationFactory.validate_patterns(config.patterns.include)
+		ValidationFactory.validate_patterns(config.patterns.exclude)
 		assert all(it.max == 1 for it in config.iterations), \
 			'Handling more than one addon awaits for implementation.'
 
@@ -130,7 +133,7 @@ class CombinationsConfigReader(object):
 			attach=ReaderTools.read_modification(config_dict.get('attach', {})),
 			merge=ReaderTools.read_modification(config_dict.get('merge', {})),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
-			filters=ReaderTools.read_smarts_settings(config_dict.get('smarts', {})),
+			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
 			numthreads=config_dict.get('numthreads', 1),
 			samelist=mols_file_name==adds_file_name,
 			config_dict=config_dict
@@ -145,6 +148,8 @@ class CombinationsConfigReader(object):
 		ValidationFactory.validate_modification(config.merge)
 		ValidationFactory.validate_output(config.output)
 		ValidationFactory.validate_threading(config.numthreads)
+		ValidationFactory.validate_patterns(config.patterns.include)
+		ValidationFactory.validate_patterns(config.patterns.exclude)
 
 
 def read_one_core_config(fn):

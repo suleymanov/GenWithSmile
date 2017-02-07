@@ -70,10 +70,10 @@ class OneCoreClient(object):
 					filter(
 						lambda handler: (all(map(
 							lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
-							self._config.filters.include))
+							self._config.patterns.include))
 						and all(map(
 							lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)), 
-							self._config.filters.exclude))),
+							self._config.patterns.exclude))),
 						self._iter_results[i*max_entries:(i+1)*max_entries]))) + '\n')
 		self._iter_results = []
 
