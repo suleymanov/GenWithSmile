@@ -52,6 +52,8 @@ class Merger(BaseModifier):
 				em = Chem.EditableMol(self.mol_rdkit)
 				em.RemoveBond(*coord)
 				inds_map = {other_coord[i]: coord[i] for i in [0, 1]}
+				for host_pos, ins_pos in zip(coord, other_coord):
+					em.ReplaceAtom(host_pos, other_modifier.mol_rdkit.GetAtomWithIdx(ins_pos))
 				for at in filter(lambda at: at.GetIdx() not in other_coord, other_modifier.mol_rdkit.GetAtoms()):
 					inds_map[at.GetIdx()] = em.AddAtom(at)
 				for b in filter(

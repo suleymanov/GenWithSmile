@@ -26,7 +26,7 @@ class SourceTargetClient(object):
 		self._dt_str = '{}_{}_{}_{}_{}'.format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
 		config_fn = '{}{}{}_{}_config.json'.format(
 			self._config.output.path, os.sep, self._config.output.alias, self._dt_str)
-		write_config(config_fn, self._config)
+		self._write_config(config_fn)
 
 	def process(self):
 		for it_num, it in enumerate(self._config.iterations):
@@ -81,13 +81,25 @@ class SourceTargetClient(object):
 					lambda handler: handler.mol.smiles,
 					filter(
 						lambda handler: (all(map(
-							lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmiles(s)),
-							self._config.filters.include))
+							lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
+							self._config.patterns.include))
 						and all(map(
-							lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmiles(s)),
-							self._config.filters.exclude))),
+							lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
+							self._config.patterns.exclude))),
 						self._iter_results[i*max_entries:(i+1)*max_entries]))) + '\n')
 		self._iter_results = []
+
+	def _write_config(self, fn):
+		config_dict = {
+			'source': self._config.source,
+			'target': self._config.target,
+			'iterations': self._config.iterations,
+			'output': self._config.output,
+			'numthreads': self._config.numthreads
+		}
+		if 'patterns' in self._config.config_dict:
+			config_dict['patterns'] = self._config.config_dict['patterns']
+		write_config(fn, config_dict)
 
 	@staticmethod
 	def from_file(fn):

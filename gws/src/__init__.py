@@ -1,6 +1,7 @@
 from clients import (
 	OneCoreClient,
 	SourceTargetClient,
-	CombinationsClient
+	CombinationsClient,
+	BlocksClient
 )
 from io.utils import IOUtils

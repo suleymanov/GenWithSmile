@@ -1,5 +1,5 @@
 import os
-from json import dumps, loads
+from simplejson import dumps, loads
 
 
 class IOUtils(object):

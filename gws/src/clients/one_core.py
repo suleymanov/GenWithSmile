@@ -24,7 +24,7 @@ class OneCoreClient(object):
 			dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
 		config_fn = '{}{}{}_{}_config.json'.format(
 			self._config.output.path, os.sep, self._config.output.alias, self._dt_str)
-		write_config(config_fn, self._config)
+		self._write_config(config_fn)
 
 	def process(self):
 		for it_num, it in enumerate(self._config.iterations):
@@ -33,7 +33,7 @@ class OneCoreClient(object):
 
 	def _perform_iteration(self, iteration):
 		iter_handlers = self._handlers[::]
-		for _ in xrange(iteration.max):
+		for repeat_ind in xrange(iteration.max):
 			handlers = iter_handlers[::]
 			results = []
 			pack_i = lambda i: (i, handlers, iteration)
@@ -47,11 +47,11 @@ class OneCoreClient(object):
 				results.extend(reduce(
 					lambda res, item: res + item, filter(lambda x: x, pool_results), []))
 			
+			results = OneCoreClient._filter_non_unique(results)
 			iter_handlers = results[::]
 			self._iter_results.extend(results)
 
 		self._iter_results = OneCoreClient._filter_non_unique(self._iter_results)
-
 		self._handlers = self._iter_results[::]
 		for handler in self._handlers:
 			handler.update_modifiers_positions()
@@ -76,6 +76,17 @@ class OneCoreClient(object):
 							self._config.patterns.exclude))),
 						self._iter_results[i*max_entries:(i+1)*max_entries]))) + '\n')
 		self._iter_results = []
+
+	def _write_config(self, fn):
+		config_dict = {
+			'core': self._config.core,
+			'iterations': self._config.iterations,
+			'output': self._config.output,
+			'numthreads': self._config.numthreads
+		}
+		if 'patterns' in self._config.config_dict:
+			config_dict['patterns'] = self._config.config_dict['patterns']
+		write_config(fn, config_dict)
 
 	@staticmethod
 	def from_file(fn):

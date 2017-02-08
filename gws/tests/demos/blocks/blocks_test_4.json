@@ -1,0 +1,15 @@
+{
+	"molecules": [
+		{"smiles": "C"},
+		{"smiles": "NO"},
+		{"smiles": "c1ccccc1"},
+		{"smiles": "C1NCCNC1"}
+	],
+	"depth": 2,
+	"output": {"path": "gws/tests/demos/blocks/results", "alias": "blocks_test_4"},
+	"patterns": {
+		"exclude": {
+			"from_list": ["CC", "CN"]
+		}
+	}
+}

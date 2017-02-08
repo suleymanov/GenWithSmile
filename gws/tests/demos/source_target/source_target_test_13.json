@@ -8,11 +8,8 @@
 	],
 	"patterns": {
 		"exclude": {
-			"from_list": ["C1CC1"]
-		},
-		"include": {
-			"from_list": ["CC"]
+			"from_df": "gws/tests/resources/full_alerts.csv"
 		}
 	},
-	"output": {"path": "gws/tests/demos/source_target/results", "alias": "source_target_test_12"}
+	"output": {"path": "gws/tests/demos/source_target/results", "alias": "source_target_test_13"}
 }

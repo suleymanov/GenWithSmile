@@ -32,7 +32,7 @@ class CombinationsClient(object):
 		self._dt_str = '{}_{}_{}_{}_{}'.format(dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
 		config_fn = '{}{}{}_{}_config.json'.format(
 			self._config.output.path, os.sep, self._config.output.alias, self._dt_str)
-		self.write_config(config_fn)
+		self._write_config(config_fn)
 
 	def process(self):
 		pack_i = lambda i: (
@@ -45,11 +45,7 @@ class CombinationsClient(object):
 			pool.close()
 			pool.join()
 
-	@staticmethod
-	def from_file(fn):
-		return CombinationsClient(read_config(fn))
-
-	def write_config(self, fn):
+	def _write_config(self, fn):
 		config_dict = {
 			'molecules': self._config.config_dict['molecules'],
 			'attach': self._config.attach,
@@ -63,7 +59,13 @@ class CombinationsClient(object):
 			config_dict['addons'] = addons_fn
 		if linkers_fn:
 			config_dict['linkers'] = linkers_fn
+		if 'patterns' in self._config.config_dict:
+			config_dict['patterns'] = self._config.config_dict['patterns']
 		write_config(fn, config_dict)
+
+	@staticmethod
+	def from_file(fn):
+		return CombinationsClient(read_config(fn))
 
 
 def _process(params):
@@ -96,7 +98,7 @@ def _process(params):
 				modifier.attach(addon_handler, config.attach.one_point, config.attach.two_point) +
 				modifier.merge(addon_handler, config.merge.one_point, config.merge.two_point))
 			if len(results) > 0:
-				_update_results(results, i, j + shift, config.filters, config.output, dt_str)
+				_update_results(results, i, j + shift, config.patterns, config.output, dt_str)
 
 
 def _filter_non_unique(handlers):
@@ -115,9 +117,9 @@ def _update_results(results, i, j, filters, output, dt_str):
 				lambda handler: handler.mol.smiles,
 				filter(
 					lambda handler: (all(map(
-						lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmiles(s)),
+						lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
 						filters.include))
 					and all(map(
-						lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmiles(s)),
+						lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
 						filters.exclude))),
 					results[ind*max_entries:(ind+1)*max_entries]))) + '\n')

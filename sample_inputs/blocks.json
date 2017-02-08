@@ -1,0 +1,10 @@
+{
+	"molecules": [
+		{"smiles": "C"},
+		{"smiles": "O"},
+		{"smiles": "c1ccccc1"},
+		{"smiles": "c1nccnc1"}
+	],
+	"depth": 3,
+	"output": {"alias": "blocks"}
+}

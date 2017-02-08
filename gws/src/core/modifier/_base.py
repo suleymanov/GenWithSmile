@@ -100,9 +100,11 @@ class BaseModifier(object):
 				self.mol_graph, 1, map(lambda x: [x], self.pos))
 		if two_point:
 			self.two_point_coords = get_unique_coords(
-				self.mol_graph, 2, map(
-					lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()),
-					filter(lambda x: x.IsInRing(), self.mol_rdkit.GetBonds())))
+				self.mol_graph, 2, filter(
+					lambda x: x[0] in self.pos and x[1] in self.pos,
+					map(
+						lambda x: (x.GetBeginAtomIdx(), x.GetEndAtomIdx()),
+						filter(lambda x: x.IsInRing(), self.mol_rdkit.GetBonds()))))
 
 	@abstractmethod
 	def _combine_one_point(self, other_modifier, coord, other_coord):
@@ -113,7 +115,15 @@ class BaseModifier(object):
 		pass
 
 	def _pack_result(self, other_modifier, result_mol, inds_map, drop_pos=None):
-		curr_pos = filter(lambda x: x not in drop_pos, self.pos) if drop_pos is not None else self.pos[::]
-		next_pos = map(lambda k: inds_map[k], filter(lambda k: k in other_modifier.pos, inds_map))
+		# curr_pos = filter(lambda x: x not in drop_pos, self.pos) if drop_pos is not None else self.pos[::]
+		# next_pos = map(lambda k: inds_map[k], filter(lambda k: k in other_modifier.pos, inds_map))
+		# next_pos += self.next_pos
+		# return CombinationResult(result_mol, curr_pos, next_pos, inds_map)
+
+		curr_pos = filter(lambda x: x not in drop_pos, self.pos) \
+			if drop_pos is not None else self.pos[::]
+		next_pos = filter(
+			lambda x: x not in drop_pos, 
+			map(lambda k: inds_map[k], filter(lambda k: k in other_modifier.pos, inds_map)))
 		next_pos += self.next_pos
 		return CombinationResult(result_mol, curr_pos, next_pos, inds_map)

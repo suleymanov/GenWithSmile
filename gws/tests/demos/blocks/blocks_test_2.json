@@ -1,0 +1,8 @@
+{
+	"molecules": [
+		{"smiles": "C"},
+		{"smiles": "c1ccccc1"}
+	],
+	"depth": 2,
+	"output": {"path": "gws/tests/demos/blocks/results", "alias": "blocks_test_2"}
+}

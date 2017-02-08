@@ -3,14 +3,16 @@ import sys
 from gws import (
 	OneCoreClient,
 	SourceTargetClient,
-	CombinationsClient
+	CombinationsClient,
+	BlocksClient
 )
 
 
 option_matcher = {
 	'--one_core': OneCoreClient,
 	'--source_target': SourceTargetClient,
-	'--combinations': CombinationsClient
+	'--combinations': CombinationsClient,
+	'--blocks': BlocksClient
 }
 
 

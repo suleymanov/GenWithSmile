@@ -26,7 +26,9 @@ def basic(args):
 	atoms = args[2].split(',') if len(args) == 3 else []
 
 	smiles_list = IOUtils.read_smi(smiles_fn_in)
-	mol_graph_list = map(rdkitmol2graph, map(Chem.MolFromSmiles, smiles_list))
+	mol_graph_list = map(
+		rdkitmol2graph, 
+		filter(lambda x: x is not None, map(Chem.MolFromSmiles, smiles_list)))
 	unique_inds = get_unique_mols(mol_graph_list)
 
 	processed = []

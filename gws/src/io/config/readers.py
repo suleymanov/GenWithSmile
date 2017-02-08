@@ -10,14 +10,16 @@ from reader_tools import ReaderTools
 
 OneCoreSettings = namedtuple(
 	'OneCoreSettings', 
-	['core', 'iterations', 'output', 'patterns', 'numthreads'])
+	['core', 'iterations', 'output', 'patterns', 'numthreads', 'config_dict'])
 SourceTargetSettings = namedtuple(
 	'SourceTargetSettings', 
-	['source', 'target', 'iterations', 'output', 'patterns', 'numthreads'])
+	['source', 'target', 'iterations', 'output', 'patterns', 'numthreads', 'config_dict'])
 CombinationsSettings = namedtuple(
 	'CombinationsSettings',
 	['molecules', 'addons', 'linkers', 'attach', 'merge', 'output', 'patterns', 'numthreads', 
 	'samelist', 'config_dict'])
+BlocksSettings = namedtuple(
+	'BlocksSettings', ['blocks', 'max', 'output', 'patterns', 'numthreads', 'config_dict'])
 
 
 class OneCoreConfigReader(object):
@@ -45,7 +47,8 @@ class OneCoreConfigReader(object):
 			iterations=map(ReaderTools.read_iteration, config_dict['iterations']),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
 			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
-			numthreads=config_dict.get('numthreads', 1)
+			numthreads=config_dict.get('numthreads', 1),
+			config_dict=config_dict
 		)
 
 	@staticmethod
@@ -56,6 +59,44 @@ class OneCoreConfigReader(object):
 		ValidationFactory.validate_threading(config.numthreads)
 		ValidationFactory.validate_patterns(config.patterns.include)
 		ValidationFactory.validate_patterns(config.patterns.exclude)
+
+
+class BlocksConfigReader(object):
+	def __init__(self, config_dict):
+		BlocksConfigReader._check_config_dict(config_dict)
+		config = BlocksConfigReader._create_config(config_dict)
+		BlocksConfigReader._validate_config(config)
+		self.config = config
+		if not os.path.exists(self.config.output.path):
+			os.mkdir(self.config.output.path)
+
+	@staticmethod
+	def from_file(fn):
+		return BlocksConfigReader(IOUtils.read_json(fn))
+
+	@staticmethod
+	def _check_config_dict(config_dict):
+		assert 'molecules' in config_dict, 'No building blocks settings found.'
+
+	@staticmethod
+	def _create_config(config_dict):
+		return BlocksSettings(
+			blocks=map(ReaderTools.read_molecule, config_dict['molecules']),
+			max=config_dict.get('depth', 1),
+			output=ReaderTools.read_output(config_dict.get('output', {})),
+			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
+			numthreads=config_dict.get('numthreads', 1),
+			config_dict=config_dict
+		)
+
+	@staticmethod
+	def _validate_config(config):
+		map(ValidationFactory.validate_molecule, config.blocks)
+		ValidationFactory.validate_output(config.output)
+		ValidationFactory.validate_patterns(config.patterns.include)
+		ValidationFactory.validate_patterns(config.patterns.exclude)
+		ValidationFactory.validate_threading(config.numthreads)
+		assert config.max > 0, 'Should be at least one iteration.'
 
 
 class SourceTargetConfigReader(object):
@@ -85,7 +126,8 @@ class SourceTargetConfigReader(object):
 			iterations=map(ReaderTools.read_iteration, config_dict['iterations']),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
 			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
-			numthreads=config_dict.get('numthreads', 1)
+			numthreads=config_dict.get('numthreads', 1),
+			config_dict=config_dict
 		)
 
 	@staticmethod
@@ -167,6 +209,6 @@ def read_combinations_config(fn):
 	return reader.config
 
 
-def write_config(fn, config):
-	with open(fn, 'w') as f:
-		f.write(dumps(config, indent=4))
+def read_blocks_config(fn):
+	reader = BlocksConfigReader.from_file(fn)
+	return reader.config

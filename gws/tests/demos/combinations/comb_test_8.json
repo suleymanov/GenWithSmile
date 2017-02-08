@@ -3,10 +3,10 @@
  	"addons": "gws/tests/resources/groups.json",
  	"attach": {"two_point": true},
  	"merge": {"two_point": true},
+ 	"output": {"path": "gws/tests/demos/combinations/results_8"},
  	"patterns": {
- 		"include": {
- 			"from_list": ["CC"]
+ 		"exclude": {
+ 			"from_df": "gws/tests/resources/full_alerts.csv"
  		}
- 	},
- 	"output": {"path": "gws/tests/demos/combinations/results_7"}
+ 	}
 }
