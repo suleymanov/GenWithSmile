@@ -37,6 +37,11 @@ class ValidationFactory(object):
 				'Could not initialize pattern: {}'.format(patt)
 
 	@staticmethod
+	def validate_bound(bound):
+		assert bound.alias != '', 'Bound alias cannot be empty.'
+		assert bound.low <= bound.high, 'Lower bound cannot be greater than higher bound.'
+
+	@staticmethod
 	def validate_iterations(iterations):
 		assert isinstance(iterations, list), 'Iterations should be provided as list.'
 		assert len(iterations) > 0, 'Should be at least one iteration.'

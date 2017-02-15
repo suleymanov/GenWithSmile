@@ -19,7 +19,7 @@ CombinationsSettings = namedtuple(
 	['molecules', 'addons', 'linkers', 'attach', 'merge', 'output', 'patterns', 'numthreads', 
 	'samelist', 'config_dict'])
 BlocksSettings = namedtuple(
-	'BlocksSettings', ['blocks', 'max', 'output', 'patterns', 'numthreads', 'config_dict'])
+	'BlocksSettings', ['blocks', 'max', 'output', 'patterns', 'profile', 'numthreads', 'config_dict'])
 
 
 class OneCoreConfigReader(object):
@@ -85,6 +85,7 @@ class BlocksConfigReader(object):
 			max=config_dict.get('depth', 1),
 			output=ReaderTools.read_output(config_dict.get('output', {})),
 			patterns=ReaderTools.read_patterns_settings(config_dict.get('patterns', {}), IOUtils),
+			profile=map(ReaderTools.read_bound_settings, config_dict.get('profile', [])),
 			numthreads=config_dict.get('numthreads', 1),
 			config_dict=config_dict
 		)
@@ -92,6 +93,7 @@ class BlocksConfigReader(object):
 	@staticmethod
 	def _validate_config(config):
 		map(ValidationFactory.validate_molecule, config.blocks)
+		map(ValidationFactory.validate_bound, config.profile)
 		ValidationFactory.validate_output(config.output)
 		ValidationFactory.validate_patterns(config.patterns.include)
 		ValidationFactory.validate_patterns(config.patterns.exclude)

@@ -7,6 +7,7 @@ ModificationSettings = namedtuple('ModificationSettings', ['addons', 'one_point'
 IterationSettings = namedtuple('IterationSettings', ['attach', 'merge', 'max'])
 PatternsSettings = namedtuple('PatternsSettings', ['include', 'exclude'])
 OutputSettings = namedtuple('OutputSettings', ['path', 'alias', 'max'])
+BoundSettings = namedtuple('BoundSettings', ['alias', 'low', 'high'])
 
 
 class ReaderTools(object):
@@ -36,17 +37,24 @@ class ReaderTools(object):
 		)
 
 	@staticmethod
-	def read_patterns_settings(iter_dict, io_utils):
-		def process_type(key, iter_dict):
-			patts = iter_dict.get(key, {}).get('from_list', [])
-			fn = iter_dict.get(key, {}).get('from_df', None)
+	def read_patterns_settings(patt_dict, io_utils):
+		def process_type(key, patt_dict):
+			patts = patt_dict.get(key, {}).get('from_list', [])
+			fn = patt_dict.get(key, {}).get('from_df', None)
 			if fn:
 				patts.extend(io_utils.read_df(fn))
 			return patts
 
 		return PatternsSettings(
-			include=process_type('include', iter_dict), 
-			exclude=process_type('exclude', iter_dict))
+			include=process_type('include', patt_dict), 
+			exclude=process_type('exclude', patt_dict))
+
+	@staticmethod
+	def read_bound_settings(bound_dict):
+		return BoundSettings(
+			alias=bound_dict.get('alias', ''),
+			low=bound_dict.get('lo', 0),
+			high=bound_dict.get('hi', 0))
 
 	@staticmethod
 	def read_output(out_dict):
