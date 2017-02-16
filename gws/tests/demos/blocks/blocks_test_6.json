@@ -7,38 +7,9 @@
 	],
 	"depth": 2,
 	"output": {"path": "gws/tests/demos/blocks/results", "alias": "blocks_test_6"},
-	"patterns": {
-		"exclude": {
-			"from_df": "gws/tests/resources/full_alerts.csv"
-		}
-	},
 	"profile": [
-		{"alias": "L", "lo": 1, "hi": 3},
-		{"alias": "A", "lo": 4, "hi": 6},
-		{"alias": "D", "lo": 0, "hi": 2},
-		{"alias": "P", "lo": 0, "hi": 0},
-		{"alias": "N", "lo": 0, "hi": 0},
-		{"alias": "R", "lo": 1, "hi": 3},
-		{"alias": "LL", "lo": 0, "hi": 5},
-		{"alias": "LA", "lo": 61, "hi": 67},
-		{"alias": "LD", "lo": 2, "hi": 8},
-		{"alias": "LP", "lo": 0, "hi": 0},
-		{"alias": "LN", "lo": 0, "hi": 0},
-		{"alias": "AA", "lo": 78, "hi": 84},
-		{"alias": "AD", "lo": 33, "hi": 39},
-		{"alias": "AP", "lo": 0, "hi": 0},
-		{"alias": "AN", "lo": 0, "hi": 0},
-		{"alias": "DD", "lo": 0, "hi": 0},
-		{"alias": "DP", "lo": 0, "hi": 0},
-		{"alias": "DN", "lo": 0, "hi": 0},
-		{"alias": "PP", "lo": 0, "hi": 0},
-		{"alias": "PN", "lo": 0, "hi": 0},
-		{"alias": "NN", "lo": 0, "hi": 0},
-		{"alias": "RL", "lo": 21, "hi": 27},
-		{"alias": "RA", "lo": 47, "hi": 53},
-		{"alias": "RD", "lo": 13, "hi": 19},
-		{"alias": "RP", "lo": 0, "hi": 0},
-		{"alias": "RN", "lo": 0, "hi": 0},
-		{"alias": "RR", "lo": 2, "hi": 8}
+		{"expon": -0.3, "lo": 9.35, "hi": 9.45},
+		{"expon": -0.5, "lo": 6.85, "hi": 6.95},
+		{"expon": -0.7, "lo": 5.05, "hi": 5.15}
 	]
 }

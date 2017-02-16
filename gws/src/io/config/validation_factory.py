@@ -38,7 +38,6 @@ class ValidationFactory(object):
 
 	@staticmethod
 	def validate_bound(bound):
-		assert bound.alias != '', 'Bound alias cannot be empty.'
 		assert bound.low <= bound.high, 'Lower bound cannot be greater than higher bound.'
 
 	@staticmethod

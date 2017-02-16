@@ -7,7 +7,7 @@ ModificationSettings = namedtuple('ModificationSettings', ['addons', 'one_point'
 IterationSettings = namedtuple('IterationSettings', ['attach', 'merge', 'max'])
 PatternsSettings = namedtuple('PatternsSettings', ['include', 'exclude'])
 OutputSettings = namedtuple('OutputSettings', ['path', 'alias', 'max'])
-BoundSettings = namedtuple('BoundSettings', ['alias', 'low', 'high'])
+BoundSettings = namedtuple('BoundSettings', ['expon', 'low', 'high'])
 
 
 class ReaderTools(object):
@@ -52,9 +52,9 @@ class ReaderTools(object):
 	@staticmethod
 	def read_bound_settings(bound_dict):
 		return BoundSettings(
-			alias=bound_dict.get('alias', ''),
-			low=bound_dict.get('lo', 0),
-			high=bound_dict.get('hi', 0))
+			expon=float(bound_dict.get('expon', -0.5)), 
+			low=float(bound_dict.get('lo', 0)),
+			high=float(bound_dict.get('hi', 0)))
 
 	@staticmethod
 	def read_output(out_dict):

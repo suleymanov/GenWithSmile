@@ -87,6 +87,18 @@ def get_unique_mols(mol_graphs):
     return unique_inds
 
 
+def conn_index(mol, expon):
+    """
+    Return molecular graph connectivity index for provided exponent value.
+    :param mol: rdkit.Chem.rdchem.Mol
+    :param expon: float
+    :return: float
+    """
+    return sum(map(
+        lambda b: (b.GetBeginAtom().GetDegree() * b.GetEndAtom().GetDegree()) ** expon,
+        mol.GetBonds()))
+
+
 def _get_nonisomorphic_positions(graph, positions):
     def _get_graph_combinations():
     	graph1, graph2 = graph, graph.copy()

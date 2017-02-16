@@ -8,7 +8,7 @@ from datetime import datetime
 from gws.src.io import read_blocks_config as read_config
 from gws.src.io import write_config
 from gws.src.core import MoleculeHandler
-from gws.src.core import get_unique_mols
+from gws.src.core import get_unique_mols, conn_index
 
 
 class BlocksClient(object):
@@ -47,17 +47,21 @@ class BlocksClient(object):
 		for i, res in enumerate(self._results):
 			fn = '{}{}{}_{}_{}.smi'.format(
 				self._config.output.path, os.sep, self._config.output.alias, self._dt_str, i + 1)
+			filtered = filter(
+				lambda handler: (all(map(
+					lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
+					self._config.patterns.include))
+				and all(map(
+					lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
+					self._config.patterns.exclude))),
+				BlocksClient._filter_non_unique(res))
+			filtered = filter(
+				lambda handler: all(map(
+					lambda bound: bound.low<=conn_index(handler.mol.rdkit, bound.expon)<=bound.high, 
+					self._config.profile)),
+				filtered)
 			with open(fn, 'w') as f:
-				f.write('\n'.join(map(
-					lambda handler: handler.mol.smiles,
-					filter(
-						lambda handler: (all(map(
-							lambda s: handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
-							self._config.patterns.include))
-						and all(map(
-							lambda s: not handler.mol.rdkit.HasSubstructMatch(Chem.MolFromSmarts(s)),
-							self._config.patterns.exclude))), 
-						BlocksClient._filter_non_unique(res)))))
+				f.write('\n'.join(map(lambda handler: handler.mol.smiles, filtered)))
 
 	def _write_config(self, fn):
 		config_dict = {

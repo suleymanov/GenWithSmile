@@ -98,6 +98,8 @@ class BlocksConfigReader(object):
 		ValidationFactory.validate_patterns(config.patterns.include)
 		ValidationFactory.validate_patterns(config.patterns.exclude)
 		ValidationFactory.validate_threading(config.numthreads)
+		exps = map(lambda x: x.expon, config.profile)
+		assert len(exps) == len(set(exps)), 'All exponents values must be unique.'
 		assert config.max > 0, 'Should be at least one iteration.'
 
 

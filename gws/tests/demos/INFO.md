@@ -55,4 +55,5 @@
  - blocks_test_3.json: 4 basic blocks, depth=2
  - blocks_test_4.json: filtering example using forbidden patterns from simple list
  - blocks_test_5.json: filtering example using forbidden patterns from external data frame
- - blocks_test_6.json: filtering example with pharmacophoric profile as in Funatsu's et al
+ <!-- - blocks_test_6.json: filtering example with pharmacophoric profile as in Funatsu's et al -->
+ - blocks_test_6.json: filtering example using connectivity profile (inspired by Funatsu et al)
