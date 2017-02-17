@@ -4,7 +4,8 @@ from gws import (
 	OneCoreClient,
 	SourceTargetClient,
 	CombinationsClient,
-	BlocksClient
+	BlocksClient,
+	SynthpathClient
 )
 
 
@@ -12,7 +13,8 @@ option_matcher = {
 	'--one_core': OneCoreClient,
 	'--source_target': SourceTargetClient,
 	'--combinations': CombinationsClient,
-	'--blocks': BlocksClient
+	'--blocks': BlocksClient,
+	'--synthpath': SynthpathClient
 }
 
 

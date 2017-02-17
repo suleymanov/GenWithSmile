@@ -1,1 +1,7 @@
-from src import OneCoreClient, SourceTargetClient, CombinationsClient, BlocksClient
+from src import (
+	OneCoreClient,
+	SourceTargetClient,
+	CombinationsClient,
+	BlocksClient,
+	SynthpathClient
+)

@@ -1,0 +1,8 @@
+{
+    "blocks": [
+        {"smiles": "c1ncccc1"},
+        {"smiles": "c1ccccc1"}
+    ],
+    "target": {"smiles": "c1ncccc1c2ccccc2"},
+    "output": {"alias": "synthpath"}
+}

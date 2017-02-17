@@ -2,6 +2,7 @@ from clients import (
 	OneCoreClient,
 	SourceTargetClient,
 	CombinationsClient,
-	BlocksClient
+	BlocksClient,
+	SynthpathClient
 )
 from io.utils import IOUtils

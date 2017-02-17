@@ -13,10 +13,10 @@ CombinationResult = namedtuple('CombinationResult', ['result_mol_rdkit', 'pos', 
 
 bonds_def = {
 	1.0: Chem.rdchem.BondType.SINGLE,
-	2.0: Chem.rdchem.BondType.DOUBLE,
-	3.0: Chem.rdchem.BondType.TRIPLE,
-	4.0: Chem.rdchem.BondType.QUADRUPLE,
-	5.0: Chem.rdchem.BondType.QUINTUPLE
+	# 2.0: Chem.rdchem.BondType.DOUBLE,
+	# 3.0: Chem.rdchem.BondType.TRIPLE,
+	# 4.0: Chem.rdchem.BondType.QUADRUPLE,
+	# 5.0: Chem.rdchem.BondType.QUINTUPLE
 }
 
 

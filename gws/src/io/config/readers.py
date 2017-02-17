@@ -20,6 +20,7 @@ CombinationsSettings = namedtuple(
 	'samelist', 'config_dict'])
 BlocksSettings = namedtuple(
 	'BlocksSettings', ['blocks', 'max', 'output', 'patterns', 'profile', 'numthreads', 'config_dict'])
+SynthpathSettings = namedtuple('SynthpathSettings', ['blocks', 'target', 'output', 'rules'])
 
 
 class OneCoreConfigReader(object):
@@ -101,6 +102,51 @@ class BlocksConfigReader(object):
 		exps = map(lambda x: x.expon, config.profile)
 		assert len(exps) == len(set(exps)), 'All exponents values must be unique.'
 		assert config.max > 0, 'Should be at least one iteration.'
+
+
+class SynthpathConfigReader(object):
+	def __init__(self, config_dict):
+		SynthpathConfigReader._check_config_dict(config_dict)
+		config = SynthpathConfigReader._create_config(config_dict)
+		SynthpathConfigReader._validate_config(config)
+		self.config = config
+		if not os.path.exists(self.config.output.path):
+			os.mkdir(self.config.output.path)
+
+	@staticmethod
+	def from_file(fn):
+		return SynthpathConfigReader(IOUtils.read_json(fn))
+
+	@staticmethod
+	def _check_config_dict(config_dict):
+		assert 'blocks' in config_dict, 'No building blocks settings found.'
+		assert 'target' in config_dict, 'No synthesis target found.'
+
+	@staticmethod
+	def _create_config(config_dict):
+		return SynthpathSettings(
+			blocks=map(ReaderTools.read_molecule, config_dict.get('blocks', [])),
+			target=ReaderTools.read_molecule(config_dict['target']),
+			output=ReaderTools.read_output(config_dict.get('output', {})),
+			rules=[
+				'*C(=O)N(*)',    	# amide
+				'*C(=O)O*',         # ester
+				'*N(*)(*)',         # amine
+				'*N(*)C(=O)N(*)*',  # urea
+				'*O*',              # ether
+				'*C(*)=C(*)*',      # olefin
+				'*[N+](*)(*)*',     # quaternary nitrogen
+				'nC',               # aromatic nitrogen-aliphatic carbon
+				'[N;R][C;!R]',      # lactam nitrogen-aliphatic carbon
+				'c-c',              # aromatic carbon-aromatic carbon
+				'*N(*)S(=O)(=O)*'   # sulphonamide
+			])
+
+	@staticmethod
+	def _validate_config(config):
+		map(ValidationFactory.validate_molecule, config.blocks)
+		ValidationFactory.validate_molecule, config.target
+		ValidationFactory.validate_output(config.output)
 
 
 class SourceTargetConfigReader(object):
@@ -215,4 +261,9 @@ def read_combinations_config(fn):
 
 def read_blocks_config(fn):
 	reader = BlocksConfigReader.from_file(fn)
+	return reader.config
+
+
+def read_synthpath_config(fn):
+	reader = SynthpathConfigReader.from_file(fn)
 	return reader.config

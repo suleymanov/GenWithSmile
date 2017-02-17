@@ -1,0 +1,8 @@
+{
+    "blocks": [
+        {"smiles": "N1CCC(N)C(OC)C1"},
+        {"smiles": "c1c(Cl)c(N)cc(OC)c1(C=O)"}
+    ],
+    "target": {"smiles": "COc1cc(N)c(Cl)cc1C(=O)NC1CCNCC1OC"},
+    "output": {"alias": "synthpath1"}
+}
